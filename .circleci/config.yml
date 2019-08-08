@@ -1,0 +1,188 @@
+# PHP CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-php/ for more details
+#
+version: 2
+
+test: &test
+  steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v2-test-dependencies-{{ .Environment.CIRCLE_JOB }}-{{ checksum "composer.json" }}-{{ checksum ".circleci/config.yml" }}
+          # fallback to using the latest cache if no exact match is found
+          - v2-test-dependencies-
+
+      # php:* has no zip extension and the CLI is faster to install.
+      - run: apt-get update -y && apt-get install unzip -y
+
+      - run: |
+          EXPECTED_SIGNATURE=$(curl -L https://composer.github.io/installer.sig)
+          php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+          ACTUAL_SIGNATURE=$(php -r "echo hash_file('SHA384', 'composer-setup.php');")
+
+          if [ "$EXPECTED_SIGNATURE" != "$ACTUAL_SIGNATURE" ]
+          then
+              >&2 echo 'ERROR: Invalid installer signature'
+              rm composer-setup.php
+              exit 1
+          fi
+
+          php composer-setup.php --quiet --install-dir /usr/local/bin --filename composer
+
+      - run: composer update -n --prefer-dist $COMPOSER_FLAGS
+
+      - save_cache:
+          paths:
+            - /root/.composer/cache/files
+          key: v2-test-dependencies-{{ .Environment.CIRCLE_JOB }}-{{ checksum "composer.json" }}-{{ checksum ".circleci/config.yml" }}
+
+      # run tests!
+      - run: |
+          mkdir -p build/logs
+          vendor/bin/phpunit --testsuite Unit
+
+      - store_test_results:
+          path: build/logs
+
+test_and_cover: &test_and_cover
+  steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v2-test-cover-dependencies-{{ .Environment.CIRCLE_JOB }}-{{ checksum "composer.json" }}-{{ checksum ".circleci/config.yml" }}
+          # fallback to using the latest cache if no exact match is found
+          - v2-test-cover-dependencies-
+
+      # php:* has no zip extension and the CLI is faster to install.
+      - run: apt-get update -y && apt-get install unzip -y
+
+      - run: |
+          EXPECTED_SIGNATURE=$(curl -L https://composer.github.io/installer.sig)
+          php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+          ACTUAL_SIGNATURE=$(php -r "echo hash_file('SHA384', 'composer-setup.php');")
+
+          if [ "$EXPECTED_SIGNATURE" != "$ACTUAL_SIGNATURE" ]
+          then
+              >&2 echo 'ERROR: Invalid installer signature'
+              rm composer-setup.php
+              exit 1
+          fi
+
+          php composer-setup.php --quiet --install-dir /usr/local/bin --filename composer
+
+      - run: composer update -n --prefer-dist
+
+      - run: |
+          [ -f /usr/local/lib/php/extensions/no-debug-non-zts-20180731/xdebug.so ] || pecl install xdebug
+          echo 'zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20180731/xdebug.so' > /usr/local/etc/php/conf.d/xdebug.ini
+
+      - save_cache:
+          paths:
+            - /root/.composer/cache/files
+            - /usr/local/lib/php/extensions/no-debug-non-zts-20170718
+            - /usr/local/etc/php/conf.d/xdebug.ini
+
+          key: v2-test-cover-dependencies-{{ .Environment.CIRCLE_JOB }}-{{ checksum "composer.json" }}-{{ checksum ".circleci/config.yml" }}
+
+      # run tests!
+      - run: |
+          mkdir -p build/logs
+          vendor/bin/phpunit --testsuite Unit
+
+      - store_test_results:
+          path: build/logs
+
+code_fixer: &code_fixer
+  steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v2-test-dependencies-{{ .Environment.CIRCLE_JOB }}-{{ checksum "composer.json" }}-{{ checksum ".circleci/config.yml" }}
+          # fallback to using the latest cache if no exact match is found
+          - v2-test-dependencies-
+
+      # php:* has no zip extension and the CLI is faster to install.
+      - run: apt-get update -y && apt-get install unzip -y
+
+      - run: |
+          EXPECTED_SIGNATURE=$(curl -L https://composer.github.io/installer.sig)
+          php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+          ACTUAL_SIGNATURE=$(php -r "echo hash_file('SHA384', 'composer-setup.php');")
+
+          if [ "$EXPECTED_SIGNATURE" != "$ACTUAL_SIGNATURE" ]
+          then
+              >&2 echo 'ERROR: Invalid installer signature'
+              rm composer-setup.php
+              exit 1
+          fi
+
+          php composer-setup.php --quiet --install-dir /usr/local/bin --filename composer
+
+      - run: composer update -n --prefer-dist
+
+      - save_cache:
+          paths:
+            - /root/.composer/cache/files
+          key: v2-test-dependencies-{{ .Environment.CIRCLE_JOB }}-{{ checksum "composer.json" }}-{{ checksum ".circleci/config.yml" }}
+
+      # run tests!
+      - run: vendor/bin/php-cs-fixer fix --config=.php_cs.dist -v --dry-run --using-cache=no --path-mode=intersection -- src tests
+
+jobs:
+  build_php73:
+    docker:
+      - image: php:7.3
+
+    working_directory: ~/repo
+
+    <<: *test_and_cover
+
+  build_php72:
+    docker:
+      - image: php:7.2
+
+    environment:
+      - COMPOSER_FLAGS: --prefer-lowest
+
+    working_directory: ~/repo
+
+    <<: *test
+
+  code_fixer:
+    docker:
+      - image: php:7.2
+
+    working_directory: ~/repo
+
+    <<: *code_fixer
+
+workflows:
+  version: 2
+
+  # Declare a workflow that runs all of our jobs in parallel.
+  test_cover_workflow:
+    jobs:
+      - build_php72
+      - build_php73
+      - code_fixer
+
+  nightly:
+    triggers:
+      - schedule:
+          # Run jobs every Monday morning at 12AM
+          cron: "0 0 * * 1"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - build_php72
+      - build_php73
+      - code_fixer
