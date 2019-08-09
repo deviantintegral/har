@@ -44,7 +44,7 @@ class PageTest extends TestCase
         $this->assertEquals(
           [
             'startedDateTime' => $page->getStartedDateTime()->format(
-              Page::ISO_8601_MICROSECONDS,
+              Page::ISO_8601_MICROSECONDS
             ),
             'id' => $page->getId(),
             'title' => $page->getTitle(),
