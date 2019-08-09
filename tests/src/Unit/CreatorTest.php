@@ -5,19 +5,15 @@ declare(strict_types=1);
 namespace Deviantintegral\Har\Tests\Unit;
 
 use Deviantintegral\Har\Creator;
-use Doctrine\Common\Annotations\AnnotationRegistry;
-use JMS\Serializer\SerializerBuilder;
-use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Deviantintegral\Har\Creator
  */
-class CreatorTest extends TestCase
+class CreatorTest extends HarTestBase
 {
     public function testSerialize()
     {
-        AnnotationRegistry::registerLoader('class_exists');
-        $serializer = SerializerBuilder::create()->build();
+        $serializer = $this->getSerializer();
         $creator = (new Creator())
           ->setName('CreatorTest')
           ->setVersion('1.9')

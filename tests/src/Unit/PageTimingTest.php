@@ -5,22 +5,15 @@ declare(strict_types=1);
 namespace Deviantintegral\Har\Tests\Unit;
 
 use Deviantintegral\Har\PageTiming;
-use Doctrine\Common\Annotations\AnnotationRegistry;
-use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
-use JMS\Serializer\SerializerBuilder;
-use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Deviantintegral\Har\PageTiming
  */
-class PageTimingTest extends TestCase
+class PageTimingTest extends HarTestBase
 {
     public function testSerialize()
     {
-        AnnotationRegistry::registerLoader('class_exists');
-        $serializer = SerializerBuilder::create()
-          ->setPropertyNamingStrategy(new IdenticalPropertyNamingStrategy())
-          ->build();
+        $serializer = $this->getSerializer();
 
         $creator = (new PageTiming())
           ->setOnLoad(rand())

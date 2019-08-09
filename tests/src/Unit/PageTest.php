@@ -6,17 +6,11 @@ namespace Deviantintegral\Har\Tests\Unit;
 
 use Deviantintegral\Har\Page;
 use Deviantintegral\Har\PageTiming;
-use Doctrine\Common\Annotations\AnnotationRegistry;
-use JMS\Serializer\Handler\DateHandler;
-use JMS\Serializer\Handler\HandlerRegistryInterface;
-use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
-use JMS\Serializer\SerializerBuilder;
-use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Deviantintegral\Har\Page
  */
-class PageTest extends TestCase
+class PageTest extends HarTestBase
 {
     public function testSerialize()
     {
@@ -31,13 +25,7 @@ class PageTest extends TestCase
           ->setStartedDateTime(new \DateTime())
           ->setTitle('The page title');
 
-        AnnotationRegistry::registerLoader('class_exists');
-        $serializer = SerializerBuilder::create()
-          ->setPropertyNamingStrategy(new IdenticalPropertyNamingStrategy())
-          ->configureHandlers(function (HandlerRegistryInterface $registry) {
-              $registry->registerSubscribingHandler(new DateHandler(Page::ISO_8601_MICROSECONDS));
-          })
-          ->build();
+        $serializer = $this->getSerializer();
 
         $serialized = $serializer->serialize($page, 'json');
 
