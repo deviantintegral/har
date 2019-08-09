@@ -175,7 +175,7 @@ final class Cookie
      */
     public function hasHttpOnly(): bool
     {
-        return is_null($this->httpOnly);
+        return null === $this->httpOnly;
     }
 
     /**
@@ -203,7 +203,7 @@ final class Cookie
      */
     public function hasSecure(): bool
     {
-        return is_null($this->secure);
+        return null === $this->secure;
     }
 
     /**
@@ -225,5 +225,4 @@ final class Cookie
 
         return $this;
     }
-
 }

@@ -113,5 +113,4 @@ final class Page
 
         return $this;
     }
-
 }

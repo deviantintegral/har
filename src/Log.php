@@ -27,5 +27,4 @@ class Log
     private $browser;
     private $pages;
     private $entries;
-
 }

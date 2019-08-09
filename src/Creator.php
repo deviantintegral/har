@@ -66,5 +66,4 @@ class Creator
 
         return $this;
     }
-
 }

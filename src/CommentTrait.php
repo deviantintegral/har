@@ -1,11 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Deviantintegral\Har;
 
 trait CommentTrait
 {
-
     /**
      * @var string
      * @Serializer\Type("string")
@@ -29,7 +29,7 @@ trait CommentTrait
      */
     public function hasComment(): bool
     {
-        return is_null($this->comment);
+        return null === $this->comment;
     }
 
     /**

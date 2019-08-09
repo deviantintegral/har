@@ -223,5 +223,4 @@ final class Timings
 
         return $this;
     }
-
 }
