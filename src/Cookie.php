@@ -12,6 +12,7 @@ use JMS\Serializer\Annotation as Serializer;
 final class Cookie
 {
     use CommentTrait;
+    use NameValueTrait;
 
     /**
      * The name of the cookie.
@@ -20,14 +21,6 @@ final class Cookie
      * @Serializer\Type("string")
      */
     private $cookie;
-
-    /**
-     * The cookie value.
-     *
-     * @var string
-     * @Serializer\Type("string")
-     */
-    private $value;
 
     /**
      * The path pertaining to the cookie.
@@ -86,26 +79,6 @@ final class Cookie
     public function setCookie(string $cookie): self
     {
         $this->cookie = $cookie;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getValue(): string
-    {
-        return $this->value;
-    }
-
-    /**
-     * @param string $value
-     *
-     * @return Cookie
-     */
-    public function setValue(string $value): self
-    {
-        $this->value = $value;
 
         return $this;
     }

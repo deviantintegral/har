@@ -14,38 +14,13 @@ use JMS\Serializer\Annotation as Serializer;
 class Creator
 {
     use CommentTrait;
-
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    private $name;
+    use NameTrait;
 
     /**
      * @var string
      * @Serializer\Type("string")
      */
     private $version;
-
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     *
-     * @return Creator
-     */
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
 
     /**
      * @return string
