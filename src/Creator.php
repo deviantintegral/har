@@ -13,6 +13,8 @@ use JMS\Serializer\Annotation as Serializer;
  */
 class Creator
 {
+    use CommentTrait;
+
     /**
      * @var string
      * @Serializer\Type("string")
@@ -24,12 +26,6 @@ class Creator
      * @Serializer\Type("string")
      */
     private $version;
-
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    private $comment;
 
     /**
      * @return string
@@ -71,23 +67,4 @@ class Creator
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getComment(): string
-    {
-        return $this->comment;
-    }
-
-    /**
-     * @param string $comment
-     *
-     * @return Creator
-     */
-    public function setComment(string $comment): self
-    {
-        $this->comment = $comment;
-
-        return $this;
-    }
 }

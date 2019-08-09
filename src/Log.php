@@ -11,6 +11,8 @@ namespace Deviantintegral\Har;
  */
 class Log
 {
+    use CommentTrait;
+
     /**
      * Support the finest \DateTime precision we can.
      */
@@ -26,8 +28,4 @@ class Log
     private $pages;
     private $entries;
 
-    /**
-     * @var string
-     */
-    private $comment;
 }

@@ -11,6 +11,8 @@ use JMS\Serializer\Annotation as Serializer;
  */
 final class Cookie
 {
+    use CommentTrait;
+
     /**
      * The name of the cookie.
      *
@@ -67,14 +69,6 @@ final class Cookie
      * @Serializer\Type("boolean")
      */
     private $secure;
-
-    /**
-     * A comment provided by the user or the application.
-     *
-     * @var string
-     * @Serializer\Type("string")
-     */
-    private $comment;
 
     /**
      * @return string
@@ -179,6 +173,14 @@ final class Cookie
     /**
      * @return bool
      */
+    public function hasHttpOnly(): bool
+    {
+        return is_null($this->httpOnly);
+    }
+
+    /**
+     * @return bool
+     */
     public function isHttpOnly(): bool
     {
         return $this->httpOnly;
@@ -194,6 +196,14 @@ final class Cookie
         $this->httpOnly = $httpOnly;
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasSecure(): bool
+    {
+        return is_null($this->secure);
     }
 
     /**
@@ -216,23 +226,4 @@ final class Cookie
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getComment(): string
-    {
-        return $this->comment;
-    }
-
-    /**
-     * @param string $comment
-     *
-     * @return Cookie
-     */
-    public function setComment(string $comment): self
-    {
-        $this->comment = $comment;
-
-        return $this;
-    }
 }
