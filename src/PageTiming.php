@@ -8,6 +8,8 @@ use JMS\Serializer\Annotation as Serializer;
 
 final class PageTiming
 {
+    use CommentTrait;
+
     /**
      * Content of the page loaded. Number of milliseconds since page load
      * started (page.startedDateTime). Use -1 if the timing does not apply to
@@ -27,14 +29,6 @@ final class PageTiming
      * @Serializer\Type("integer")
      */
     private $onLoad;
-
-    /**
-     * A comment provided by the user or the application.
-     *
-     * @var string
-     * @Serializer\Type("string")
-     */
-    private $comment;
 
     /**
      * @return int
@@ -72,26 +66,6 @@ final class PageTiming
     public function setOnLoad(int $onLoad): self
     {
         $this->onLoad = $onLoad;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getComment(): string
-    {
-        return $this->comment;
-    }
-
-    /**
-     * @param string $comment
-     *
-     * @return PageTiming
-     */
-    public function setComment(string $comment): self
-    {
-        $this->comment = $comment;
 
         return $this;
     }

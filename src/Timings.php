@@ -8,6 +8,8 @@ use JMS\Serializer\Annotation as Serializer;
 
 final class Timings
 {
+    use CommentTrait;
+
     /**
      * Time spent in a queue waiting for a network connection. Use -1 if the
      * timing does not apply to the current request.
@@ -69,14 +71,6 @@ final class Timings
      * @Serializer\Type("integer")
      */
     private $ssl = -1;
-
-    /**
-     * A comment provided by the user or the application.
-     *
-     * @var string
-     * @Serializer\Type("string")
-     */
-    private $comment;
 
     /**
      * @return int
@@ -226,26 +220,6 @@ final class Timings
             throw new \LogicException('Receive must not be negative');
         }
         $this->receive = $receive;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getComment(): string
-    {
-        return $this->comment;
-    }
-
-    /**
-     * @param string $comment
-     *
-     * @return Timings
-     */
-    public function setComment(string $comment): self
-    {
-        $this->comment = $comment;
 
         return $this;
     }

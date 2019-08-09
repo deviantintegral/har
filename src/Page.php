@@ -8,6 +8,8 @@ use JMS\Serializer\Annotation as Serializer;
 
 final class Page
 {
+    use CommentTrait;
+
     /**
      * @var \DateTime
      * @Serializer\Type("DateTime")
@@ -31,12 +33,6 @@ final class Page
      * @Serializer\Type("array<Deviantintegral\Har\PageTiming>")
      */
     private $pageTimings;
-
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    private $comment;
 
     /**
      * @return \DateTime
@@ -114,26 +110,6 @@ final class Page
     public function setPageTimings(array $pageTimings): self
     {
         $this->pageTimings = $pageTimings;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getComment(): string
-    {
-        return $this->comment;
-    }
-
-    /**
-     * @param string $comment
-     *
-     * @return Page
-     */
-    public function setComment(string $comment): self
-    {
-        $this->comment = $comment;
 
         return $this;
     }
