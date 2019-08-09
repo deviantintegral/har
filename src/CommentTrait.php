@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Deviantintegral\Har;
 
+use JMS\Serializer\Annotation as Serializer;
+
 trait CommentTrait
 {
     /**
@@ -15,7 +17,7 @@ trait CommentTrait
     /**
      * @param string $comment
      *
-     * @return Creator
+     * @return self
      */
     public function setComment(string $comment): self
     {
