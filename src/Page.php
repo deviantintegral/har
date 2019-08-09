@@ -9,11 +9,6 @@ use JMS\Serializer\Annotation as Serializer;
 final class Page
 {
     /**
-     * Support the finest \DateTime precision we can.
-     */
-    const ISO_8601_MICROSECONDS = 'Y-m-d\TH:i:s.uO';
-
-    /**
      * @var \DateTime
      * @Serializer\Type("DateTime")
      */

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Deviantintegral\Har\Tests\Unit;
 
+use Deviantintegral\Har\Log;
 use Deviantintegral\Har\Page;
 use Deviantintegral\Har\PageTiming;
 
@@ -32,7 +33,7 @@ class PageTest extends HarTestBase
         $this->assertEquals(
           [
             'startedDateTime' => $page->getStartedDateTime()->format(
-              Page::ISO_8601_MICROSECONDS
+              Log::ISO_8601_MICROSECONDS
             ),
             'id' => $page->getId(),
             'title' => $page->getTitle(),
