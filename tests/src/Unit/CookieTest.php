@@ -20,6 +20,7 @@ class CookieTest extends HarTestBase
           ->setComment('Test comment')
           ->setCookie('Test cookie')
           ->setDomain('www.example.com')
+          ->setPath('/')
           ->setExpires(new \DateTime())
           ->setHttpOnly(true)
           ->setSecure(true)
@@ -31,6 +32,7 @@ class CookieTest extends HarTestBase
             'comment' => $cookie->getComment(),
             'cookie' => $cookie->getCookie(),
             'domain' => $cookie->getDomain(),
+            'path' => $cookie->getPath(),
             'expires' => $cookie->getExpires()->format(Log::ISO_8601_MICROSECONDS),
             'httpOnly' => $cookie->isHttpOnly(),
             'secure' => $cookie->isSecure(),
