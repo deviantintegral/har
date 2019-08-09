@@ -13,7 +13,6 @@ use Deviantintegral\Har\Params;
  */
 class ParamsTest extends HarTestBase
 {
-
     public function testSerialize()
     {
         $params = (new Params())
