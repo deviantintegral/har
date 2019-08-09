@@ -99,7 +99,7 @@ final class Timings
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getDns()
     {
@@ -107,7 +107,7 @@ final class Timings
     }
 
     /**
-     * @param mixed $dns
+     * @param int $dns
      *
      * @return Timings
      */
