@@ -41,11 +41,6 @@ class CookieTest extends HarTestBase
           json_decode($serialized, true)
         );
 
-        $deserialized = $serializer->deserialize(
-          $serialized,
-          Cookie::class,
-          'json'
-        );
-        $this->assertEquals($cookie, $deserialized);
+        $this->assertDeserialize($serialized, Cookie::class, $cookie);
     }
 }

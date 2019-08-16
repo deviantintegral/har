@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Deviantintegral\Har\Tests\Unit;
@@ -11,7 +12,6 @@ use Deviantintegral\Har\Content;
  */
 class ContentTest extends HarTestBase
 {
-
     public function testSerialize()
     {
         $serializer = $this->getSerializer();
@@ -20,7 +20,7 @@ class ContentTest extends HarTestBase
           ->setEncoding('base64')
           ->setMimeType('text/plain')
           ->setText($text)
-          ->setSize(strlen($text))
+          ->setSize(\strlen($text))
           ->setNumber(1);
 
         $serialized = $serializer->serialize($content, 'json');
@@ -35,11 +35,6 @@ class ContentTest extends HarTestBase
           json_decode($serialized, true)
         );
 
-        $deserialized = $serializer->deserialize(
-          $serialized,
-          Content::class,
-          'json'
-        );
-        $this->assertEquals($content, $deserialized);
+        $this->assertDeserialize($serialized, Content::class, $content);
     }
 }

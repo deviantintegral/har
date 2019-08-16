@@ -10,7 +10,7 @@ final class Content
 {
     use MimeTypeTrait;
     use TextTrait;
-    
+
     /**
      * Length of the returned content in bytes. Should be equal to
      * response.bodySize if there is no compression and bigger when the content
@@ -53,7 +53,7 @@ final class Content
      *
      * @return Content
      */
-    public function setSize(int $size): Content
+    public function setSize(int $size): self
     {
         $this->size = $size;
 
@@ -78,7 +78,7 @@ final class Content
      *
      * @return Content
      */
-    public function setNumber(int $number): Content
+    public function setNumber(int $number): self
     {
         $this->number = $number;
 
@@ -103,7 +103,7 @@ final class Content
      *
      * @return Content
      */
-    public function setEncoding(string $encoding): Content
+    public function setEncoding(string $encoding): self
     {
         $this->encoding = $encoding;
 

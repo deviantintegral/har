@@ -36,11 +36,10 @@ final class PostData
      *
      * @return PostData
      */
-    public function setParams(array $params): PostData
+    public function setParams(array $params): self
     {
         $this->params = $params;
 
         return $this;
     }
-
 }
