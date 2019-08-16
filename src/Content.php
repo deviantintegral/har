@@ -1,0 +1,112 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Deviantintegral\Har;
+
+use JMS\Serializer\Annotation as Serializer;
+
+final class Content
+{
+    use MimeTypeTrait;
+    use TextTrait;
+    
+    /**
+     * Length of the returned content in bytes. Should be equal to
+     * response.bodySize if there is no compression and bigger when the content
+     * has been compressed.
+     *
+     * @var int
+     * @Serializer\Type("integer")
+     */
+    private $size;
+
+    /**
+     * Number of bytes saved. Leave out this field if the information is not
+     * available.
+     *
+     * @var int
+     * @Serializer\Type("integer")
+     */
+    private $number;
+
+    /**
+     * Encoding used for response text field e.g "base64". Leave out this field
+     * if the text field is HTTP decoded (decompressed & unchunked), than
+     * trans-coded from its original character set into UTF-8.
+     *
+     * @var string
+     * @Serializer\Type("string")
+     */
+    private $encoding;
+
+    /**
+     * @return int
+     */
+    public function getSize(): int
+    {
+        return $this->size;
+    }
+
+    /**
+     * @param int $size
+     *
+     * @return Content
+     */
+    public function setSize(int $size): Content
+    {
+        $this->size = $size;
+
+        return $this;
+    }
+
+    public function hasNumber(): bool
+    {
+        return null === $this->number;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNumber(): int
+    {
+        return $this->number;
+    }
+
+    /**
+     * @param int $number
+     *
+     * @return Content
+     */
+    public function setNumber(int $number): Content
+    {
+        $this->number = $number;
+
+        return $this;
+    }
+
+    public function hasEncoding(): bool
+    {
+        return null === $this->encoding;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEncoding(): string
+    {
+        return $this->encoding;
+    }
+
+    /**
+     * @param string $encoding
+     *
+     * @return Content
+     */
+    public function setEncoding(string $encoding): Content
+    {
+        $this->encoding = $encoding;
+
+        return $this;
+    }
+}
