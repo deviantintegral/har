@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Deviantintegral\Har;
 
+use Deviantintegral\JmsSerializerUriHandler\UriHandler;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use JMS\Serializer\Handler\DateHandler;
 use JMS\Serializer\Handler\HandlerRegistryInterface;
@@ -32,9 +33,15 @@ final class Serializer
                 $registry->registerSubscribingHandler(
                   new DateHandler(Log::ISO_8601_MICROSECONDS)
                 );
+                $registry->registerSubscribingHandler(new UriHandler());
             }
           );
 
         return $builder;
+    }
+
+    public function deserializeHar(string $data): Har
+    {
+        return $this->getSerializer()->deserialize($data, Har::class, 'json');
     }
 }

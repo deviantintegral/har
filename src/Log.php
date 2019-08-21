@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Deviantintegral\Har;
 
+use JMS\Serializer\Annotation as Serializer;
+
 /**
  * Represents the root HTTP Archive node.
  *
@@ -16,15 +18,135 @@ class Log
     /**
      * Support the finest \DateTime precision we can.
      */
-    public const ISO_8601_MICROSECONDS = 'Y-m-d\TH:i:s.uO';
+    public const ISO_8601_MICROSECONDS = 'Y-m-d\TH:i:s.uT';
 
     /**
      * @var string
+     * @Serializer\Type("string")
      */
     private $version;
 
+    /**
+     * @var \Deviantintegral\Har\Creator
+     * @Serializer\Type("Deviantintegral\Har\Creator")
+     */
     private $creator;
+
+    /**
+     * @var \Deviantintegral\Har\Browser
+     * @Serializer\Type("Deviantintegral\Har\Browser")
+     */
     private $browser;
+
+    /**
+     * @var \Deviantintegral\Har\Page[]
+     * @Serializer\Type("array<Deviantintegral\Har\Page>")
+     */
     private $pages;
+
+    /**
+     * @var \Deviantintegral\Har\Entry[]
+     * @Serializer\Type("array<Deviantintegral\Har\Entry>")
+     */
     private $entries;
+
+    /**
+     * @return string
+     */
+    public function getVersion(): string
+    {
+        return $this->version;
+    }
+
+    /**
+     * @param string $version
+     *
+     * @return Log
+     */
+    public function setVersion(string $version): self
+    {
+        $this->version = $version;
+
+        return $this;
+    }
+
+    /**
+     * @return \Deviantintegral\Har\Creator
+     */
+    public function getCreator(): \Deviantintegral\Har\Creator
+    {
+        return $this->creator;
+    }
+
+    /**
+     * @param \Deviantintegral\Har\Creator $creator
+     *
+     * @return Log
+     */
+    public function setCreator(\Deviantintegral\Har\Creator $creator): self
+    {
+        $this->creator = $creator;
+
+        return $this;
+    }
+
+    /**
+     * @return \Deviantintegral\Har\Browser
+     */
+    public function getBrowser(): \Deviantintegral\Har\Browser
+    {
+        return $this->browser;
+    }
+
+    /**
+     * @param \Deviantintegral\Har\Browser $browser
+     *
+     * @return Log
+     */
+    public function setBrowser(\Deviantintegral\Har\Browser $browser): self
+    {
+        $this->browser = $browser;
+
+        return $this;
+    }
+
+    /**
+     * @return \Deviantintegral\Har\Page[]
+     */
+    public function getPages(): array
+    {
+        return $this->pages;
+    }
+
+    /**
+     * @param \Deviantintegral\Har\Page[] $pages
+     *
+     * @return Log
+     */
+    public function setPages(array $pages): self
+    {
+        $this->pages = $pages;
+
+        return $this;
+    }
+
+    /**
+     * @return \Deviantintegral\Har\Entry[]
+     */
+    public function getEntries(): array
+    {
+        return $this->entries;
+    }
+
+    /**
+     * @param \Deviantintegral\Har\Entry[] $entries
+     *
+     * @return Log
+     */
+    public function setEntries(array $entries): self
+    {
+        $this->entries = $entries;
+
+        return $this;
+    }
 }

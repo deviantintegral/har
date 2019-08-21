@@ -6,7 +6,7 @@ namespace Deviantintegral\Har\Tests\Unit;
 
 use Deviantintegral\Har\Log;
 use Deviantintegral\Har\Page;
-use Deviantintegral\Har\PageTiming;
+use Deviantintegral\Har\PageTimings;
 
 /**
  * @covers \Deviantintegral\Har\Page
@@ -15,13 +15,9 @@ class PageTest extends HarTestBase
 {
     public function testSerialize()
     {
-        $timings = [
-          (new PageTiming()),
-          (new PageTiming()),
-        ];
         $page = (new Page())
           ->setComment('Test comment')
-          ->setPageTimings($timings)
+          ->setPageTimings(new PageTimings())
           ->setId('a unique id')
           ->setStartedDateTime(new \DateTime())
           ->setTitle('The page title');
@@ -37,12 +33,7 @@ class PageTest extends HarTestBase
             ),
             'id' => $page->getId(),
             'title' => $page->getTitle(),
-            'pageTimings' => [
-              [
-              ],
-              [
-              ],
-            ],
+            'pageTimings' => [],
             'comment' => $page->getComment(),
           ],
           json_decode($serialized, true)

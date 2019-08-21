@@ -12,6 +12,7 @@ use JMS\Serializer\Annotation as Serializer;
 final class Cookie
 {
     use CommentTrait;
+    use ExpiresTrait;
     use NameValueTrait;
 
     /**
@@ -37,15 +38,6 @@ final class Cookie
      * @Serializer\Type("string")
      */
     private $domain;
-
-    /**
-     * Cookie expiration time. (ISO 8601 - YYYY-MM-DDThh:mm:ss.sTZD, e.g.
-     * 2009-07-24T19:20:30.123+02:00).
-     *
-     * @var \DateTime
-     * @Serializer\Type("DateTime")
-     */
-    private $expires;
 
     /**
      * Set to true if the cookie is HTTP only, false otherwise.
@@ -119,26 +111,6 @@ final class Cookie
     public function setDomain(string $domain): self
     {
         $this->domain = $domain;
-
-        return $this;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getExpires(): \DateTime
-    {
-        return $this->expires;
-    }
-
-    /**
-     * @param \DateTime $expires
-     *
-     * @return Cookie
-     */
-    public function setExpires(\DateTime $expires): self
-    {
-        $this->expires = $expires;
 
         return $this;
     }

@@ -13,7 +13,9 @@
         "php": "^7.2",
         "ext-json": "*",
         "jms/serializer": "^3.0",
-        "doctrine/annotations": "^1.7"
+        "doctrine/annotations": "^1.7",
+        "guzzlehttp/psr7": "^1.6",
+        "deviantintegral/jms-serializer-uri-handler": "^1.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.15",
