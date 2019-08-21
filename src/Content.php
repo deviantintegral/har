@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Deviantintegral\Har;
 
 use Deviantintegral\Har\SharedFields\MimeTypeTrait;
+use Deviantintegral\Har\SharedFields\TextTrait;
 use JMS\Serializer\Annotation as Serializer;
 
 final class Content

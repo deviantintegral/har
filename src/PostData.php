@@ -6,6 +6,7 @@ namespace Deviantintegral\Har;
 
 use Deviantintegral\Har\SharedFields\CommentTrait;
 use Deviantintegral\Har\SharedFields\MimeTypeTrait;
+use Deviantintegral\Har\SharedFields\TextTrait;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
