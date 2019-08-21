@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Deviantintegral\Har;
+namespace Deviantintegral\Har\SharedFields;
 
 use JMS\Serializer\Annotation as Serializer;
 

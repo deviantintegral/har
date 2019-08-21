@@ -8,7 +8,7 @@ use Deviantintegral\Har\Content;
 
 /**
  * @covers \Deviantintegral\Har\Content
- * @covers \Deviantintegral\Har\MimeTypeTrait
+ * @covers \Deviantintegral\Har\SharedFields\MimeTypeTrait
  */
 class ContentTest extends HarTestBase
 {

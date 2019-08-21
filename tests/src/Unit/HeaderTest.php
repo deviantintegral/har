@@ -8,8 +8,8 @@ use Deviantintegral\Har\Header;
 
 /**
  * @covers \Deviantintegral\Har\Header
- * @covers \Deviantintegral\Har\NameTrait
- * @covers \Deviantintegral\Har\NameValueTrait
+ * @covers \Deviantintegral\Har\SharedFields\NameTrait
+ * @covers \Deviantintegral\Har\SharedFields\NameValueTrait
  */
 class HeaderTest extends HarTestBase
 {

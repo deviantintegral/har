@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Deviantintegral\Har;
 
+use Deviantintegral\Har\SharedFields\CommentTrait;
 use JMS\Serializer\Annotation as Serializer;
 
 final class PageTimings
