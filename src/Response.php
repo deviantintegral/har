@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace Deviantintegral\Har;
 
+use Deviantintegral\Har\SharedFields\BodyTrait;
+use Deviantintegral\Har\SharedFields\CommentTrait;
+use Deviantintegral\Har\SharedFields\ContentTrait;
+use Deviantintegral\Har\SharedFields\CookiesTrait;
+use Deviantintegral\Har\SharedFields\HeadersTrait;
+use Deviantintegral\Har\SharedFields\HttpVersionTrait;
 use JMS\Serializer\Annotation as Serializer;
 
 final class Response
@@ -51,7 +57,7 @@ final class Response
     /**
      * @param int $status
      *
-     * @return Request
+     * @return self
      */
     public function setStatus(int $status): self
     {
@@ -91,7 +97,7 @@ final class Response
     /**
      * @param \Psr\Http\Message\UriInterface $redirectURL
      *
-     * @return Request
+     * @return self
      */
     public function setRedirectURL(\Psr\Http\Message\UriInterface $redirectURL
     ): self {

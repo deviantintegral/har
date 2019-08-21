@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Deviantintegral\Har;
 
+use Deviantintegral\Har\SharedFields\CommentTrait;
+use Deviantintegral\Har\SharedFields\NameTrait;
 use JMS\Serializer\Annotation as Serializer;
 
 /**

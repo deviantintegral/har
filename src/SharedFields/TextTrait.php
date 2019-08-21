@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Deviantintegral\Har;
+namespace Deviantintegral\Har\SharedFields;
+
+use Deviantintegral\Har\Content;
 
 trait TextTrait
 {
@@ -20,9 +22,9 @@ trait TextTrait
     /**
      * @param string $text
      *
-     * @return Content
+     * @return self
      */
-    public function setText(string $text): Content
+    public function setText(string $text): self
     {
         $this->text = $text;
 

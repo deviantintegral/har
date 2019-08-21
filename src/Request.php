@@ -4,6 +4,12 @@ declare(strict_types=1);
 
 namespace Deviantintegral\Har;
 
+use Deviantintegral\Har\SharedFields\BodyTrait;
+use Deviantintegral\Har\SharedFields\CommentTrait;
+use Deviantintegral\Har\SharedFields\ContentTrait;
+use Deviantintegral\Har\SharedFields\CookiesTrait;
+use Deviantintegral\Har\SharedFields\HeadersTrait;
+use Deviantintegral\Har\SharedFields\HttpVersionTrait;
 use JMS\Serializer\Annotation as Serializer;
 
 /**

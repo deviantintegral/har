@@ -8,8 +8,8 @@ use Deviantintegral\Har\Params;
 
 /**
  * @covers \Deviantintegral\Har\Params
- * @covers \Deviantintegral\Har\NameTrait
- * @covers \Deviantintegral\Har\NameValueTrait
+ * @covers \Deviantintegral\Har\SharedFields\NameTrait
+ * @covers \Deviantintegral\Har\SharedFields\NameValueTrait
  */
 class ParamsTest extends HarTestBase
 {

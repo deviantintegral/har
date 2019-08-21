@@ -2,7 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Deviantintegral\Har;
+namespace Deviantintegral\Har\Repository;
+
+use Deviantintegral\Har\Har;
+use Deviantintegral\Har\Serializer;
 
 /**
  * Handles loading of HAR objects from disk.
