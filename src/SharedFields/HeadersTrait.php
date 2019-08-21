@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Deviantintegral\Har\SharedFields;
 
-use Deviantintegral\Har\Request;
-
 trait HeadersTrait
 {
     /**
