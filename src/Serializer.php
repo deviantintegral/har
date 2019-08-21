@@ -31,7 +31,7 @@ final class Serializer
           ->configureHandlers(
             function (HandlerRegistryInterface $registry) {
                 $registry->registerSubscribingHandler(
-                  new DateHandler(Log::ISO_8601_MICROSECONDS),
+                  new DateHandler(Log::ISO_8601_MICROSECONDS)
                 );
                 $registry->registerSubscribingHandler(new UriHandler());
             }
