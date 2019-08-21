@@ -19,9 +19,9 @@ trait BodyTrait
     /**
      * @param int $bodySize
      *
-     * @return Request
+     * @return self
      */
-    public function setBodySize(int $bodySize): Request
+    public function setBodySize(int $bodySize): self
     {
         $this->bodySize = $bodySize;
 
