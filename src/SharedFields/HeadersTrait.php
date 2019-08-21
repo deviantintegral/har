@@ -37,9 +37,9 @@ trait HeadersTrait
     /**
      * @param \Deviantintegral\Har\Header[] $headers
      *
-     * @return Request
+     * @return self
      */
-    public function setHeaders(array $headers): Request
+    public function setHeaders(array $headers): self
     {
         $this->headers = $headers;
 
@@ -49,9 +49,9 @@ trait HeadersTrait
     /**
      * @param int $headersSize
      *
-     * @return Request
+     * @return self
      */
-    public function setHeadersSize(int $headersSize): Request
+    public function setHeadersSize(int $headersSize): self
     {
         $this->headersSize = $headersSize;
 

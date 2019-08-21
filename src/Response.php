@@ -57,7 +57,7 @@ final class Response
     /**
      * @param int $status
      *
-     * @return Request
+     * @return self
      */
     public function setStatus(int $status): self
     {
@@ -97,7 +97,7 @@ final class Response
     /**
      * @param \Psr\Http\Message\UriInterface $redirectURL
      *
-     * @return Request
+     * @return self
      */
     public function setRedirectURL(\Psr\Http\Message\UriInterface $redirectURL
     ): self {
