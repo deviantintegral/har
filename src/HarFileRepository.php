@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Deviantintegral\Har;
 
+/**
+ * Handles loading of HAR objects from disk.
+ */
 class HarFileRepository implements RepositoryInterface
 {
     /**
@@ -11,17 +14,18 @@ class HarFileRepository implements RepositoryInterface
      */
     private $repositoryPath;
 
+    /**
+     * HarFileRepository constructor.
+     *
+     * @param string $repositoryPath The path to the repository on disk.
+     */
     public function __construct(string $repositoryPath)
     {
         $this->repositoryPath = $repositoryPath;
     }
 
     /**
-     * Return a single fixture.
-     *
-     * @param string $id
-     *
-     * @return \Deviantintegral\Har\Har
+     * {@inheritdoc}
      */
     public function load(string $id): Har
     {
@@ -30,6 +34,9 @@ class HarFileRepository implements RepositoryInterface
         return (new Serializer())->deserializeHar($contents);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function loadMultiple(array $ids = []): \Generator
     {
         if (empty($ids)) {
@@ -41,6 +48,9 @@ class HarFileRepository implements RepositoryInterface
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getIds(): array
     {
         $hars = scandir($this->repositoryPath);
@@ -66,6 +76,9 @@ class HarFileRepository implements RepositoryInterface
         return $hars;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function loadJson(string $id): string
     {
         $path = $this->repositoryPath.'/'.$id;
