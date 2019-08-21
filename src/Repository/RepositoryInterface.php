@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Deviantintegral\Har;
+namespace Deviantintegral\Har\Repository;
+
+use Deviantintegral\Har\Har;
 
 /**
  * Interface for loading HAR objects.
@@ -10,7 +12,7 @@ namespace Deviantintegral\Har;
  * A repository could be a directory with files on disk, a database, or a remote
  * service.
  *
- * @see \Deviantintegral\Har\HarFileRepository
+ * @see \Deviantintegral\Har\Repository\HarFileRepository
  */
 interface RepositoryInterface
 {

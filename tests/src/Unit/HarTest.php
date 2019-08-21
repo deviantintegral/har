@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Deviantintegral\Har\Tests\Unit;
 
-use Deviantintegral\Har\HarFileRepository;
 use Deviantintegral\Har\Log;
+use Deviantintegral\Har\Repository\HarFileRepository;
 
 class HarTest extends HarTestBase
 {
