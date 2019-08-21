@@ -6,7 +6,7 @@ namespace Deviantintegral\Har;
 
 use JMS\Serializer\Annotation as Serializer;
 
-final class PageTiming
+final class PageTimings
 {
     use CommentTrait;
 
@@ -15,8 +15,8 @@ final class PageTiming
      * started (page.startedDateTime). Use -1 if the timing does not apply to
      * the current request.
      *
-     * @var int
-     * @Serializer\Type("integer")
+     * @var float
+     * @Serializer\Type("float")
      */
     private $onContentLoad;
 
@@ -25,15 +25,15 @@ final class PageTiming
      * load started (page.startedDateTime). Use -1 if the timing does not apply
      * to the current request.
      *
-     * @var int
-     * @Serializer\Type("integer")
+     * @var float
+     * @Serializer\Type("float")
      */
     private $onLoad;
 
     /**
-     * @return int
+     * @return float
      */
-    public function getOnContentLoad(): int
+    public function getOnContentLoad(): float
     {
         return $this->onContentLoad;
     }
@@ -41,7 +41,7 @@ final class PageTiming
     /**
      * @param int $onContentLoad
      *
-     * @return PageTiming
+     * @return PageTimings
      */
     public function setOnContentLoad(int $onContentLoad): self
     {
@@ -51,19 +51,19 @@ final class PageTiming
     }
 
     /**
-     * @return int
+     * @return float
      */
-    public function getOnLoad(): int
+    public function getOnLoad(): float
     {
         return $this->onLoad;
     }
 
     /**
-     * @param int $onLoad
+     * @param float $onLoad
      *
-     * @return PageTiming
+     * @return PageTimings
      */
-    public function setOnLoad(int $onLoad): self
+    public function setOnLoad(float $onLoad): self
     {
         $this->onLoad = $onLoad;
 

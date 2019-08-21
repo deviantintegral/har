@@ -14,8 +14,8 @@ final class Timings
      * Time spent in a queue waiting for a network connection. Use -1 if the
      * timing does not apply to the current request.
      *
-     * @var int
-     * @Serializer\Type("integer"))
+     * @var float
+     * @Serializer\Type("float"))
      */
     private $blocked = -1;
 
@@ -23,8 +23,8 @@ final class Timings
      * DNS resolution time. The time required to resolve a host name. Use -1 if
      * the timing does not apply to the current request.
      *
-     * @var int
-     * @Serializer\Type("integer")
+     * @var float
+     * @Serializer\Type("float")
      */
     private $dns = -1;
 
@@ -32,32 +32,32 @@ final class Timings
      * Time required to create TCP connection. Use -1 if the timing does not
      * apply to the current request.
      *
-     * @var int
-     * @Serializer\Type("integer")
+     * @var float
+     * @Serializer\Type("float")
      */
     private $connect = -1;
 
     /**
      * Time required to send HTTP request to the server.
      *
-     * @var int
-     * @Serializer\Type("integer")
+     * @var float
+     * @Serializer\Type("float")
      */
     private $send;
 
     /**
      * Waiting for a response from the server.
      *
-     * @var int
-     * @Serializer\Type("integer")
+     * @var float
+     * @Serializer\Type("float")
      */
     private $wait;
 
     /**
      * Time required to read entire response from the server (or cache).
      *
-     * @var int
-     * @Serializer\Type("integer")
+     * @var float
+     * @Serializer\Type("float")
      */
     private $receive;
 
@@ -67,25 +67,30 @@ final class Timings
      * compatibility with HAR 1.1). Use -1 if the timing does not apply to the
      * current request.
      *
-     * @var int
-     * @Serializer\Type("integer")
+     * @var float
+     * @Serializer\Type("float")
      */
     private $ssl = -1;
 
+    public function hasBlocked(): bool
+    {
+        return -1 === $this->blocked;
+    }
+
     /**
-     * @return int
+     * @return float
      */
-    public function getBlocked(): int
+    public function getBlocked(): float
     {
         return $this->blocked;
     }
 
     /**
-     * @param int $blocked
+     * @param float $blocked
      *
      * @return Timings
      */
-    public function setBlocked(int $blocked): self
+    public function setBlocked(float $blocked): self
     {
         $this->blocked = $blocked;
 
@@ -93,7 +98,15 @@ final class Timings
     }
 
     /**
-     * @return int
+     * @return bool
+     */
+    public function hasDns(): bool
+    {
+        return -1 === $this->dns;
+    }
+
+    /**
+     * @return float
      */
     public function getDns()
     {
@@ -101,7 +114,7 @@ final class Timings
     }
 
     /**
-     * @param int $dns
+     * @param float $dns
      *
      * @return Timings
      */
@@ -113,19 +126,19 @@ final class Timings
     }
 
     /**
-     * @return int
+     * @return float
      */
-    public function getConnect(): int
+    public function getConnect(): float
     {
         return $this->connect;
     }
 
     /**
-     * @param int $connect
+     * @param float $connect
      *
      * @return Timings
      */
-    public function setConnect(int $connect): self
+    public function setConnect(float $connect): self
     {
         if ($connect < $this->getSsl()) {
             throw new \LogicException('Connect time must include SSL time');
@@ -136,19 +149,19 @@ final class Timings
     }
 
     /**
-     * @return int
+     * @return float
      */
-    public function getSsl(): int
+    public function getSsl(): float
     {
         return $this->ssl;
     }
 
     /**
-     * @param int $ssl
+     * @param float $ssl
      *
      * @return Timings
      */
-    public function setSsl(int $ssl): self
+    public function setSsl(float $ssl): self
     {
         $this->ssl = $ssl;
 
@@ -156,19 +169,19 @@ final class Timings
     }
 
     /**
-     * @return int
+     * @return float
      */
-    public function getSend(): int
+    public function getSend(): float
     {
         return $this->send;
     }
 
     /**
-     * @param int $send
+     * @param float $send
      *
      * @return Timings
      */
-    public function setSend(int $send): self
+    public function setSend(float $send): self
     {
         if ($send < 0) {
             throw new \LogicException('Send must not be negative');
@@ -179,19 +192,19 @@ final class Timings
     }
 
     /**
-     * @return int
+     * @return float
      */
-    public function getWait(): int
+    public function getWait(): float
     {
         return $this->wait;
     }
 
     /**
-     * @param int $wait
+     * @param float $wait
      *
      * @return Timings
      */
-    public function setWait(int $wait): self
+    public function setWait(float $wait): self
     {
         if ($wait < 0) {
             throw new \LogicException('Wait must not be negative');
@@ -202,19 +215,19 @@ final class Timings
     }
 
     /**
-     * @return int
+     * @return float
      */
-    public function getReceive(): int
+    public function getReceive(): float
     {
         return $this->receive;
     }
 
     /**
-     * @param int $receive
+     * @param float $receive
      *
      * @return Timings
      */
-    public function setReceive(int $receive): self
+    public function setReceive(float $receive): self
     {
         if ($receive < 0) {
             throw new \LogicException('Receive must not be negative');

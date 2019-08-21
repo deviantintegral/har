@@ -9,12 +9,7 @@ use JMS\Serializer\Annotation as Serializer;
 final class Page
 {
     use CommentTrait;
-
-    /**
-     * @var \DateTime
-     * @Serializer\Type("DateTime")
-     */
-    private $startedDateTime;
+    use StartedDateTimeTrait;
 
     /**
      * @var string
@@ -29,30 +24,10 @@ final class Page
     private $title;
 
     /**
-     * @var \Deviantintegral\Har\PageTiming[]
-     * @Serializer\Type("array<Deviantintegral\Har\PageTiming>")
+     * @var \Deviantintegral\Har\PageTimings
+     * @Serializer\Type("Deviantintegral\Har\PageTimings")
      */
     private $pageTimings;
-
-    /**
-     * @return \DateTime
-     */
-    public function getStartedDateTime(): \DateTime
-    {
-        return $this->startedDateTime;
-    }
-
-    /**
-     * @param \DateTime $startedDateTime
-     *
-     * @return Page
-     */
-    public function setStartedDateTime(\DateTime $startedDateTime): self
-    {
-        $this->startedDateTime = $startedDateTime;
-
-        return $this;
-    }
 
     /**
      * @return string
@@ -95,19 +70,19 @@ final class Page
     }
 
     /**
-     * @return \Deviantintegral\Har\PageTiming[]
+     * @return \Deviantintegral\Har\PageTimings
      */
-    public function getPageTimings(): array
+    public function getPageTimings(): PageTimings
     {
         return $this->pageTimings;
     }
 
     /**
-     * @param \Deviantintegral\Har\PageTiming[] $pageTimings
+     * @param \Deviantintegral\Har\PageTimings $pageTimings
      *
      * @return Page
      */
-    public function setPageTimings(array $pageTimings): self
+    public function setPageTimings(PageTimings $pageTimings): self
     {
         $this->pageTimings = $pageTimings;
 

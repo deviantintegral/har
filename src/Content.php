@@ -22,6 +22,15 @@ final class Content
     private $size;
 
     /**
+     * compression [number, optional] - Number of bytes saved. Leave out this
+     * field if the information is not available.
+     *
+     * @var int
+     * @Serializer\Type("integer")
+     */
+    private $compression;
+
+    /**
      * Number of bytes saved. Leave out this field if the information is not
      * available.
      *
@@ -39,6 +48,26 @@ final class Content
      * @Serializer\Type("string")
      */
     private $encoding;
+
+    /**
+     * @return int
+     */
+    public function getCompression(): int
+    {
+        return $this->compression;
+    }
+
+    /**
+     * @param int $compression
+     *
+     * @return Content
+     */
+    public function setCompression(int $compression): self
+    {
+        $this->compression = $compression;
+
+        return $this;
+    }
 
     /**
      * @return int

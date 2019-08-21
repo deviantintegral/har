@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Deviantintegral\Har\Tests\Unit;
 
-use Deviantintegral\Har\PageTiming;
+use Deviantintegral\Har\PageTimings;
 
 /**
- * @covers \Deviantintegral\Har\PageTiming
+ * @covers \Deviantintegral\Har\PageTimings
  */
 class PageTimingTest extends HarTestBase
 {
@@ -15,7 +15,7 @@ class PageTimingTest extends HarTestBase
     {
         $serializer = $this->getSerializer();
 
-        $creator = (new PageTiming())
+        $creator = (new PageTimings())
           ->setOnLoad(rand())
           ->setOnContentLoad(rand())
           ->setComment('Test case');
@@ -32,7 +32,7 @@ class PageTimingTest extends HarTestBase
 
         $deserialized = $serializer->deserialize(
           $serialized,
-          PageTiming::class,
+          PageTimings::class,
           'json'
         );
         $this->assertEquals($creator, $deserialized);

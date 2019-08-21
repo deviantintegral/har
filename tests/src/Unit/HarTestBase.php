@@ -14,9 +14,7 @@ abstract class HarTestBase extends TestCase
      */
     protected function getSerializer(): \JMS\Serializer\SerializerInterface
     {
-        $serializer = new Serializer();
-
-        return $serializer->getSerializer();
+        return (new Serializer())->getSerializer();
     }
 
     /**
