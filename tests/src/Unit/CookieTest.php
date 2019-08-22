@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Deviantintegral\Har\Tests\Unit;
 
 use Deviantintegral\Har\Cookie;
-use Deviantintegral\Har\Log;
+use Deviantintegral\NullDateTime\NullDateTime;
 
 /**
  * @covers \Deviantintegral\Har\Cookie
@@ -21,7 +21,7 @@ class CookieTest extends HarTestBase
           ->setCookie('Test cookie')
           ->setDomain('www.example.com')
           ->setPath('/')
-          ->setExpires(new \DateTime())
+          ->setExpires(new NullDateTime())
           ->setHttpOnly(true)
           ->setSecure(true)
           ->setValue('Test value');
@@ -33,7 +33,7 @@ class CookieTest extends HarTestBase
             'cookie' => $cookie->getCookie(),
             'domain' => $cookie->getDomain(),
             'path' => $cookie->getPath(),
-            'expires' => $cookie->getExpires()->format(Log::ISO_8601_MICROSECONDS),
+            'expires' => '',
             'httpOnly' => $cookie->isHttpOnly(),
             'secure' => $cookie->isSecure(),
             'value' => $cookie->getValue(),

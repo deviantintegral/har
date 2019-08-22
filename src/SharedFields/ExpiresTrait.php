@@ -4,21 +4,24 @@ declare(strict_types=1);
 
 namespace Deviantintegral\Har\SharedFields;
 
+use Deviantintegral\NullDateTime\DateTimeFormatInterface;
+use JMS\Serializer\Annotation as Serializer;
+
 trait ExpiresTrait
 {
     /**
      * Expiration time. (ISO 8601 - YYYY-MM-DDThh:mm:ss.sTZD, e.g.
      * 2009-07-24T19:20:30.123+02:00).
      *
-     * @var \DateTime
-     * @Serializer\Type("DateTime")
+     * @var DateTimeFormatInterface
+     * @Serializer\Type("Deviantintegral\NullDateTime\DateTimeFormatInterface")
      */
     private $expires;
 
     /**
-     * @return \DateTime
+     * @return DateTimeFormatInterface
      */
-    public function getExpires(): \DateTime
+    public function getExpires(): DateTimeFormatInterface
     {
         return $this->expires;
     }
@@ -28,7 +31,7 @@ trait ExpiresTrait
      *
      * @return self
      */
-    public function setExpires(\DateTime $expires): self
+    public function setExpires(DateTimeFormatInterface $expires): self
     {
         $this->expires = $expires;
 

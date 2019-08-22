@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Deviantintegral\Har\Tests\Unit;
 
 use Deviantintegral\Har\Log;
-use Deviantintegral\Har\Repository\HarFileRepository;
 
 class HarTest extends HarTestBase
 {
@@ -14,7 +13,7 @@ class HarTest extends HarTestBase
      */
     public function testExportedFixture()
     {
-        $repository = new HarFileRepository(__DIR__.'/../../fixtures');
+        $repository = $this->getHarFileRepository();
 
         foreach ($repository->loadMultiple() as $id => $har) {
             $file = $repository->loadJson($id);
@@ -49,7 +48,7 @@ class HarTest extends HarTestBase
 
         $keys = ['startedDateTime', 'expires'];
         foreach ($a as $key => &$value) {
-            if (\in_array($key, $keys, true)) {
+            if (\in_array($key, $keys, true) && !empty($value)) {
                 $date = \DateTime::createFromFormat(Log::ISO_8601_MICROSECONDS, $value);
                 $value = $date->format(Log::ISO_8601_MICROSECONDS);
             }

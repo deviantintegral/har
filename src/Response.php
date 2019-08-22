@@ -6,7 +6,6 @@ namespace Deviantintegral\Har;
 
 use Deviantintegral\Har\SharedFields\BodyTrait;
 use Deviantintegral\Har\SharedFields\CommentTrait;
-use Deviantintegral\Har\SharedFields\ContentTrait;
 use Deviantintegral\Har\SharedFields\CookiesTrait;
 use Deviantintegral\Har\SharedFields\HeadersTrait;
 use Deviantintegral\Har\SharedFields\HttpVersionTrait;
@@ -16,7 +15,6 @@ final class Response
 {
     use BodyTrait;
     use CommentTrait;
-    use ContentTrait;
     use CookiesTrait;
     use HeadersTrait;
     use HttpVersionTrait;
@@ -36,6 +34,14 @@ final class Response
      * @Serializer\Type("string")
      */
     private $statusText;
+
+    /**
+     * content [object] - Details about the response body.
+     *
+     * @var \Deviantintegral\Har\Content
+     * @Serializer\Type("Deviantintegral\Har\Content")
+     */
+    private $content;
 
     /**
      * redirectURL [string] - Redirection target URL from the Location response
@@ -82,6 +88,26 @@ final class Response
     public function setStatusText(string $statusText): self
     {
         $this->statusText = $statusText;
+
+        return $this;
+    }
+
+    /**
+     * @return \Deviantintegral\Har\Content
+     */
+    public function getContent(): \Deviantintegral\Har\Content
+    {
+        return $this->content;
+    }
+
+    /**
+     * @param \Deviantintegral\Har\Content $content
+     *
+     * @return self
+     */
+    public function setContent(Content $content): self
+    {
+        $this->content = $content;
 
         return $this;
     }

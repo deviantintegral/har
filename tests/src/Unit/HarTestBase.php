@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Deviantintegral\Har\Tests\Unit;
 
+use Deviantintegral\Har\Repository\HarFileRepository;
 use Deviantintegral\Har\Serializer;
 use PHPUnit\Framework\TestCase;
 
@@ -34,5 +35,15 @@ abstract class HarTestBase extends TestCase
           'json'
         );
         $this->assertEquals($expected, $deserialized);
+    }
+
+    /**
+     * @return \Deviantintegral\Har\Repository\HarFileRepository
+     */
+    protected function getHarFileRepository(
+    ): \Deviantintegral\Har\Repository\HarFileRepository {
+        $repository = new HarFileRepository(__DIR__.'/../../fixtures');
+
+        return $repository;
     }
 }

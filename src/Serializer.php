@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Deviantintegral\Har;
 
+use Deviantintegral\Har\Handler\DateFormatInterfaceHandler;
 use Deviantintegral\JmsSerializerUriHandler\UriHandler;
 use Doctrine\Common\Annotations\AnnotationRegistry;
-use JMS\Serializer\Handler\DateHandler;
 use JMS\Serializer\Handler\HandlerRegistryInterface;
 use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
 use JMS\Serializer\SerializerBuilder;
@@ -31,7 +31,10 @@ final class Serializer
           ->configureHandlers(
             function (HandlerRegistryInterface $registry) {
                 $registry->registerSubscribingHandler(
-                  new DateHandler(Log::ISO_8601_MICROSECONDS)
+                  new DateFormatInterfaceHandler(Log::ISO_8601_MICROSECONDS)
+                );
+                $registry->registerSubscribingHandler(
+                  new \JMS\Serializer\Handler\DateHandler(Log::ISO_8601_MICROSECONDS)
                 );
                 $registry->registerSubscribingHandler(new UriHandler());
             }

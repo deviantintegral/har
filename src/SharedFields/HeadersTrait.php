@@ -41,6 +41,13 @@ trait HeadersTrait
     {
         $this->headers = $headers;
 
+        $size = 0;
+        foreach ($headers as $header) {
+            $size += \strlen($header->getName()) + 2 + \strlen($header->getValue()) + 2;
+        }
+        $size += 2;
+        $this->setHeadersSize($size);
+
         return $this;
     }
 
