@@ -277,5 +277,4 @@ class Request implements RequestInterface
     {
         return clone $this->request;
     }
-
 }
