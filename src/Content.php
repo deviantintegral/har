@@ -11,7 +11,9 @@ use JMS\Serializer\Annotation as Serializer;
 final class Content
 {
     use MimeTypeTrait;
-    use TextTrait;
+    use TextTrait {
+        setText as traitSetText;
+    }
 
     /**
      * Length of the returned content in bytes. Should be equal to
@@ -87,6 +89,14 @@ final class Content
     public function setSize(int $size): self
     {
         $this->size = $size;
+
+        return $this;
+    }
+
+    public function setText(string $text): self
+    {
+        $this->traitSetText($text);
+        $this->setSize(\strlen($text));
 
         return $this;
     }

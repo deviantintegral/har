@@ -6,7 +6,6 @@ namespace Deviantintegral\Har;
 
 use Deviantintegral\Har\SharedFields\BodyTrait;
 use Deviantintegral\Har\SharedFields\CommentTrait;
-use Deviantintegral\Har\SharedFields\ContentTrait;
 use Deviantintegral\Har\SharedFields\CookiesTrait;
 use Deviantintegral\Har\SharedFields\HeadersTrait;
 use Deviantintegral\Har\SharedFields\HttpVersionTrait;
@@ -19,7 +18,6 @@ final class Request
 {
     use BodyTrait;
     use CommentTrait;
-    use ContentTrait;
     use CookiesTrait;
     use HeadersTrait;
     use HttpVersionTrait;
@@ -45,6 +43,14 @@ final class Request
      * @Serializer\Type("array<Deviantintegral\Har\Params>")
      */
     private $queryString;
+
+    /**
+     * postData [object, optional] - Posted data info.
+     *
+     * @var \Deviantintegral\Har\PostData
+     * @Serializer\Type("Deviantintegral\Har\PostData")
+     */
+    private $postData;
 
     /**
      * @return string
@@ -112,5 +118,30 @@ final class Request
     public function responseIsCached(): bool
     {
         return 0 === $this->bodySize;
+    }
+
+    public function hasPostData(): bool
+    {
+        return null !== $this->postData;
+    }
+
+    /**
+     * @return \Deviantintegral\Har\PostData
+     */
+    public function getPostData(): \Deviantintegral\Har\PostData
+    {
+        return $this->postData;
+    }
+
+    /**
+     * @param \Deviantintegral\Har\PostData $postData
+     *
+     * @return Request
+     */
+    public function setPostData(\Deviantintegral\Har\PostData $postData
+    ): self {
+        $this->postData = $postData;
+
+        return $this;
     }
 }

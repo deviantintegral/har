@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Deviantintegral\Har\Tests\Unit;
 
-use Deviantintegral\Har\Content;
 use Deviantintegral\Har\Cookie;
 use Deviantintegral\Har\Header;
+use Deviantintegral\Har\PostData;
 use Deviantintegral\Har\Request;
 
 /**
@@ -20,9 +20,9 @@ class RequestTest extends HarTestBase
 
         $request = (new Request())
           ->setBodySize(0)
-          ->setContent(new Content())
+          ->setPostData(new PostData())
           ->setCookies([(new Cookie())->setPath('/')])
-          ->setHeaders([new Header()])
+          ->setHeaders([(new Header())->setName('Test')->setValue('value')])
           ->setHeadersSize(0)
           ->setHttpVersion('2.0')
           ->setComment('Test comment');
@@ -33,7 +33,7 @@ class RequestTest extends HarTestBase
             'httpVersion' => $request->getHttpVersion(),
             'cookies' => json_decode($serializer->serialize($request->getCookies(), 'json'), true),
             'headers' => json_decode($serializer->serialize($request->getHeaders(), 'json'), true),
-            'content' => json_decode($serializer->serialize($request->getContent(), 'json'), true),
+            'postData' => json_decode($serializer->serialize($request->getPostData(), 'json'), true),
             'headersSize' => $request->getHeadersSize(),
             'bodySize' => $request->getBodySize(),
             'comment' => $request->getComment(),

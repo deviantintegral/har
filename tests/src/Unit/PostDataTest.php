@@ -15,7 +15,7 @@ class PostDataTest extends HarTestBase
     public function testSerialize()
     {
         $postData = (new PostData())
-          ->setParams([(new Params())->setFileName('test'), (new Params())->setContentType('text/plain')]);
+          ->setParams([(new Params())->setName('test')->setFileName('test'), (new Params())->setName('test')->setContentType('text/plain')]);
 
         $serializer = $this->getSerializer();
         $serialized = $serializer->serialize($postData, 'json');

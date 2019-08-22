@@ -16,7 +16,9 @@ final class PostData
 {
     use CommentTrait;
     use MimeTypeTrait;
-    use TextTrait;
+    use TextTrait {
+        setText as traitSetText;
+    }
 
     /**
      * List of posted parameters (in case of URL encoded parameters).
@@ -24,7 +26,7 @@ final class PostData
      * @var \Deviantintegral\Har\Params[]
      * @Serializer\Type("array<Deviantintegral\Har\Params>")
      */
-    private $params;
+    private $params = [];
 
     /**
      * @return \Deviantintegral\Har\Params[]
@@ -42,6 +44,17 @@ final class PostData
     public function setParams(array $params): self
     {
         $this->params = $params;
+        // Text and params are mutually exclusive.
+        $this->text = null;
+
+        return $this;
+    }
+
+    public function setText(string $text): self
+    {
+        $this->traitSetText($text);
+        // Text and params are mutually exclusive.
+        $this->params = [];
 
         return $this;
     }
