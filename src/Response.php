@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Deviantintegral\Har;
 
-use Deviantintegral\Har\SharedFields\BodyTrait;
+use Deviantintegral\Har\SharedFields\BodySizeTrait;
 use Deviantintegral\Har\SharedFields\CommentTrait;
 use Deviantintegral\Har\SharedFields\CookiesTrait;
 use Deviantintegral\Har\SharedFields\HeadersTrait;
@@ -13,7 +13,7 @@ use JMS\Serializer\Annotation as Serializer;
 
 final class Response
 {
-    use BodyTrait;
+    use BodySizeTrait;
     use CommentTrait;
     use CookiesTrait;
     use HeadersTrait;

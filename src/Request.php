@@ -4,19 +4,20 @@ declare(strict_types=1);
 
 namespace Deviantintegral\Har;
 
-use Deviantintegral\Har\SharedFields\BodyTrait;
+use Deviantintegral\Har\SharedFields\BodySizeTrait;
 use Deviantintegral\Har\SharedFields\CommentTrait;
 use Deviantintegral\Har\SharedFields\CookiesTrait;
 use Deviantintegral\Har\SharedFields\HeadersTrait;
 use Deviantintegral\Har\SharedFields\HttpVersionTrait;
 use JMS\Serializer\Annotation as Serializer;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * @see http://www.softwareishard.com/blog/har-12-spec/#request
  */
 final class Request
 {
-    use BodyTrait;
+    use BodySizeTrait;
     use CommentTrait;
     use CookiesTrait;
     use HeadersTrait;
@@ -51,6 +52,28 @@ final class Request
      * @Serializer\Type("Deviantintegral\Har\PostData")
      */
     private $postData;
+
+    /**
+     * Construct a new Request from a PSR-7 Request.
+     *
+     * @param \Psr\Http\Message\RequestInterface $source
+     *
+     * @return \Deviantintegral\Har\Request
+     */
+    public static function fromRequestInterface(RequestInterface $source): self
+    {
+        $request = (new \Deviantintegral\Har\Adapter\Psr7\Request(new static()))
+          ->withBody($source->getBody())
+          ->withMethod($source->getMethod())
+          ->withProtocolVersion($source->getProtocolVersion())
+          ->withUri($source->getUri());
+
+        foreach ($source->getHeaders() as $name => $value) {
+            $request = $request->withHeader($name, $value);
+        }
+
+        return $request->getHarRequest();
+    }
 
     /**
      * @return string
@@ -141,6 +164,8 @@ final class Request
     public function setPostData(\Deviantintegral\Har\PostData $postData
     ): self {
         $this->postData = $postData;
+
+        $this->setBodySize($postData->getBodySize());
 
         return $this;
     }

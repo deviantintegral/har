@@ -12,7 +12,7 @@ trait HeadersTrait
      * @var \Deviantintegral\Har\Header[]
      * @Serializer\Type("array<Deviantintegral\Har\Header>")
      */
-    protected $headers;
+    protected $headers = [];
 
     /**
      * headersSize [number]* - Total number of bytes from the start of the HTTP

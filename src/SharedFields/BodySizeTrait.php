@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Deviantintegral\Har\SharedFields;
 
-trait BodyTrait
+trait BodySizeTrait
 {
     /**
      * bodySize [number] - Size of the received response body in bytes. Set to
