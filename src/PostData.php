@@ -8,6 +8,7 @@ use Deviantintegral\Har\SharedFields\CommentTrait;
 use Deviantintegral\Har\SharedFields\MimeTypeTrait;
 use Deviantintegral\Har\SharedFields\TextTrait;
 use JMS\Serializer\Annotation as Serializer;
+use function GuzzleHttp\Psr7\build_query;
 
 /**
  * @see http://www.softwareishard.com/blog/har-12-spec/#postData
@@ -33,6 +34,8 @@ final class PostData
      */
     public function getParams(): array
     {
+        $this->traitSetText();
+
         return $this->params;
     }
 
@@ -57,5 +60,27 @@ final class PostData
         $this->params = [];
 
         return $this;
+    }
+
+    public function hasParams(): bool
+    {
+        return empty($this->params);
+    }
+
+    public function getBodySize(): int
+    {
+        if ($this->hasText()) {
+            return \strlen($this->getText());
+        }
+
+        if ($this->hasParams()) {
+            $query = [];
+            foreach ($this->params as $param) {
+                $query[$param->getName()] = $param->getValue();
+            }
+            $string = build_query($query);
+
+            return \strlen($string);
+        }
     }
 }

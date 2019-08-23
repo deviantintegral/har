@@ -22,7 +22,7 @@ trait TextTrait
      *
      * @return self
      */
-    public function setText(string $text): self
+    public function setText(string $text = null): self
     {
         $this->text = $text;
 
@@ -34,13 +34,13 @@ trait TextTrait
      */
     public function hasText(): bool
     {
-        return null === $this->text;
+        return null !== $this->text;
     }
 
     /**
      * @return string
      */
-    public function getText(): string
+    public function getText(): ?string
     {
         return $this->text;
     }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Deviantintegral\Har\Adapter\Psr7;
 
 use Deviantintegral\Har\Header;
+use Deviantintegral\Har\PostData;
 use GuzzleHttp\Psr7\Uri;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamInterface;
@@ -193,7 +194,12 @@ class Request implements RequestInterface
     public function withBody(StreamInterface $body)
     {
         $request = clone $this->request;
-        $request->getPostData()->setText($body->getContents());
+        $postData = new PostData();
+        if ($request->hasPostData()) {
+            $postData = $request->getPostData();
+        }
+        $postData->setText($body->getContents());
+        $request->setPostData($postData);
 
         return new static($request);
     }
