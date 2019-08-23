@@ -17,7 +17,7 @@ final class Har
     /**
      * @return \Deviantintegral\Har\Log
      */
-    public function getLog(): \Deviantintegral\Har\Log
+    public function getLog(): Log
     {
         return $this->log;
     }
@@ -27,7 +27,7 @@ final class Har
      *
      * @return Har
      */
-    public function setLog(\Deviantintegral\Har\Log $log): self
+    public function setLog(Log $log): self
     {
         $this->log = $log;
 

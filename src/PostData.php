@@ -64,15 +64,11 @@ final class PostData
 
     public function hasParams(): bool
     {
-        return empty($this->params);
+        return !empty($this->params);
     }
 
     public function getBodySize(): int
     {
-        if ($this->hasText()) {
-            return \strlen($this->getText());
-        }
-
         if ($this->hasParams()) {
             $query = [];
             foreach ($this->params as $param) {
@@ -82,5 +78,11 @@ final class PostData
 
             return \strlen($string);
         }
+
+        if ($this->hasText()) {
+            return \strlen($this->getText());
+        }
+
+        return 0;
     }
 }

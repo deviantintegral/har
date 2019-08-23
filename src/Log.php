@@ -74,7 +74,7 @@ class Log
     /**
      * @return \Deviantintegral\Har\Creator
      */
-    public function getCreator(): \Deviantintegral\Har\Creator
+    public function getCreator(): Creator
     {
         return $this->creator;
     }
@@ -84,7 +84,7 @@ class Log
      *
      * @return Log
      */
-    public function setCreator(\Deviantintegral\Har\Creator $creator): self
+    public function setCreator(Creator $creator): self
     {
         $this->creator = $creator;
 
@@ -94,7 +94,7 @@ class Log
     /**
      * @return \Deviantintegral\Har\Browser
      */
-    public function getBrowser(): \Deviantintegral\Har\Browser
+    public function getBrowser(): Browser
     {
         return $this->browser;
     }
@@ -104,7 +104,7 @@ class Log
      *
      * @return Log
      */
-    public function setBrowser(\Deviantintegral\Har\Browser $browser): self
+    public function setBrowser(Browser $browser): self
     {
         $this->browser = $browser;
 

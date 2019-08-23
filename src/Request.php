@@ -15,7 +15,7 @@ use Psr\Http\Message\RequestInterface;
 /**
  * @see http://www.softwareishard.com/blog/har-12-spec/#request
  */
-final class Request
+final class Request implements MessageInterface
 {
     use BodySizeTrait;
     use CommentTrait;
@@ -60,9 +60,9 @@ final class Request
      *
      * @return \Deviantintegral\Har\Request
      */
-    public static function fromRequestInterface(RequestInterface $source): self
+    public static function fromPsr7Request(RequestInterface $source): self
     {
-        $request = (new \Deviantintegral\Har\Adapter\Psr7\Request(new static()))
+        $request = (new Adapter\Psr7\Request(new static()))
           ->withBody($source->getBody())
           ->withMethod($source->getMethod())
           ->withProtocolVersion($source->getProtocolVersion())
@@ -138,7 +138,7 @@ final class Request
     /**
      * @return bool
      */
-    public function responseIsCached(): bool
+    public function isResponseCached(): bool
     {
         return 0 === $this->bodySize;
     }
@@ -151,7 +151,7 @@ final class Request
     /**
      * @return \Deviantintegral\Har\PostData
      */
-    public function getPostData(): \Deviantintegral\Har\PostData
+    public function getPostData(): PostData
     {
         return $this->postData;
     }
@@ -161,7 +161,7 @@ final class Request
      *
      * @return Request
      */
-    public function setPostData(\Deviantintegral\Har\PostData $postData
+    public function setPostData(PostData $postData
     ): self {
         $this->postData = $postData;
 

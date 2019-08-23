@@ -27,7 +27,7 @@ trait ExpiresTrait
     }
 
     /**
-     * @param \DateTime $expires
+     * @param \Deviantintegral\NullDateTime\DateTimeFormatInterface $expires
      *
      * @return self
      */

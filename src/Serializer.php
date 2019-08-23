@@ -23,7 +23,7 @@ final class Serializer
     /**
      * @return \JMS\Serializer\SerializerBuilder
      */
-    public function getSerializerBuilder(): \JMS\Serializer\SerializerBuilder
+    public function getSerializerBuilder(): SerializerBuilder
     {
         AnnotationRegistry::registerLoader('class_exists');
         $builder = SerializerBuilder::create()

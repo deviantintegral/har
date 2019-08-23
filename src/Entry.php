@@ -121,7 +121,7 @@ final class Entry
     /**
      * @return \Deviantintegral\Har\Request
      */
-    public function getRequest(): \Deviantintegral\Har\Request
+    public function getRequest(): Request
     {
         return $this->request;
     }
@@ -131,7 +131,7 @@ final class Entry
      *
      * @return Entry
      */
-    public function setRequest(\Deviantintegral\Har\Request $request): self
+    public function setRequest(Request $request): self
     {
         $this->request = $request;
 
@@ -141,7 +141,7 @@ final class Entry
     /**
      * @return \Deviantintegral\Har\Response
      */
-    public function getResponse(): \Deviantintegral\Har\Response
+    public function getResponse(): Response
     {
         return $this->response;
     }
@@ -151,7 +151,7 @@ final class Entry
      *
      * @return Entry
      */
-    public function setResponse(\Deviantintegral\Har\Response $response): self
+    public function setResponse(Response $response): self
     {
         $this->response = $response;
 
@@ -161,7 +161,7 @@ final class Entry
     /**
      * @return \Deviantintegral\Har\Cache
      */
-    public function getCache(): \Deviantintegral\Har\Cache
+    public function getCache(): Cache
     {
         return $this->cache;
     }
@@ -171,7 +171,7 @@ final class Entry
      *
      * @return Entry
      */
-    public function setCache(\Deviantintegral\Har\Cache $cache): self
+    public function setCache(Cache $cache): self
     {
         $this->cache = $cache;
 
@@ -181,7 +181,7 @@ final class Entry
     /**
      * @return \Deviantintegral\Har\Timings
      */
-    public function getTimings(): \Deviantintegral\Har\Timings
+    public function getTimings(): Timings
     {
         return $this->timings;
     }
@@ -191,7 +191,7 @@ final class Entry
      *
      * @return Entry
      */
-    public function setTimings(\Deviantintegral\Har\Timings $timings): self
+    public function setTimings(Timings $timings): self
     {
         $this->timings = $timings;
 

@@ -55,7 +55,10 @@ class DateFormatInterfaceHandler implements SubscribingHandlerInterface
     }
 
     /**
-     * @param array $type
+     * @param \JMS\Serializer\Visitor\SerializationVisitorInterface $visitor
+     * @param \Deviantintegral\NullDateTime\DateTimeFormatInterface $date
+     * @param array                                                 $type
+     * @param \JMS\Serializer\SerializationContext                  $context
      *
      * @return mixed
      */
@@ -71,6 +74,8 @@ class DateFormatInterfaceHandler implements SubscribingHandlerInterface
     /**
      * @param mixed $data
      * @param array $type
+     *
+     * @return \Deviantintegral\NullDateTime\DateTimeFormatInterface
      */
     public function deserializeDateTimeFormatInterfaceFromJson(JsonDeserializationVisitor $visitor, $data, array $type): DateTimeFormatInterface
     {
