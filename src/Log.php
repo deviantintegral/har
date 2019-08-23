@@ -47,7 +47,7 @@ class Log
 
     /**
      * @var \Deviantintegral\Har\Entry[]
-     * @Serializer\Type("array<Deviantintegral\Har\Entry>")
+     * @Serializer\Type("array<integer, Deviantintegral\Har\Entry>")
      */
     private $entries;
 
