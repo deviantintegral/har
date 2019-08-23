@@ -1,0 +1,35 @@
+# HTTP Archive for PHP
+
+[![CircleCI](https://circleci.com/gh/deviantintegral/har.svg?style=svg)](https://circleci.com/gh/deviantintegral/har)
+
+## Requirements
+
+* PHP 7.2+
+* The `ext-json` extension.
+
+## Introduction
+
+This library supports reading and writing [HTTP Archive](http://www.softwareishard.com/blog/har-12-spec/) files. These
+archives are JSON objects containing one or more HTTP request and response pairs. In particular, this library is useful
+for taking HTTP requests exported from a browser's developer tools or with a proxy like
+[mitmproxy](https://mitmproxy.org) and using them as mocks in tests.
+
+Features include:
+
+* Reading a HAR into a fully-typed set of classes.
+* Writing a `\Deviantintegral\Har\Har` back out into a HAR JSON string.
+* Adapters for PSR-7 Request and Response interfaces.
+* An interface and `\Deviantintegral\Har\HarRepository` class to load HARs from a filesystem or other backend.
+
+## Example
+
+See [ReadmeTest.php](tests/src/Unit/ReadmeTest.php) for an example of how to use this library.
+
+## Optional values
+
+The HAR specification documents some fields as `-1` if they do not have a
+value. Other fields, like `comment`, may be omitted.
+
+Fields that may be omitted will have a `has` method that should be called
+before calling `get`. For integer fields, the return value must be checked for
+`-1`.

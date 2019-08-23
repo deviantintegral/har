@@ -111,7 +111,12 @@ class Request extends MessageBase implements RequestInterface
      */
     public function getBody()
     {
-        return stream_for($this->request->getPostData()->getText());
+        $body = '';
+        if ($this->request->hasPostData()) {
+            $body = $this->request->getPostData()->getText();
+        }
+
+        return stream_for($body);
     }
 
     /**
