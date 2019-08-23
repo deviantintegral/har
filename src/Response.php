@@ -10,8 +10,9 @@ use Deviantintegral\Har\SharedFields\CookiesTrait;
 use Deviantintegral\Har\SharedFields\HeadersTrait;
 use Deviantintegral\Har\SharedFields\HttpVersionTrait;
 use JMS\Serializer\Annotation as Serializer;
+use Psr\Http\Message\ResponseInterface;
 
-final class Response
+final class Response implements MessageInterface
 {
     use BodySizeTrait;
     use CommentTrait;
@@ -51,6 +52,20 @@ final class Response
      * @Serializer\Type("Psr\Http\Message\UriInterface")
      */
     private $redirectURL;
+
+    public static function fromPsr7Response(ResponseInterface $source): self
+    {
+        $response = (new Adapter\Psr7\Response(new static()))
+          ->withProtocolVersion($source->getProtocolVersion())
+          ->withBody($source->getBody())
+          ->withStatus($source->getStatusCode(), $source->getReasonPhrase());
+
+        foreach ($source->getHeaders() as $name => $value) {
+            $response = $response->withHeader($name, $value);
+        }
+
+        return $response->getHarResponse();
+    }
 
     /**
      * @return int
@@ -95,7 +110,7 @@ final class Response
     /**
      * @return \Deviantintegral\Har\Content
      */
-    public function getContent(): \Deviantintegral\Har\Content
+    public function getContent(): Content
     {
         return $this->content;
     }

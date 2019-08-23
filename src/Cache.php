@@ -43,7 +43,7 @@ final class Cache
     /**
      * @return \Deviantintegral\Har\CacheState
      */
-    public function getBeforeRequest(): \Deviantintegral\Har\CacheState
+    public function getBeforeRequest(): CacheState
     {
         return $this->beforeRequest;
     }
@@ -54,7 +54,7 @@ final class Cache
      * @return Cache
      */
     public function setBeforeRequest(
-      \Deviantintegral\Har\CacheState $beforeRequest
+      CacheState $beforeRequest
     ): self {
         $this->beforeRequest = $beforeRequest;
 
@@ -72,7 +72,7 @@ final class Cache
     /**
      * @return \Deviantintegral\Har\CacheState
      */
-    public function getAfterRequest(): \Deviantintegral\Har\CacheState
+    public function getAfterRequest(): CacheState
     {
         return $this->afterRequest;
     }
@@ -83,7 +83,7 @@ final class Cache
      * @return Cache
      */
     public function setAfterRequest(
-      \Deviantintegral\Har\CacheState $afterRequest
+      CacheState $afterRequest
     ): self {
         $this->afterRequest = $afterRequest;
 

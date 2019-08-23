@@ -64,7 +64,7 @@ class RequestTest extends HarTestBase
           'body',
           '2.0'
         );
-        $har_request = Request::fromRequestInterface($psr7);
+        $har_request = Request::fromPsr7Request($psr7);
         $this->assertEquals('POST', $har_request->getMethod());
         $this->assertEquals($uri, $har_request->getUrl());
         $this->assertEquals(
