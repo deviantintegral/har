@@ -7,6 +7,11 @@
 * PHP 7.2+
 * The `ext-json` extension.
 
+## Installation
+
+`composer require deviantintegral/har`, or
+[download the CLI tool](https://github.com/deviantintegral/har/releases).
+
 ## Introduction
 
 This library supports reading and writing [HTTP Archive](http://www.softwareishard.com/blog/har-12-spec/) files. These
@@ -20,7 +25,7 @@ Features include:
 * Writing a `\Deviantintegral\Har\Har` back out into a HAR JSON string.
 * Adapters for PSR-7 Request and Response interfaces.
 * An interface and `\Deviantintegral\Har\HarRepository` class to load HARs from a filesystem or other backend.
-* A CLI tool to split a HAR file into single files per request / response pair.
+* [A CLI tool](https://github.com/deviantintegral/har/releases) to split a HAR file into single files per request / response pair.
 
 ## Example
 
