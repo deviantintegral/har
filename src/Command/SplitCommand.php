@@ -12,6 +12,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+/**
+ * Command to split a HAR file into multiple files.
+ */
 class SplitCommand extends Command
 {
     protected function configure()
@@ -29,13 +32,13 @@ class SplitCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
-        $har = $input->getArgument('har');
-        $contents = file_get_contents($har);
+        $source = $input->getArgument('har');
+        $contents = file_get_contents($source);
         $serializer = new Serializer();
         $har = $serializer->deserializeHar($contents);
 
         $io->text(sprintf('Splitting %s into one file per entry',
-          $har
+          $source
         ));
         $io->progressStart(\count($har->getLog()->getEntries()));
 
