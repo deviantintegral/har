@@ -29,26 +29,25 @@ class SplitCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
-        $har_path = $input->getArgument('har');
-        $destination_path = $input->getArgument('destination') ?: getcwd();
-        $md5 = $input->getOption('md5');
-        $force = $input->getOption('force');
-        $contents = file_get_contents($har_path);
+        $har = $input->getArgument('har');
+        $contents = file_get_contents($har);
         $serializer = new Serializer();
         $har = $serializer->deserializeHar($contents);
 
-        $io->text("Splitting $har_path into one file per entry");
+        $io->text(sprintf('Splitting %s into one file per entry',
+          $har
+        ));
         $io->progressStart(\count($har->getLog()->getEntries()));
 
         foreach ($har->splitLogEntries() as $index => $cloned) {
             $destination = $this->getSplitDestination(
               $index,
-              $md5,
+              $input->getOption('md5'),
               $cloned,
-              $destination_path
+              $input->getArgument('destination') ?: getcwd()
             );
 
-            if ($force || !file_exists($destination)) {
+            if ($input->getOption('force') || !file_exists($destination)) {
                 if (false === file_put_contents($destination, $serializer->serializeHar($cloned))) {
                     throw new \RuntimeException(sprintf('Unable to write to %s.', $destination));
                 }
