@@ -32,6 +32,8 @@ test: &test
 
           php composer-setup.php --quiet --install-dir /usr/local/bin --filename composer
 
+      - run: docker-php-ext-install bcmath
+
       - run: composer update -n --prefer-dist $COMPOSER_FLAGS
 
       - save_cache:
@@ -74,6 +76,8 @@ test_and_cover: &test_and_cover
           fi
 
           php composer-setup.php --quiet --install-dir /usr/local/bin --filename composer
+
+      - run: docker-php-ext-install bcmath
 
       - run: composer update -n --prefer-dist
 
@@ -124,6 +128,8 @@ code_fixer: &code_fixer
           fi
 
           php composer-setup.php --quiet --install-dir /usr/local/bin --filename composer
+
+      - run: docker-php-ext-install bcmath
 
       - run: composer update -n --prefer-dist
 
@@ -221,6 +227,9 @@ workflows:
       - build_php72
       - build_php73
       - code_fixer
+      - build_phar
+        requires:
+          - build_php73
 
   nightly:
     triggers:
