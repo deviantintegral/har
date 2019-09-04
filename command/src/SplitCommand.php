@@ -14,7 +14,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class SplitCommand extends Command
 {
-
     protected function configure()
     {
         parent::configure();
@@ -39,26 +38,51 @@ class SplitCommand extends Command
         $har = $serializer->deserializeHar($contents);
 
         $io->text("Splitting $har_path into one file per entry");
-        $io->progressStart(count($har->getLog()->getEntries()));
+        $io->progressStart(\count($har->getLog()->getEntries()));
 
-        foreach ($har->getLog()->getEntries() as $index => $entry) {
-            $cloned = clone $har;
-            $cloned->getLog()->setEntries([$entry]);
-            $filename = $index + 1 . ".har";
-            if ($md5) {
-                $filename = md5((string) $entry->getRequest()->getUrl()) . '.har';
-            }
-            $destination = $destination_path."/$filename";
+        foreach ($har->splitLogEntries() as $index => $cloned) {
+            $destination = $this->getSplitDestination(
+              $index,
+              $md5,
+              $cloned,
+              $destination_path
+            );
+
             if ($force || !file_exists($destination)) {
                 if (false === file_put_contents($destination, $serializer->serializeHar($cloned))) {
-                    throw new \RuntimeException(sprintf("Unable to write to %s.", $destination));
+                    throw new \RuntimeException(sprintf('Unable to write to %s.', $destination));
                 }
-            }
-            else {
-                throw new \RuntimeException(sprintf("%s exists. Use --force to overwrite it and all other existing files", $destination));
+            } else {
+                throw new \RuntimeException(sprintf('%s exists. Use --force to overwrite it and all other existing files', $destination));
             }
             $io->progressAdvance();
         }
         $io->progressFinish();
+    }
+
+    /**
+     * @param $index
+     * @param $md5
+     * @param \Deviantintegral\Har\Har $cloned
+     * @param string                   $destination_path
+     *
+     * @return string
+     */
+    private function getSplitDestination(
+      $index,
+      $md5,
+      \Deviantintegral\Har\Har $cloned,
+      string $destination_path
+    ): string {
+        $filename = $index + 1 .'.har';
+        if ($md5) {
+            $filename = md5(
+                (string) $cloned->getLog()->getEntries()[0]->getRequest()
+                  ->getUrl()
+              ).'.har';
+        }
+        $destination = $destination_path."/$filename";
+
+        return $destination;
     }
 }

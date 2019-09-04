@@ -33,4 +33,18 @@ final class Har
 
         return $this;
     }
+
+    /**
+     * Return a generator that returns cloned HARs with one per HAR entry.
+     *
+     * @return \Deviantintegral\Har\Har[]
+     */
+    public function splitLogEntries(): \Generator
+    {
+        foreach ($this->getLog()->getEntries() as $index => $entry) {
+            $cloned = clone $this;
+            $cloned->getLog()->setEntries([$entry]);
+            yield $index => $cloned;
+        }
+    }
 }
