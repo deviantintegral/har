@@ -32,6 +32,8 @@ test: &test
 
           php composer-setup.php --quiet --install-dir /usr/local/bin --filename composer
 
+      - run: docker-php-ext-install bcmath
+
       - run: composer update -n --prefer-dist $COMPOSER_FLAGS
 
       - save_cache:
@@ -74,6 +76,8 @@ test_and_cover: &test_and_cover
           fi
 
           php composer-setup.php --quiet --install-dir /usr/local/bin --filename composer
+
+      - run: docker-php-ext-install bcmath
 
       - run: composer update -n --prefer-dist
 
@@ -125,6 +129,8 @@ code_fixer: &code_fixer
 
           php composer-setup.php --quiet --install-dir /usr/local/bin --filename composer
 
+      - run: docker-php-ext-install bcmath
+
       - run: composer update -n --prefer-dist
 
       - save_cache:
@@ -134,6 +140,49 @@ code_fixer: &code_fixer
 
       # run tests!
       - run: vendor/bin/php-cs-fixer fix --config=.php_cs.dist -v --dry-run --using-cache=no --path-mode=intersection -- src tests
+
+build_phar: &build_phar
+  steps:
+    - checkout
+
+    # Download and cache dependencies
+    - restore_cache:
+        keys:
+          - v2-test-dependencies-{{ .Environment.CIRCLE_JOB }}-{{ checksum "composer.json" }}-{{ checksum ".circleci/config.yml" }}
+          # fallback to using the latest cache if no exact match is found
+          - v2-test-dependencies-
+
+    # php:* has no zip extension and the CLI is faster to install.
+    - run: apt-get update -y && apt-get install unzip -y
+
+    - run: |
+        EXPECTED_SIGNATURE=$(curl -L https://composer.github.io/installer.sig)
+        php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+        ACTUAL_SIGNATURE=$(php -r "echo hash_file('SHA384', 'composer-setup.php');")
+
+        if [ "$EXPECTED_SIGNATURE" != "$ACTUAL_SIGNATURE" ]
+        then
+            >&2 echo 'ERROR: Invalid installer signature'
+            rm composer-setup.php
+            exit 1
+        fi
+
+        php composer-setup.php --quiet --install-dir /usr/local/bin --filename composer
+
+    - run: docker-php-ext-install bcmath
+
+    - run: composer update -n --prefer-dist
+
+    - save_cache:
+        paths:
+          - /root/.composer/cache/files
+        key: v2-test-dependencies-{{ .Environment.CIRCLE_JOB }}-{{ checksum "composer.json" }}-{{ checksum ".circleci/config.yml" }}
+
+    # Build the phar!
+    - run: composer build-phar
+
+    - store_artifacts:
+        path: ./har.phar
 
 jobs:
   build_php73:
@@ -157,11 +206,19 @@ jobs:
 
   code_fixer:
     docker:
-      - image: php:7.2
+      - image: php:7.3
 
     working_directory: ~/repo
 
     <<: *code_fixer
+
+  build_phar:
+    docker:
+      - image: php:7.3
+
+    working_directory: ~/repo
+
+    <<: *build_phar
 
 workflows:
   version: 2
@@ -172,6 +229,9 @@ workflows:
       - build_php72
       - build_php73
       - code_fixer
+      - build_phar:
+          requires:
+            - build_php73
 
   nightly:
     triggers:
@@ -186,3 +246,6 @@ workflows:
       - build_php72
       - build_php73
       - code_fixer
+      - build_phar:
+          requires:
+            - build_php73

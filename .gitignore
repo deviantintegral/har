@@ -3,3 +3,4 @@ build
 .phpunit.result.cache
 vendor
 .php_cs.cache
+har.phar
