@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use Deviantintegral\Har\Command\SplitCommand;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+// Create the Application
+$application = new Symfony\Component\Console\Application;
+
+$application->add(new SplitCommand());
+
+// Run it
+$application->run();
