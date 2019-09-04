@@ -44,9 +44,9 @@ class SplitCommand extends Command
         foreach ($har->getLog()->getEntries() as $index => $entry) {
             $cloned = clone $har;
             $cloned->getLog()->setEntries([$entry]);
-            $filename = "$index.har";
+            $filename = $index + 1 . ".har";
             if ($md5) {
-                $filename = md5($entry->getRequest()->getUrl()) . '.har';
+                $filename = md5((string) $entry->getRequest()->getUrl()) . '.har';
             }
             $destination = $destination_path."/$filename";
             if ($force || !file_exists($destination)) {
