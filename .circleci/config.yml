@@ -227,7 +227,7 @@ workflows:
       - build_php72
       - build_php73
       - code_fixer
-      - build_phar
+      - build_phar:
         requires:
           - build_php73
 
