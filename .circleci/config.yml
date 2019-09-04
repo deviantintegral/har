@@ -228,8 +228,8 @@ workflows:
       - build_php73
       - code_fixer
       - build_phar:
-        requires:
-          - build_php73
+          requires:
+            - build_php73
 
   nightly:
     triggers:
@@ -244,3 +244,6 @@ workflows:
       - build_php72
       - build_php73
       - code_fixer
+      - build_phar:
+          requires:
+            - build_php73
