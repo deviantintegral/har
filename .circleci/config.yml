@@ -169,6 +169,8 @@ build_phar: &build_phar
 
         php composer-setup.php --quiet --install-dir /usr/local/bin --filename composer
 
+    - run: docker-php-ext-install bcmath
+
     - run: composer update -n --prefer-dist
 
     - save_cache:
