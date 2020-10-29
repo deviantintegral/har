@@ -19,8 +19,6 @@ trait TextTrait
 
     /**
      * @param string $text
-     *
-     * @return self
      */
     public function setText(string $text = null): self
     {
@@ -29,9 +27,6 @@ trait TextTrait
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function hasText(): bool
     {
         return null !== $this->text;

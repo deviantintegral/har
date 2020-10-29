@@ -31,17 +31,12 @@ final class Page
      */
     private $pageTimings;
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->id;
     }
 
     /**
-     * @param string $id
-     *
      * @return Page
      */
     public function setId(string $id): self
@@ -51,17 +46,12 @@ final class Page
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle(): string
     {
         return $this->title;
     }
 
     /**
-     * @param string $title
-     *
      * @return Page
      */
     public function setTitle(string $title): self

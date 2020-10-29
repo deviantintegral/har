@@ -6,9 +6,6 @@ namespace Deviantintegral\Har;
 
 interface MessageInterface
 {
-    /**
-     * @return int
-     */
     public function getBodySize(): int;
 
     /**
@@ -16,9 +13,6 @@ interface MessageInterface
      */
     public function getCookies(): array;
 
-    /**
-     * @return int
-     */
     public function getHeadersSize(): int;
 
     /**
@@ -28,9 +22,6 @@ interface MessageInterface
 
     public function setHeaders(array $headers);
 
-    /**
-     * @return string
-     */
     public function getHttpVersion(): string;
 
     public function setHttpVersion(string $version);

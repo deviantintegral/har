@@ -42,19 +42,13 @@ interface RepositoryInterface
      * @param string $id The ID of the fixture to load.
      *
      * @throws \RuntimeException Thrown if the object could not be loaded.
-     *
-     * @return \Deviantintegral\Har\Har
      */
     public function load(string $id): Har;
 
     /**
      * Return the raw JSON from a HAR object.
      *
-     * @param string $id
-     *
      * @throws \RuntimeException Thrown if the object could not be loaded.
-     *
-     * @return string
      */
     public function loadJson(string $id): string;
 }

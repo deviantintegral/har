@@ -53,17 +53,12 @@ final class Content
      */
     private $encoding;
 
-    /**
-     * @return int
-     */
     public function getCompression(): int
     {
         return $this->compression;
     }
 
     /**
-     * @param int $compression
-     *
      * @return Content
      */
     public function setCompression(int $compression): self
@@ -73,17 +68,12 @@ final class Content
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getSize(): int
     {
         return $this->size;
     }
 
     /**
-     * @param int $size
-     *
      * @return Content
      */
     public function setSize(int $size): self
@@ -106,17 +96,12 @@ final class Content
         return null === $this->number;
     }
 
-    /**
-     * @return int
-     */
     public function getNumber(): int
     {
         return $this->number;
     }
 
     /**
-     * @param int $number
-     *
      * @return Content
      */
     public function setNumber(int $number): self
@@ -131,17 +116,12 @@ final class Content
         return null === $this->encoding;
     }
 
-    /**
-     * @return string
-     */
     public function getEncoding(): string
     {
         return $this->encoding;
     }
 
     /**
-     * @param string $encoding
-     *
      * @return Content
      */
     public function setEncoding(string $encoding): self

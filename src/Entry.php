@@ -78,17 +78,12 @@ final class Entry
      */
     private $connection;
 
-    /**
-     * @return string
-     */
     public function getPageref(): string
     {
         return $this->pageref;
     }
 
     /**
-     * @param string $pageref
-     *
      * @return Entry
      */
     public function setPageref(string $pageref): self
@@ -98,17 +93,12 @@ final class Entry
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getTime(): float
     {
         return $this->time;
     }
 
     /**
-     * @param float $time
-     *
      * @return Entry
      */
     public function setTime(float $time): self
@@ -198,17 +188,12 @@ final class Entry
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getServerIPAddress(): string
     {
         return $this->serverIPAddress;
     }
 
     /**
-     * @param string $serverIPAddress
-     *
      * @return Entry
      */
     public function setServerIPAddress(string $serverIPAddress): self
@@ -218,17 +203,12 @@ final class Entry
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getConnection(): string
     {
         return $this->connection;
     }
 
     /**
-     * @param string $connection
-     *
      * @return Entry
      */
     public function setConnection(string $connection): self

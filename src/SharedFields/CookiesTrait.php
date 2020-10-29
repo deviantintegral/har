@@ -24,8 +24,6 @@ trait CookiesTrait
 
     /**
      * @param \Deviantintegral\Har\Cookie[] $cookies
-     *
-     * @return self
      */
     public function setCookies(array $cookies): self
     {

@@ -32,9 +32,6 @@ final class Cache
      */
     private $afterRequest;
 
-    /**
-     * @return bool
-     */
     public function hasBeforeRequest(): bool
     {
         return null === $this->beforeRequest;
@@ -61,9 +58,6 @@ final class Cache
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function hasAfterRequest(): bool
     {
         return null === $this->afterRequest;

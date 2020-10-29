@@ -16,11 +16,6 @@ trait BodySizeTrait
      */
     protected $bodySize = -1;
 
-    /**
-     * @param int $bodySize
-     *
-     * @return self
-     */
     public function setBodySize(int $bodySize): self
     {
         $this->bodySize = $bodySize;
@@ -28,9 +23,6 @@ trait BodySizeTrait
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getBodySize(): int
     {
         return $this->bodySize;

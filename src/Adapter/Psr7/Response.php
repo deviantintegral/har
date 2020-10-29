@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Deviantintegral\Har\Adapter\Psr7;
 
 use Deviantintegral\Har\Content;
+use function GuzzleHttp\Psr7\stream_for;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
-use function GuzzleHttp\Psr7\stream_for;
 
 final class Response extends MessageBase implements ResponseInterface
 {
@@ -18,8 +18,6 @@ final class Response extends MessageBase implements ResponseInterface
 
     /**
      * Response constructor.
-     *
-     * @param \Deviantintegral\Har\Response $response
      */
     public function __construct(\Deviantintegral\Har\Response $response)
     {

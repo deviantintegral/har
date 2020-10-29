@@ -6,9 +6,9 @@ namespace Deviantintegral\Har\Tests\Unit\Adapter\Psr7;
 
 use Deviantintegral\Har\Adapter\Psr7\Request;
 use Deviantintegral\Har\Tests\Unit\HarTestBase;
+use function GuzzleHttp\Psr7\stream_for;
 use GuzzleHttp\Psr7\Uri;
 use Psr\Http\Message\StreamInterface;
-use function GuzzleHttp\Psr7\stream_for;
 
 class RequestTest extends HarTestBase
 {

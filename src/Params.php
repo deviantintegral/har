@@ -32,25 +32,17 @@ final class Params
      */
     private $contentType;
 
-    /**
-     * @return bool
-     */
     public function hasFileName(): bool
     {
         return null === $this->fileName;
     }
 
-    /**
-     * @return string
-     */
     public function getFileName(): string
     {
         return $this->fileName;
     }
 
     /**
-     * @param string $fileName
-     *
      * @return Params
      */
     public function setFileName(string $fileName): self
@@ -60,25 +52,17 @@ final class Params
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function hasContentType(): bool
     {
         return null === $this->contentType;
     }
 
-    /**
-     * @return string
-     */
     public function getContentType(): string
     {
         return $this->contentType;
     }
 
     /**
-     * @param string $contentType
-     *
      * @return Params
      */
     public function setContentType(string $contentType): self

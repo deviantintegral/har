@@ -65,10 +65,6 @@ class SplitCommand extends Command
     /**
      * @param $index
      * @param $md5
-     * @param \Deviantintegral\Har\Har $cloned
-     * @param string                   $destination_path
-     *
-     * @return string
      */
     private function getSplitDestination(
       $index,

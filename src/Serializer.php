@@ -20,9 +20,6 @@ final class Serializer
         return $builder->build();
     }
 
-    /**
-     * @return \JMS\Serializer\SerializerBuilder
-     */
     public function getSerializerBuilder(): SerializerBuilder
     {
         AnnotationRegistry::registerLoader('class_exists');
@@ -50,8 +47,6 @@ final class Serializer
 
     /**
      * @param \Deviantintegral\Har\Har $data
-     *
-     * @return string
      */
     public function serializeHar(Har $data): string
     {
