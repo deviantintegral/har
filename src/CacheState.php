@@ -40,17 +40,12 @@ final class CacheState
      */
     private $hitCount = 0;
 
-    /**
-     * @return string
-     */
     public function getLastAccess(): string
     {
         return $this->lastAccess;
     }
 
     /**
-     * @param string $lastAccess
-     *
      * @return CacheState
      */
     public function setLastAccess(string $lastAccess): self
@@ -60,17 +55,12 @@ final class CacheState
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getETag(): string
     {
         return $this->eTag;
     }
 
     /**
-     * @param string $eTag
-     *
      * @return CacheState
      */
     public function setETag(string $eTag): self
@@ -80,17 +70,12 @@ final class CacheState
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getHitCount(): int
     {
         return $this->hitCount;
     }
 
     /**
-     * @param int $hitCount
-     *
      * @return CacheState
      */
     public function setHitCount(int $hitCount): self

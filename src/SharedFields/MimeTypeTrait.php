@@ -16,19 +16,11 @@ trait MimeTypeTrait
      */
     protected $mimeType;
 
-    /**
-     * @return string
-     */
     public function getMimeType(): string
     {
         return $this->mimeType;
     }
 
-    /**
-     * @param string $mimeType
-     *
-     * @return self
-     */
     public function setMimeType(string $mimeType): self
     {
         $this->mimeType = $mimeType;

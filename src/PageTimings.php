@@ -31,17 +31,12 @@ final class PageTimings
      */
     private $onLoad;
 
-    /**
-     * @return float
-     */
     public function getOnContentLoad(): float
     {
         return $this->onContentLoad;
     }
 
     /**
-     * @param int $onContentLoad
-     *
      * @return PageTimings
      */
     public function setOnContentLoad(int $onContentLoad): self
@@ -51,17 +46,12 @@ final class PageTimings
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getOnLoad(): float
     {
         return $this->onLoad;
     }
 
     /**
-     * @param float $onLoad
-     *
      * @return PageTimings
      */
     public function setOnLoad(float $onLoad): self

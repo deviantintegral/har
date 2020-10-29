@@ -14,11 +14,6 @@ trait HttpVersionTrait
      */
     private $httpVersion;
 
-    /**
-     * @param string $httpVersion
-     *
-     * @return self
-     */
     public function setHttpVersion(string $httpVersion): self
     {
         $this->httpVersion = $httpVersion;
@@ -26,9 +21,6 @@ trait HttpVersionTrait
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getHttpVersion(): string
     {
         return $this->httpVersion;

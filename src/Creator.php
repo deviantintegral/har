@@ -24,17 +24,12 @@ class Creator
      */
     private $version;
 
-    /**
-     * @return string
-     */
     public function getVersion(): string
     {
         return $this->version;
     }
 
     /**
-     * @param string $version
-     *
      * @return Creator
      */
     public function setVersion(string $version): self

@@ -56,8 +56,6 @@ final class Request implements MessageInterface
     /**
      * Construct a new Request from a PSR-7 Request.
      *
-     * @param \Psr\Http\Message\RequestInterface $source
-     *
      * @return \Deviantintegral\Har\Request
      */
     public static function fromPsr7Request(RequestInterface $source): self
@@ -75,17 +73,12 @@ final class Request implements MessageInterface
         return $request->getHarRequest();
     }
 
-    /**
-     * @return string
-     */
     public function getMethod(): string
     {
         return $this->method;
     }
 
     /**
-     * @param string $method
-     *
      * @return Request
      */
     public function setMethod(string $method): self
@@ -95,17 +88,12 @@ final class Request implements MessageInterface
         return $this;
     }
 
-    /**
-     * @return \Psr\Http\Message\UriInterface
-     */
     public function getUrl(): \Psr\Http\Message\UriInterface
     {
         return $this->url;
     }
 
     /**
-     * @param \Psr\Http\Message\UriInterface $url
-     *
      * @return Request
      */
     public function setUrl(\Psr\Http\Message\UriInterface $url): self
@@ -135,9 +123,6 @@ final class Request implements MessageInterface
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isResponseCached(): bool
     {
         return 0 === $this->bodySize;

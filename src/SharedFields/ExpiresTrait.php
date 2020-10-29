@@ -18,19 +18,11 @@ trait ExpiresTrait
      */
     private $expires;
 
-    /**
-     * @return DateTimeFormatInterface
-     */
     public function getExpires(): DateTimeFormatInterface
     {
         return $this->expires;
     }
 
-    /**
-     * @param \Deviantintegral\NullDateTime\DateTimeFormatInterface $expires
-     *
-     * @return self
-     */
     public function setExpires(DateTimeFormatInterface $expires): self
     {
         $this->expires = $expires;

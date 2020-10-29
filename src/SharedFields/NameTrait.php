@@ -12,11 +12,6 @@ trait NameTrait
      */
     protected $name;
 
-    /**
-     * @param string $name
-     *
-     * @return self
-     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -24,9 +19,6 @@ trait NameTrait
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;

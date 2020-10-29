@@ -67,19 +67,11 @@ final class Response implements MessageInterface
         return $response->getHarResponse();
     }
 
-    /**
-     * @return int
-     */
     public function getStatus(): int
     {
         return $this->status;
     }
 
-    /**
-     * @param int $status
-     *
-     * @return self
-     */
     public function setStatus(int $status): self
     {
         $this->status = $status;
@@ -87,19 +79,11 @@ final class Response implements MessageInterface
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getStatusText(): string
     {
         return $this->statusText;
     }
 
-    /**
-     * @param string $statusText
-     *
-     * @return self
-     */
     public function setStatusText(string $statusText): self
     {
         $this->statusText = $statusText;
@@ -117,8 +101,6 @@ final class Response implements MessageInterface
 
     /**
      * @param \Deviantintegral\Har\Content $content
-     *
-     * @return self
      */
     public function setContent(Content $content): self
     {
@@ -127,19 +109,11 @@ final class Response implements MessageInterface
         return $this;
     }
 
-    /**
-     * @return \Psr\Http\Message\UriInterface
-     */
     public function getRedirectURL(): \Psr\Http\Message\UriInterface
     {
         return $this->redirectURL;
     }
 
-    /**
-     * @param \Psr\Http\Message\UriInterface $redirectURL
-     *
-     * @return self
-     */
     public function setRedirectURL(\Psr\Http\Message\UriInterface $redirectURL
     ): self {
         $this->redirectURL = $redirectURL;

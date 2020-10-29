@@ -14,11 +14,6 @@ trait StartedDateTimeTrait
      */
     private $startedDateTime;
 
-    /**
-     * @param \DateTime $startedDateTime
-     *
-     * @return self
-     */
     public function setStartedDateTime(\DateTime $startedDateTime): self
     {
         $this->startedDateTime = $startedDateTime;
@@ -26,9 +21,6 @@ trait StartedDateTimeTrait
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
     public function getStartedDateTime(): \DateTime
     {
         return $this->startedDateTime;

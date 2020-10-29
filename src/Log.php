@@ -51,17 +51,12 @@ class Log
      */
     private $entries;
 
-    /**
-     * @return string
-     */
     public function getVersion(): string
     {
         return $this->version;
     }
 
     /**
-     * @param string $version
-     *
      * @return Log
      */
     public function setVersion(string $version): self

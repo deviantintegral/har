@@ -78,17 +78,12 @@ final class Timings
         return -1 === $this->blocked;
     }
 
-    /**
-     * @return float
-     */
     public function getBlocked(): float
     {
         return $this->blocked;
     }
 
     /**
-     * @param float $blocked
-     *
      * @return Timings
      */
     public function setBlocked(float $blocked): self
@@ -98,9 +93,6 @@ final class Timings
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function hasDns(): bool
     {
         return -1 === $this->dns;
@@ -126,17 +118,12 @@ final class Timings
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getConnect(): float
     {
         return $this->connect;
     }
 
     /**
-     * @param float $connect
-     *
      * @return Timings
      */
     public function setConnect(float $connect): self
@@ -149,17 +136,12 @@ final class Timings
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getSsl(): float
     {
         return $this->ssl;
     }
 
     /**
-     * @param float $ssl
-     *
      * @return Timings
      */
     public function setSsl(float $ssl): self
@@ -169,17 +151,12 @@ final class Timings
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getSend(): float
     {
         return $this->send;
     }
 
     /**
-     * @param float $send
-     *
      * @return Timings
      */
     public function setSend(float $send): self
@@ -192,17 +169,12 @@ final class Timings
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getWait(): float
     {
         return $this->wait;
     }
 
     /**
-     * @param float $wait
-     *
      * @return Timings
      */
     public function setWait(float $wait): self
@@ -215,17 +187,12 @@ final class Timings
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getReceive(): float
     {
         return $this->receive;
     }
 
     /**
-     * @param float $receive
-     *
      * @return Timings
      */
     public function setReceive(float $receive): self

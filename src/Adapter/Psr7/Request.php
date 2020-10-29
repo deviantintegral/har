@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Deviantintegral\Har\Adapter\Psr7;
 
 use Deviantintegral\Har\PostData;
+use function GuzzleHttp\Psr7\stream_for;
 use GuzzleHttp\Psr7\Uri;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
-use function GuzzleHttp\Psr7\stream_for;
 
 class Request extends MessageBase implements RequestInterface
 {
@@ -98,8 +98,6 @@ class Request extends MessageBase implements RequestInterface
 
     /**
      * Returns a clone of the underlying HAR request.
-     *
-     * @return \Deviantintegral\Har\Request
      */
     public function getHarRequest(): \Deviantintegral\Har\Request
     {

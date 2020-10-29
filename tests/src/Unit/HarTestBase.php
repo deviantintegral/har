@@ -10,18 +10,13 @@ use PHPUnit\Framework\TestCase;
 
 abstract class HarTestBase extends TestCase
 {
-    /**
-     * @return \JMS\Serializer\SerializerInterface
-     */
     protected function getSerializer(): \JMS\Serializer\SerializerInterface
     {
         return (new Serializer())->getSerializer();
     }
 
     /**
-     * @param string $serialized
-     * @param string $class
-     * @param mixed  $expected
+     * @param mixed $expected
      */
     protected function assertDeserialize(
       string $serialized,
@@ -37,9 +32,6 @@ abstract class HarTestBase extends TestCase
         $this->assertEquals($expected, $deserialized);
     }
 
-    /**
-     * @return \Deviantintegral\Har\Repository\HarFileRepository
-     */
     protected function getHarFileRepository(
     ): \Deviantintegral\Har\Repository\HarFileRepository {
         $repository = new HarFileRepository(__DIR__.'/../../fixtures');

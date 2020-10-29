@@ -58,17 +58,12 @@ final class Cookie
      */
     private $secure;
 
-    /**
-     * @return string
-     */
     public function getCookie(): string
     {
         return $this->cookie;
     }
 
     /**
-     * @param string $cookie
-     *
      * @return Cookie
      */
     public function setCookie(string $cookie): self
@@ -78,17 +73,12 @@ final class Cookie
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getPath(): string
     {
         return $this->path;
     }
 
     /**
-     * @param string $path
-     *
      * @return Cookie
      */
     public function setPath(string $path): self
@@ -98,17 +88,12 @@ final class Cookie
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getDomain(): string
     {
         return $this->domain;
     }
 
     /**
-     * @param string $domain
-     *
      * @return Cookie
      */
     public function setDomain(string $domain): self
@@ -118,25 +103,17 @@ final class Cookie
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function hasHttpOnly(): bool
     {
         return null === $this->httpOnly;
     }
 
-    /**
-     * @return bool
-     */
     public function isHttpOnly(): bool
     {
         return $this->httpOnly;
     }
 
     /**
-     * @param bool $httpOnly
-     *
      * @return Cookie
      */
     public function setHttpOnly(bool $httpOnly): self
@@ -146,25 +123,17 @@ final class Cookie
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function hasSecure(): bool
     {
         return null === $this->secure;
     }
 
-    /**
-     * @return bool
-     */
     public function isSecure(): bool
     {
         return $this->secure;
     }
 
     /**
-     * @param bool $secure
-     *
      * @return Cookie
      */
     public function setSecure(bool $secure): self

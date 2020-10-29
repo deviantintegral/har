@@ -18,11 +18,6 @@ trait NameValueTrait
      */
     protected $value;
 
-    /**
-     * @param string $value
-     *
-     * @return self
-     */
     public function setValue(string $value): self
     {
         $this->value = $value;
