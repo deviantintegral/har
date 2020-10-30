@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Deviantintegral\Har\Tests\Unit;
 
 use Deviantintegral\Har\Log;
+use Deviantintegral\Har\Serializer;
 
 class HarTest extends HarTestBase
 {
@@ -17,6 +18,7 @@ class HarTest extends HarTestBase
 
         foreach ($repository->loadMultiple() as $id => $har) {
             $file = $repository->loadJson($id);
+            $file = (new Serializer())->removeBOM($file);
             $jsonDecode = json_decode($file, true);
             $this->removeCustomFields($jsonDecode);
             $this->normalizeDateTime($jsonDecode);
