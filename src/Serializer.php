@@ -42,6 +42,8 @@ final class Serializer
 
     public function deserializeHar(string $data): Har
     {
+        $data = $this->removeBOM($data);
+
         return $this->getSerializer()->deserialize($data, Har::class, 'json');
     }
 
@@ -51,5 +53,24 @@ final class Serializer
     public function serializeHar(Har $data): string
     {
         return $this->getSerializer()->serialize($data, 'json');
+    }
+
+    /**
+     * Remove a leading byte order mark.
+     *
+     * Some text editors and tools (notably Fiddler on Windows) emit a byte
+     * order mark even on UTF-8 files where it's not required. However, the
+     * spec still allows it to exist, and PHP's json_decode() chooses to not
+     * handle it. See https://tools.ietf.org/html/rfc7159
+     * 8.1. Character Encoding where it states that implementations must
+     * not emit a BOM, by may optionally decide to ignore it on parsing.
+     */
+    public function removeBOM(string $data): string
+    {
+        if (substr($data, 0, 3) == pack('CCC', 0xEF, 0xBB, 0xBF)) {
+            $data = substr($data, 3);
+        }
+
+        return $data;
     }
 }
