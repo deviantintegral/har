@@ -27,7 +27,7 @@ final class PostData
      * @var \Deviantintegral\Har\Params[]
      * @Serializer\Type("array<Deviantintegral\Har\Params>")
      */
-    private $params = [];
+    private $params;
 
     /**
      * @return \Deviantintegral\Har\Params[]
@@ -35,6 +35,9 @@ final class PostData
     public function getParams(): array
     {
         $this->traitSetText();
+        if (empty($this->params)) {
+            return [];
+        }
 
         return $this->params;
     }
