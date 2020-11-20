@@ -39,9 +39,3 @@ value. Other fields, like `comment`, may be omitted.
 Fields that may be omitted will have a `has` method that should be called
 before calling `get`. For integer fields, the return value must be checked for
 `-1`.
-
-## Fidelity of Serialized and Deserialized data
-
-This library aims to preserve the actual JSON representation of loaded objects. However, in some cases, this is not possible. In
-particular, PHP only supports up to 6 digits in ISO 8601 timestamps, so any additional precision is lost. See
-[HarTest](tests/src/Unit/HarTest.php) for an example that checks the reading and writing of a HAR.
