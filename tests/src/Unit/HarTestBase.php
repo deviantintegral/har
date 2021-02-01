@@ -33,7 +33,7 @@ abstract class HarTestBase extends TestCase
     }
 
     protected function getHarFileRepository(
-    ): \Deviantintegral\Har\Repository\HarFileRepository {
+    ): HarFileRepository {
         $repository = new HarFileRepository(__DIR__.'/../../fixtures');
 
         return $repository;
