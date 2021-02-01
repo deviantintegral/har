@@ -259,4 +259,4 @@ workflows:
       - code_fixer
       - build_phar:
           requires:
-            - build_php73
+            - build_php80
