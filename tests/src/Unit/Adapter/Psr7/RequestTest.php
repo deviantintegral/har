@@ -22,7 +22,7 @@ class RequestTest extends HarTestBase
      */
     private $postRequest;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->getRequest = new Request(
           $this->getHarFileRepository()->load(

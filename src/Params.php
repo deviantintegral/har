@@ -13,8 +13,8 @@ use JMS\Serializer\Annotation as Serializer;
  */
 final class Params
 {
-    use NameValueTrait;
     use CommentTrait;
+    use NameValueTrait;
 
     /**
      * Name of a posted file.

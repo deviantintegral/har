@@ -13,8 +13,8 @@ use JMS\Serializer\Annotation as Serializer;
  */
 final class CacheState
 {
-    use ExpiresTrait;
     use CommentTrait;
+    use ExpiresTrait;
 
     /**
      * lastAccess [string] - The last time the cache entry was opened.

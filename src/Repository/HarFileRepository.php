@@ -74,7 +74,7 @@ class HarFileRepository implements RepositoryInterface
             }
         }
 
-        sort($hars, SORT_NATURAL);
+        sort($hars, \SORT_NATURAL);
 
         return $hars;
     }

@@ -47,7 +47,7 @@ class HarTest extends HarTestBase
 
         $a = array_filter($a, function ($key): bool {
             return !\is_string($key) || !(0 === strpos($key, '_'));
-        }, ARRAY_FILTER_USE_KEY);
+        }, \ARRAY_FILTER_USE_KEY);
     }
 
     private function normalizeDateTime(array &$a)
