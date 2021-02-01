@@ -4,7 +4,7 @@
 
 ## Requirements
 
-* PHP 7.2+
+* PHP 7.3+
 * The `ext-json` extension.
 
 ## Installation
