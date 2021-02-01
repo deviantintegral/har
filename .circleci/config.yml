@@ -223,7 +223,7 @@ jobs:
 
   build_phar:
     docker:
-      - image: php:8.0
+      - image: php:7.3
 
     working_directory: ~/repo
 
@@ -236,7 +236,7 @@ workflows:
   test_cover_workflow:
     jobs:
       - build_php73
-      - build_php73
+      - build_php74
       - build_php80
       - code_fixer
       - build_phar:
