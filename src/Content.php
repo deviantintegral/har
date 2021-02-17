@@ -93,10 +93,10 @@ final class Content
 
     public function hasNumber(): bool
     {
-        return null === $this->number;
+        return null !== $this->number;
     }
 
-    public function getNumber(): int
+    public function getNumber(): ?int
     {
         return $this->number;
     }
@@ -113,10 +113,10 @@ final class Content
 
     public function hasEncoding(): bool
     {
-        return null === $this->encoding;
+        return null !== $this->encoding;
     }
 
-    public function getEncoding(): string
+    public function getEncoding(): ?string
     {
         return $this->encoding;
     }

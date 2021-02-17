@@ -34,10 +34,10 @@ final class Params
 
     public function hasFileName(): bool
     {
-        return null === $this->fileName;
+        return null !== $this->fileName;
     }
 
-    public function getFileName(): string
+    public function getFileName(): ?string
     {
         return $this->fileName;
     }
@@ -54,10 +54,10 @@ final class Params
 
     public function hasContentType(): bool
     {
-        return null === $this->contentType;
+        return null !== $this->contentType;
     }
 
-    public function getContentType(): string
+    public function getContentType(): ?string
     {
         return $this->contentType;
     }

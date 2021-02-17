@@ -23,10 +23,10 @@ trait CommentTrait
 
     public function hasComment(): bool
     {
-        return null === $this->comment;
+        return null !== $this->comment;
     }
 
-    public function getComment(): string
+    public function getComment(): ?string
     {
         return $this->comment;
     }
