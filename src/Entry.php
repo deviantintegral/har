@@ -78,6 +78,14 @@ final class Entry
      */
     private $connection;
 
+    /**
+     * Detailed info about the request.
+     *
+     * @var \Deviantintegral\Har\Initiator
+     * @Serializer\Type("Deviantintegral\Har\Initiator")
+     */
+    private $_initiator;
+
     public function getPageref(): string
     {
         return $this->pageref;
@@ -214,6 +222,26 @@ final class Entry
     public function setConnection(string $connection): self
     {
         $this->connection = $connection;
+
+        return $this;
+    }
+
+    public function getInitiator(): ?Initiator
+    {
+        return $this->_initiator;
+    }
+
+    public function hasInitiator(): bool
+    {
+        return null !== $this->_initiator;
+    }
+
+    /**
+     * @return Entry
+     */
+    public function setInitiator(Initiator $_initiator): self
+    {
+        $this->_initiator = $_initiator;
 
         return $this;
     }
