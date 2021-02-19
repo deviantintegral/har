@@ -34,13 +34,13 @@ final class Cache
 
     public function hasBeforeRequest(): bool
     {
-        return null === $this->beforeRequest;
+        return null !== $this->beforeRequest;
     }
 
     /**
      * @return \Deviantintegral\Har\CacheState
      */
-    public function getBeforeRequest(): CacheState
+    public function getBeforeRequest(): ?CacheState
     {
         return $this->beforeRequest;
     }
@@ -60,13 +60,13 @@ final class Cache
 
     public function hasAfterRequest(): bool
     {
-        return null === $this->afterRequest;
+        return null !== $this->afterRequest;
     }
 
     /**
      * @return \Deviantintegral\Har\CacheState
      */
-    public function getAfterRequest(): CacheState
+    public function getAfterRequest(): ?CacheState
     {
         return $this->afterRequest;
     }

@@ -26,6 +26,11 @@ class CookieTest extends HarTestBase
           ->setSecure(true)
           ->setValue('Test value');
 
+        $this->assertTrue($cookie->hasSecure());
+        $this->assertNotNull($cookie->isSecure());
+        $this->assertTrue($cookie->hasHttpOnly());
+        $this->assertNotNull($cookie->isHttpOnly());
+
         $serialized = $serializer->serialize($cookie, 'json');
         $this->assertEquals(
           [
@@ -39,6 +44,39 @@ class CookieTest extends HarTestBase
             'value' => $cookie->getValue(),
           ],
           json_decode($serialized, true)
+        );
+
+        $this->assertDeserialize($serialized, Cookie::class, $cookie);
+    }
+
+    public function testSerializeWithoutOptionalAttributes()
+    {
+        $serializer = $this->getSerializer();
+
+        $cookie = (new Cookie())
+            ->setComment('Test comment')
+            ->setCookie('Test cookie')
+            ->setDomain('www.example.com')
+            ->setPath('/')
+            ->setExpires(new NullDateTime())
+            ->setValue('Test value');
+
+        $this->assertFalse($cookie->hasSecure());
+        $this->assertNull($cookie->isSecure());
+        $this->assertFalse($cookie->hasHttpOnly());
+        $this->assertNull($cookie->isHttpOnly());
+
+        $serialized = $serializer->serialize($cookie, 'json');
+        $this->assertEquals(
+            [
+                'comment' => $cookie->getComment(),
+                'cookie' => $cookie->getCookie(),
+                'domain' => $cookie->getDomain(),
+                'path' => $cookie->getPath(),
+                'expires' => '',
+                'value' => $cookie->getValue(),
+            ],
+            json_decode($serialized, true)
         );
 
         $this->assertDeserialize($serialized, Cookie::class, $cookie);

@@ -23,6 +23,11 @@ class ContentTest extends HarTestBase
           ->setSize(\strlen($text))
           ->setNumber(1);
 
+        $this->assertTrue($content->hasEncoding());
+        $this->assertNotNull($content->getEncoding());
+        $this->assertTrue($content->hasNumber());
+        $this->assertNotNull($content->getNumber());
+
         $serialized = $serializer->serialize($content, 'json');
         $this->assertEquals(
           [
@@ -33,6 +38,33 @@ class ContentTest extends HarTestBase
             'encoding' => $content->getEncoding(),
           ],
           json_decode($serialized, true)
+        );
+
+        $this->assertDeserialize($serialized, Content::class, $content);
+    }
+
+    public function testSerializeWithoutOptionalAttributes()
+    {
+        $serializer = $this->getSerializer();
+        $text = 'testing not encoded';
+        $content = (new Content())
+            ->setMimeType('text/plain')
+            ->setText($text)
+            ->setSize(\strlen($text));
+
+        $this->assertFalse($content->hasEncoding());
+        $this->assertNull($content->getEncoding());
+        $this->assertFalse($content->hasNumber());
+        $this->assertNull($content->getNumber());
+
+        $serialized = $serializer->serialize($content, 'json');
+        $this->assertEquals(
+            [
+                'mimeType' => $content->getMimeType(),
+                'size' => $content->getSize(),
+                'text' => $content->getText(),
+            ],
+            json_decode($serialized, true)
         );
 
         $this->assertDeserialize($serialized, Content::class, $content);

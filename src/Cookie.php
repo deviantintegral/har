@@ -105,10 +105,10 @@ final class Cookie
 
     public function hasHttpOnly(): bool
     {
-        return null === $this->httpOnly;
+        return null !== $this->httpOnly;
     }
 
-    public function isHttpOnly(): bool
+    public function isHttpOnly(): ?bool
     {
         return $this->httpOnly;
     }
@@ -125,10 +125,10 @@ final class Cookie
 
     public function hasSecure(): bool
     {
-        return null === $this->secure;
+        return null !== $this->secure;
     }
 
-    public function isSecure(): bool
+    public function isSecure(): ?bool
     {
         return $this->secure;
     }

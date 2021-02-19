@@ -22,6 +22,11 @@ class ParamsTest extends HarTestBase
           ->setContentType('text/plain')
           ->setComment('Test value');
 
+        $this->assertTrue($params->hasFileName());
+        $this->assertNotNull($params->getFileName());
+        $this->assertTrue($params->hasContentType());
+        $this->assertNotNull($params->getContentType());
+
         $serializer = $this->getSerializer();
         $serialized = $serializer->serialize($params, 'json');
         $this->assertEquals(
@@ -39,6 +44,37 @@ class ParamsTest extends HarTestBase
           $serialized,
           Params::class,
           'json'
+        );
+        $this->assertEquals($params, $deserialized);
+    }
+
+    public function testSerializeWithoutOptionalAttributes()
+    {
+        $params = (new Params())
+            ->setName('Host')
+            ->setValue('www.example.com')
+            ->setComment('Test value');
+
+        $this->assertFalse($params->hasFileName());
+        $this->assertNull($params->getFileName());
+        $this->assertFalse($params->hasContentType());
+        $this->assertNull($params->getContentType());
+
+        $serializer = $this->getSerializer();
+        $serialized = $serializer->serialize($params, 'json');
+        $this->assertEquals(
+            [
+                'name' => 'Host',
+                'value' => 'www.example.com',
+                'comment' => 'Test value',
+            ],
+            json_decode($serialized, true)
+        );
+
+        $deserialized = $serializer->deserialize(
+            $serialized,
+            Params::class,
+            'json'
         );
         $this->assertEquals($params, $deserialized);
     }
