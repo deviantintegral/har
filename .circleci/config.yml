@@ -253,10 +253,10 @@ workflows:
               only:
                 - master
     jobs:
-      - build_php73
       - build_php74
       - build_php80
+      - build_php81
       - code_fixer
       - build_phar:
           requires:
-            - build_php73
+            - build_php74
