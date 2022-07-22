@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Deviantintegral\Har\Adapter\Psr7;
 
 use Deviantintegral\Har\PostData;
+
 use function GuzzleHttp\Psr7\stream_for;
+
 use GuzzleHttp\Psr7\Uri;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamInterface;
