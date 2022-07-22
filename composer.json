@@ -12,7 +12,7 @@
         }
     ],
     "require": {
-        "php": "^7.3||^8.0",
+        "php": "^7.4||^8.0",
         "ext-json": "*",
         "jms/serializer": "^3.0",
         "doctrine/annotations": "^1.7",
@@ -23,7 +23,7 @@
         "symfony/polyfill-php80": "^1.20"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "2.18.2",
+        "friendsofphp/php-cs-fixer": "3.4.0",
         "phpunit/phpunit": "^9.5",
         "guzzlehttp/guzzle": "^6.3",
         "macfja/phar-builder": "^0.2.8"

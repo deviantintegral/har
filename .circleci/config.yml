@@ -140,7 +140,7 @@ code_fixer: &code_fixer
           key: v2-test-dependencies-{{ .Environment.CIRCLE_JOB }}-{{ checksum "composer.json" }}-{{ checksum ".circleci/config.yml" }}
 
       # run tests!
-      - run: vendor/bin/php-cs-fixer fix --config=.php_cs.dist -v --dry-run --using-cache=no --path-mode=intersection -- src tests
+      - run: vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php -v --dry-run --using-cache=no --path-mode=intersection -- src tests
 
 build_phar: &build_phar
   steps:
@@ -186,25 +186,25 @@ build_phar: &build_phar
         path: ./har.phar
 
 jobs:
+  build_php81:
+    docker:
+      - image: php:8.1
+
+    working_directory: ~/repo
+
+    <<: *test_and_cover
+
   build_php80:
     docker:
       - image: php:8.0
 
     working_directory: ~/repo
 
-    <<: *test_and_cover
+    <<: *test
 
   build_php74:
     docker:
       - image: php:7.4
-
-    working_directory: ~/repo
-
-    <<: *test
-
-  build_php73:
-    docker:
-      - image: php:7.3
 
     environment:
       - COMPOSER_FLAGS: --prefer-lowest
@@ -215,7 +215,7 @@ jobs:
 
   code_fixer:
     docker:
-      - image: php:8.0
+      - image: php:8.1
 
     working_directory: ~/repo
 
@@ -223,7 +223,7 @@ jobs:
 
   build_phar:
     docker:
-      - image: php:7.3
+      - image: php:7.4
 
     working_directory: ~/repo
 
@@ -235,13 +235,13 @@ workflows:
   # Declare a workflow that runs all of our jobs in parallel.
   test_cover_workflow:
     jobs:
-      - build_php73
       - build_php74
       - build_php80
+      - build_php81
       - code_fixer
       - build_phar:
           requires:
-            - build_php73
+            - build_php74
 
   nightly:
     triggers:
@@ -253,10 +253,10 @@ workflows:
               only:
                 - master
     jobs:
-      - build_php73
       - build_php74
       - build_php80
+      - build_php81
       - code_fixer
       - build_phar:
           requires:
-            - build_php73
+            - build_php74

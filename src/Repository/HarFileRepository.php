@@ -20,7 +20,7 @@ class HarFileRepository implements RepositoryInterface
     /**
      * HarFileRepository constructor.
      *
-     * @param string $repositoryPath The path to the repository on disk.
+     * @param string $repositoryPath the path to the repository on disk
      */
     public function __construct(string $repositoryPath)
     {

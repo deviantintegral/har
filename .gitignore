@@ -2,5 +2,5 @@ composer.lock
 build
 .phpunit.result.cache
 vendor
-.php_cs.cache
+.php-cs-fixer.cache
 har.phar
