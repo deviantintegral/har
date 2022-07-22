@@ -24,9 +24,9 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "2.18.2",
-        "phpunit/phpunit": "^9.5",
-        "guzzlehttp/guzzle": "^6.3",
-        "macfja/phar-builder": "^0.2.8"
+        "phpunit/phpunit": "9.5.21",
+        "guzzlehttp/guzzle": "6.5.8",
+        "macfja/phar-builder": "0.2.8"
     },
     "autoload": {
         "psr-4": {
