@@ -21,10 +21,10 @@ interface RepositoryInterface
      *
      * @param array $ids (optional) An array of IDs to load. Omit to load all objects.
      *
-     * @throws \RuntimeException Thrown if any object could not be loaded.
+     * @throws \RuntimeException thrown if any object could not be loaded
      *
-     * @return \Generator Yields a key / value where the key is the ID and the
-     *                    value is a \Deviantintegral\Har\Har.
+     * @return \Generator yields a key / value where the key is the ID and the
+     *                    value is a \Deviantintegral\Har\Har
      */
     public function loadMultiple(array $ids = []): \Generator;
 
@@ -32,23 +32,23 @@ interface RepositoryInterface
      * Return an array of IDs contained in this repository.
      *
      * @return string[]
-     *                  An array of IDs.
+     *                  An array of IDs
      */
     public function getIds(): array;
 
     /**
      * Return a single fixture.
      *
-     * @param string $id The ID of the fixture to load.
+     * @param string $id the ID of the fixture to load
      *
-     * @throws \RuntimeException Thrown if the object could not be loaded.
+     * @throws \RuntimeException thrown if the object could not be loaded
      */
     public function load(string $id): Har;
 
     /**
      * Return the raw JSON from a HAR object.
      *
-     * @throws \RuntimeException Thrown if the object could not be loaded.
+     * @throws \RuntimeException thrown if the object could not be loaded
      */
     public function loadJson(string $id): string;
 }
