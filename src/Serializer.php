@@ -27,15 +27,15 @@ final class Serializer
         $builder = SerializerBuilder::create()
           ->setPropertyNamingStrategy(new IdenticalPropertyNamingStrategy())
           ->configureHandlers(
-            function (HandlerRegistryInterface $registry) {
-                $registry->registerSubscribingHandler(
-                  new DateFormatInterfaceHandler(Log::ISO_8601_MICROSECONDS)
-                );
-                $registry->registerSubscribingHandler(
-                  new TruncatingDateTimeHandler(Log::ISO_8601_MICROSECONDS)
-                );
-                $registry->registerSubscribingHandler(new UriHandler());
-            }
+              function (HandlerRegistryInterface $registry) {
+                  $registry->registerSubscribingHandler(
+                      new DateFormatInterfaceHandler(Log::ISO_8601_MICROSECONDS)
+                  );
+                  $registry->registerSubscribingHandler(
+                      new TruncatingDateTimeHandler(Log::ISO_8601_MICROSECONDS)
+                  );
+                  $registry->registerSubscribingHandler(new UriHandler());
+              }
           );
 
         return $builder;

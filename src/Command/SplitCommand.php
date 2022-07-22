@@ -38,16 +38,16 @@ class SplitCommand extends Command
         $har = $serializer->deserializeHar($contents);
 
         $io->text(sprintf('Splitting %s into one file per entry',
-          $source
+            $source
         ));
         $io->progressStart(\count($har->getLog()->getEntries()));
 
         foreach ($har->splitLogEntries() as $index => $cloned) {
             $destination = $this->getSplitDestination(
-              $index,
-              $input->getOption('md5'),
-              $cloned,
-              $input->getArgument('destination') ?: getcwd()
+                $index,
+                $input->getOption('md5'),
+                $cloned,
+                $input->getArgument('destination') ?: getcwd()
             );
 
             if ($input->getOption('force') || !file_exists($destination)) {
@@ -67,17 +67,17 @@ class SplitCommand extends Command
      * @param $md5
      */
     private function getSplitDestination(
-      $index,
-      $md5,
-      \Deviantintegral\Har\Har $cloned,
-      string $destination_path
+        $index,
+        $md5,
+        \Deviantintegral\Har\Har $cloned,
+        string $destination_path
     ): string {
         $filename = $index + 1 .'.har';
         if ($md5) {
             $filename = md5(
                 (string) $cloned->getLog()->getEntries()[0]->getRequest()
                   ->getUrl()
-              ).'.har';
+            ).'.har';
         }
         $destination = $destination_path."/$filename";
 

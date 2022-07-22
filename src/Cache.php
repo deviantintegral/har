@@ -51,7 +51,7 @@ final class Cache
      * @return Cache
      */
     public function setBeforeRequest(
-      CacheState $beforeRequest
+        CacheState $beforeRequest
     ): self {
         $this->beforeRequest = $beforeRequest;
 
@@ -77,7 +77,7 @@ final class Cache
      * @return Cache
      */
     public function setAfterRequest(
-      CacheState $afterRequest
+        CacheState $afterRequest
     ): self {
         $this->afterRequest = $afterRequest;
 

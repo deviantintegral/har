@@ -77,9 +77,9 @@ class DateFormatInterfaceHandler implements SubscribingHandlerInterface
 
         /** @var \DateTime $dateTime */
         $dateTime = $this->innerHandler->deserializeDateTimeFromJson(
-          $visitor,
-          $data,
-          $type
+            $visitor,
+            $data,
+            $type
         );
 
         return new ConcreteDateTime($dateTime);
