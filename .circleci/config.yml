@@ -204,7 +204,7 @@ jobs:
 
   build_php73:
     docker:
-      - image: php:7.3
+      - image: php:7.4
 
     environment:
       - COMPOSER_FLAGS: --prefer-lowest
@@ -223,7 +223,7 @@ jobs:
 
   build_phar:
     docker:
-      - image: php:7.3
+      - image: php:7.4
 
     working_directory: ~/repo
 
