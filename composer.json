@@ -25,8 +25,7 @@
     "require-dev": {
         "friendsofphp/php-cs-fixer": "3.4.0",
         "phpunit/phpunit": "^9.5",
-        "guzzlehttp/guzzle": "^6.3",
-        "macfja/phar-builder": "^0.2.8"
+        "guzzlehttp/guzzle": "^6.3"
     },
     "autoload": {
         "psr-4": {
@@ -39,7 +38,7 @@
         }
     },
     "scripts": {
-        "build-phar": "php -dphar.readonly=0 vendor/bin/phar-builder package composer.json && chmod +x har.phar"
+        "build-phar": "[ -x phar-builder.phar ] || (curl -LOJ https://github.com/MacFJA/PharBuilder/releases/download/0.2.8/phar-builder.phar && chmod +x phar-builder.phar) ; php -dphar.readonly=0 ./phar-builder.phar package composer.json && chmod +x har.phar"
     },
     "extra": {
         "phar-builder": {
