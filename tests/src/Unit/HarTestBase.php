@@ -34,8 +34,6 @@ abstract class HarTestBase extends TestCase
 
     protected function getHarFileRepository(
     ): HarFileRepository {
-        $repository = new HarFileRepository(__DIR__.'/../../fixtures');
-
-        return $repository;
+        return new HarFileRepository(__DIR__.'/../../fixtures');
     }
 }
