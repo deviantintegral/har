@@ -20,18 +20,18 @@ class CreatorTest extends HarTestBase
           ->setComment('Test case');
         $serialized = $serializer->serialize($creator, 'json');
         $this->assertEquals(
-          [
-            'name' => 'CreatorTest',
-            'version' => '1.9',
-            'comment' => 'Test case',
-          ],
-          json_decode($serialized, true)
+            [
+              'name' => 'CreatorTest',
+              'version' => '1.9',
+              'comment' => 'Test case',
+            ],
+            json_decode($serialized, true)
         );
 
         $deserialized = $serializer->deserialize(
-          $serialized,
-          Creator::class,
-          'json'
+            $serialized,
+            Creator::class,
+            'json'
         );
         $this->assertEquals($creator, $deserialized);
     }

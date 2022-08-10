@@ -6,8 +6,8 @@ namespace Deviantintegral\Har\Tests\Unit\Adapter\Psr7;
 
 use Deviantintegral\Har\Adapter\Psr7\Request;
 use Deviantintegral\Har\Tests\Unit\HarTestBase;
-use function GuzzleHttp\Psr7\stream_for;
 use GuzzleHttp\Psr7\Uri;
+use GuzzleHttp\Psr7\Utils;
 use Psr\Http\Message\StreamInterface;
 
 class RequestTest extends HarTestBase
@@ -25,26 +25,26 @@ class RequestTest extends HarTestBase
     protected function setUp(): void
     {
         $this->getRequest = new Request(
-          $this->getHarFileRepository()->load(
-            'www.softwareishard.com-single-entry.har'
-          )->getLog()->getEntries()[0]->getRequest()
+            $this->getHarFileRepository()->load(
+                'www.softwareishard.com-single-entry.har'
+            )->getLog()->getEntries()[0]->getRequest()
         );
 
         $this->postRequest = new Request(
-          $this->getHarFileRepository()->load(
-            'www.softwareishard.com-empty-login.har'
-          )->getLog()->getEntries()[0]->getRequest()
+            $this->getHarFileRepository()->load(
+                'www.softwareishard.com-empty-login.har'
+            )->getLog()->getEntries()[0]->getRequest()
         );
     }
 
     public function testWithRequestTarget()
     {
         $absolute_form = $this->getRequest->withRequestTarget(
-          'https://www.example.com/home'
+            'https://www.example.com/home'
         );
         $this->assertEquals(
-          'https://www.example.com/home',
-          $absolute_form->getRequestTarget()
+            'https://www.example.com/home',
+            $absolute_form->getRequestTarget()
         );
     }
 
@@ -61,12 +61,12 @@ class RequestTest extends HarTestBase
         $this->assertEquals(['server'], $with_header->getHeader('X-Test'));
 
         $with_array_value = $this->getRequest->withHeader(
-          'X-Test',
-          ['server1', 'server2']
+            'X-Test',
+            ['server1', 'server2']
         );
         $this->assertEquals(
-          ['server1', 'server2'],
-          $with_array_value->getHeader('X-Test')
+            ['server1', 'server2'],
+            $with_array_value->getHeader('X-Test')
         );
     }
 
@@ -79,22 +79,22 @@ class RequestTest extends HarTestBase
     public function testGetHeader()
     {
         $this->assertSame(
-          ['1'],
-          $this->getRequest->getHeader('Upgrade-Insecure-Requests')
+            ['1'],
+            $this->getRequest->getHeader('Upgrade-Insecure-Requests')
         );
     }
 
     public function testWithBody()
     {
-        $with_body = $this->postRequest->withBody(stream_for('a=1&b=2'));
+        $with_body = $this->postRequest->withBody(Utils::streamFor('a=1&b=2'));
         $this->assertEquals('a=1&b=2', $with_body->getBody()->getContents());
     }
 
     public function testGetRequestTarget()
     {
         $this->assertEquals(
-          'http://www.softwareishard.com/blog/har-12-spec/',
-          $this->getRequest->getRequestTarget()
+            'http://www.softwareishard.com/blog/har-12-spec/',
+            $this->getRequest->getRequestTarget()
         );
     }
 
@@ -115,30 +115,30 @@ class RequestTest extends HarTestBase
     {
         $headers = $this->getRequest->getHeaders();
         $this->assertEquals(
-          [
-            'Accept' => [
-                0 => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-              ],
-            'Upgrade-Insecure-Requests' => [
-                0 => '1',
-              ],
-            'Host' => [
-                0 => 'www.softwareishard.com',
-              ],
-            'User-Agent' => [
-                0 => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.2 Safari/605.1.15',
-              ],
-            'Accept-Language' => [
-                0 => 'en-ca',
-              ],
-            'Accept-Encoding' => [
-                0 => 'gzip, deflate',
-              ],
-            'Connection' => [
-                0 => 'keep-alive',
-              ],
-          ],
-          $headers
+            [
+              'Accept' => [
+                  0 => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                ],
+              'Upgrade-Insecure-Requests' => [
+                  0 => '1',
+                ],
+              'Host' => [
+                  0 => 'www.softwareishard.com',
+                ],
+              'User-Agent' => [
+                  0 => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.2 Safari/605.1.15',
+                ],
+              'Accept-Language' => [
+                  0 => 'en-ca',
+                ],
+              'Accept-Encoding' => [
+                  0 => 'gzip, deflate',
+                ],
+              'Connection' => [
+                  0 => 'keep-alive',
+                ],
+            ],
+            $headers
         );
     }
 

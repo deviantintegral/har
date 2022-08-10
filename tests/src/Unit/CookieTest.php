@@ -33,17 +33,17 @@ class CookieTest extends HarTestBase
 
         $serialized = $serializer->serialize($cookie, 'json');
         $this->assertEquals(
-          [
-            'comment' => $cookie->getComment(),
-            'cookie' => $cookie->getCookie(),
-            'domain' => $cookie->getDomain(),
-            'path' => $cookie->getPath(),
-            'expires' => '',
-            'httpOnly' => $cookie->isHttpOnly(),
-            'secure' => $cookie->isSecure(),
-            'value' => $cookie->getValue(),
-          ],
-          json_decode($serialized, true)
+            [
+              'comment' => $cookie->getComment(),
+              'cookie' => $cookie->getCookie(),
+              'domain' => $cookie->getDomain(),
+              'path' => $cookie->getPath(),
+              'expires' => '',
+              'httpOnly' => $cookie->isHttpOnly(),
+              'secure' => $cookie->isSecure(),
+              'value' => $cookie->getValue(),
+            ],
+            json_decode($serialized, true)
         );
 
         $this->assertDeserialize($serialized, Cookie::class, $cookie);
