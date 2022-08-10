@@ -50,6 +50,9 @@ class InitiatorTest extends HarTestBase
             json_decode($serialized, true)
         );
 
+        // Reset the Uri to simplify comparison of private composedComponents
+        // property.
+        $initiator->setUrl(new Uri('https://www.php.net/'));
         $this->assertDeserialize($serialized, Initiator::class, $initiator);
         $this->assertTrue($initiator->hasLineNumber());
         $this->assertIsNumeric($initiator->getLineNumber());
