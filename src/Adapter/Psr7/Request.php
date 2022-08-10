@@ -6,7 +6,7 @@ namespace Deviantintegral\Har\Adapter\Psr7;
 
 use Deviantintegral\Har\PostData;
 
-use function GuzzleHttp\Psr7\stream_for;
+use GuzzleHttp\Psr7\Utils;
 
 use GuzzleHttp\Psr7\Uri;
 use Psr\Http\Message\RequestInterface;
@@ -116,7 +116,7 @@ class Request extends MessageBase implements RequestInterface
             $body = $this->request->getPostData()->getText();
         }
 
-        return stream_for($body);
+        return Utils::streamFor($body);
     }
 
     /**

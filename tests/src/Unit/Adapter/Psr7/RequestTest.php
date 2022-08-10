@@ -6,7 +6,7 @@ namespace Deviantintegral\Har\Tests\Unit\Adapter\Psr7;
 
 use Deviantintegral\Har\Adapter\Psr7\Request;
 use Deviantintegral\Har\Tests\Unit\HarTestBase;
-use function GuzzleHttp\Psr7\stream_for;
+use GuzzleHttp\Psr7\Utils;
 use GuzzleHttp\Psr7\Uri;
 use Psr\Http\Message\StreamInterface;
 
@@ -86,7 +86,7 @@ class RequestTest extends HarTestBase
 
     public function testWithBody()
     {
-        $with_body = $this->postRequest->withBody(stream_for('a=1&b=2'));
+        $with_body = $this->postRequest->withBody(Utils::streamFor('a=1&b=2'));
         $this->assertEquals('a=1&b=2', $with_body->getBody()->getContents());
     }
 
