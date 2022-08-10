@@ -30,14 +30,14 @@ class ContentTest extends HarTestBase
 
         $serialized = $serializer->serialize($content, 'json');
         $this->assertEquals(
-          [
-            'size' => $content->getSize(),
-            'number' => $content->getNumber(),
-            'mimeType' => $content->getMimeType(),
-            'text' => $content->getText(),
-            'encoding' => $content->getEncoding(),
-          ],
-          json_decode($serialized, true)
+            [
+              'size' => $content->getSize(),
+              'number' => $content->getNumber(),
+              'mimeType' => $content->getMimeType(),
+              'text' => $content->getText(),
+              'encoding' => $content->getEncoding(),
+            ],
+            json_decode($serialized, true)
         );
 
         $this->assertDeserialize($serialized, Content::class, $content);

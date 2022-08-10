@@ -20,12 +20,12 @@ class QueryStringTest extends HarTestBase
 
         $serializer = $this->getSerializer();
         $this->assertEquals(
-          [
-            'name' => 'Host',
-            'value' => 'www.example.com',
-            'comment' => 'Test value',
-          ],
-          json_decode($serializer->serialize($query, 'json'), true)
+            [
+              'name' => 'Host',
+              'value' => 'www.example.com',
+              'comment' => 'Test value',
+            ],
+            json_decode($serializer->serialize($query, 'json'), true)
         );
     }
 }

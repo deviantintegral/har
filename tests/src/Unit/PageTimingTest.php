@@ -22,18 +22,18 @@ class PageTimingTest extends HarTestBase
 
         $serialized = $serializer->serialize($creator, 'json');
         $this->assertEquals(
-          [
-            'onLoad' => $creator->getOnLoad(),
-            'onContentLoad' => $creator->getOnContentLoad(),
-            'comment' => $creator->getComment(),
-          ],
-          json_decode($serialized, true)
+            [
+              'onLoad' => $creator->getOnLoad(),
+              'onContentLoad' => $creator->getOnContentLoad(),
+              'comment' => $creator->getComment(),
+            ],
+            json_decode($serialized, true)
         );
 
         $deserialized = $serializer->deserialize(
-          $serialized,
-          PageTimings::class,
-          'json'
+            $serialized,
+            PageTimings::class,
+            'json'
         );
         $this->assertEquals($creator, $deserialized);
     }
