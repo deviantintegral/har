@@ -21,10 +21,10 @@ interface RepositoryInterface
      *
      * @param array $ids (optional) An array of IDs to load. Omit to load all objects.
      *
-     * @throws \RuntimeException thrown if any object could not be loaded
-     *
      * @return \Generator yields a key / value where the key is the ID and the
      *                    value is a \Deviantintegral\Har\Har
+     *
+     * @throws \RuntimeException thrown if any object could not be loaded
      */
     public function loadMultiple(array $ids = []): \Generator;
 
