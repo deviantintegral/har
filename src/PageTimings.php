@@ -36,9 +36,6 @@ final class PageTimings
         return $this->onContentLoad;
     }
 
-    /**
-     * @return PageTimings
-     */
     public function setOnContentLoad(int $onContentLoad): self
     {
         $this->onContentLoad = $onContentLoad;
@@ -51,9 +48,6 @@ final class PageTimings
         return $this->onLoad;
     }
 
-    /**
-     * @return PageTimings
-     */
     public function setOnLoad(float $onLoad): self
     {
         $this->onLoad = $onLoad;

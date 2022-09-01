@@ -83,9 +83,6 @@ final class Timings
         return $this->blocked;
     }
 
-    /**
-     * @return Timings
-     */
     public function setBlocked(float $blocked): self
     {
         $this->blocked = $blocked;
@@ -123,9 +120,6 @@ final class Timings
         return $this->connect;
     }
 
-    /**
-     * @return Timings
-     */
     public function setConnect(float $connect): self
     {
         if ($connect < $this->getSsl()) {
@@ -141,9 +135,6 @@ final class Timings
         return $this->ssl;
     }
 
-    /**
-     * @return Timings
-     */
     public function setSsl(float $ssl): self
     {
         $this->ssl = $ssl;
@@ -156,9 +147,6 @@ final class Timings
         return $this->send;
     }
 
-    /**
-     * @return Timings
-     */
     public function setSend(float $send): self
     {
         if ($send < 0) {
@@ -174,9 +162,6 @@ final class Timings
         return $this->wait;
     }
 
-    /**
-     * @return Timings
-     */
     public function setWait(float $wait): self
     {
         if ($wait < 0) {
@@ -192,9 +177,6 @@ final class Timings
         return $this->receive;
     }
 
-    /**
-     * @return Timings
-     */
     public function setReceive(float $receive): self
     {
         if ($receive < 0) {

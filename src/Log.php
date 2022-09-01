@@ -56,9 +56,6 @@ class Log
         return $this->version;
     }
 
-    /**
-     * @return Log
-     */
     public function setVersion(string $version): self
     {
         $this->version = $version;
@@ -76,8 +73,6 @@ class Log
 
     /**
      * @param \Deviantintegral\Har\Creator $creator
-     *
-     * @return Log
      */
     public function setCreator(Creator $creator): self
     {
@@ -96,8 +91,6 @@ class Log
 
     /**
      * @param \Deviantintegral\Har\Browser $browser
-     *
-     * @return Log
      */
     public function setBrowser(Browser $browser): self
     {
@@ -116,8 +109,6 @@ class Log
 
     /**
      * @param \Deviantintegral\Har\Page[] $pages
-     *
-     * @return Log
      */
     public function setPages(array $pages): self
     {
@@ -136,8 +127,6 @@ class Log
 
     /**
      * @param \Deviantintegral\Har\Entry[] $entries
-     *
-     * @return Log
      */
     public function setEntries(array $entries): self
     {

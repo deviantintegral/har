@@ -24,8 +24,6 @@ final class Har
 
     /**
      * @param \Deviantintegral\Har\Log $log
-     *
-     * @return Har
      */
     public function setLog(Log $log): self
     {

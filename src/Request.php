@@ -78,9 +78,6 @@ final class Request implements MessageInterface
         return $this->method;
     }
 
-    /**
-     * @return Request
-     */
     public function setMethod(string $method): self
     {
         $this->method = $method;
@@ -93,9 +90,6 @@ final class Request implements MessageInterface
         return $this->url;
     }
 
-    /**
-     * @return Request
-     */
     public function setUrl(\Psr\Http\Message\UriInterface $url): self
     {
         $this->url = $url;
@@ -113,8 +107,6 @@ final class Request implements MessageInterface
 
     /**
      * @param \Deviantintegral\Har\Params[] $queryString
-     *
-     * @return Request
      */
     public function setQueryString(array $queryString): self
     {
@@ -143,8 +135,6 @@ final class Request implements MessageInterface
 
     /**
      * @param \Deviantintegral\Har\PostData $postData
-     *
-     * @return Request
      */
     public function setPostData(PostData $postData
     ): self {

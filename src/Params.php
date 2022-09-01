@@ -42,9 +42,6 @@ final class Params
         return $this->fileName;
     }
 
-    /**
-     * @return Params
-     */
     public function setFileName(string $fileName): self
     {
         $this->fileName = $fileName;
@@ -62,9 +59,6 @@ final class Params
         return $this->contentType;
     }
 
-    /**
-     * @return Params
-     */
     public function setContentType(string $contentType): self
     {
         $this->contentType = $contentType;

@@ -91,9 +91,6 @@ final class Entry
         return $this->pageref;
     }
 
-    /**
-     * @return Entry
-     */
     public function setPageref(string $pageref): self
     {
         $this->pageref = $pageref;
@@ -106,9 +103,6 @@ final class Entry
         return $this->time;
     }
 
-    /**
-     * @return Entry
-     */
     public function setTime(float $time): self
     {
         $this->time = $time;
@@ -126,8 +120,6 @@ final class Entry
 
     /**
      * @param \Deviantintegral\Har\Request $request
-     *
-     * @return Entry
      */
     public function setRequest(Request $request): self
     {
@@ -146,8 +138,6 @@ final class Entry
 
     /**
      * @param \Deviantintegral\Har\Response $response
-     *
-     * @return Entry
      */
     public function setResponse(Response $response): self
     {
@@ -166,8 +156,6 @@ final class Entry
 
     /**
      * @param \Deviantintegral\Har\Cache $cache
-     *
-     * @return Entry
      */
     public function setCache(Cache $cache): self
     {
@@ -186,8 +174,6 @@ final class Entry
 
     /**
      * @param \Deviantintegral\Har\Timings $timings
-     *
-     * @return Entry
      */
     public function setTimings(Timings $timings): self
     {
@@ -201,9 +187,6 @@ final class Entry
         return $this->serverIPAddress;
     }
 
-    /**
-     * @return Entry
-     */
     public function setServerIPAddress(string $serverIPAddress): self
     {
         $this->serverIPAddress = $serverIPAddress;
@@ -216,9 +199,6 @@ final class Entry
         return $this->connection;
     }
 
-    /**
-     * @return Entry
-     */
     public function setConnection(string $connection): self
     {
         $this->connection = $connection;
@@ -236,9 +216,6 @@ final class Entry
         return null !== $this->_initiator;
     }
 
-    /**
-     * @return Entry
-     */
     public function setInitiator(Initiator $_initiator): self
     {
         $this->_initiator = $_initiator;

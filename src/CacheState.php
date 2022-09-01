@@ -45,9 +45,6 @@ final class CacheState
         return $this->lastAccess;
     }
 
-    /**
-     * @return CacheState
-     */
     public function setLastAccess(string $lastAccess): self
     {
         $this->lastAccess = $lastAccess;
@@ -60,9 +57,6 @@ final class CacheState
         return $this->eTag;
     }
 
-    /**
-     * @return CacheState
-     */
     public function setETag(string $eTag): self
     {
         $this->eTag = $eTag;
@@ -75,9 +69,6 @@ final class CacheState
         return $this->hitCount;
     }
 
-    /**
-     * @return CacheState
-     */
     public function setHitCount(int $hitCount): self
     {
         $this->hitCount = $hitCount;

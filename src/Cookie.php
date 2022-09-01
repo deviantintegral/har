@@ -63,9 +63,6 @@ final class Cookie
         return $this->cookie;
     }
 
-    /**
-     * @return Cookie
-     */
     public function setCookie(string $cookie): self
     {
         $this->cookie = $cookie;
@@ -78,9 +75,6 @@ final class Cookie
         return $this->path;
     }
 
-    /**
-     * @return Cookie
-     */
     public function setPath(string $path): self
     {
         $this->path = $path;
@@ -93,9 +87,6 @@ final class Cookie
         return $this->domain;
     }
 
-    /**
-     * @return Cookie
-     */
     public function setDomain(string $domain): self
     {
         $this->domain = $domain;
@@ -113,9 +104,6 @@ final class Cookie
         return $this->httpOnly;
     }
 
-    /**
-     * @return Cookie
-     */
     public function setHttpOnly(bool $httpOnly): self
     {
         $this->httpOnly = $httpOnly;
@@ -133,9 +121,6 @@ final class Cookie
         return $this->secure;
     }
 
-    /**
-     * @return Cookie
-     */
     public function setSecure(bool $secure): self
     {
         $this->secure = $secure;

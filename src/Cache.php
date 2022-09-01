@@ -47,8 +47,6 @@ final class Cache
 
     /**
      * @param \Deviantintegral\Har\CacheState $beforeRequest
-     *
-     * @return Cache
      */
     public function setBeforeRequest(
         CacheState $beforeRequest
@@ -73,8 +71,6 @@ final class Cache
 
     /**
      * @param \Deviantintegral\Har\CacheState $afterRequest
-     *
-     * @return Cache
      */
     public function setAfterRequest(
         CacheState $afterRequest

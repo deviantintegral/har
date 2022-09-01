@@ -46,8 +46,6 @@ final class PostData
 
     /**
      * @param \Deviantintegral\Har\Params[] $params
-     *
-     * @return PostData
      */
     public function setParams(array $params): self
     {

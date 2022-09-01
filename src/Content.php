@@ -58,9 +58,6 @@ final class Content
         return $this->compression;
     }
 
-    /**
-     * @return Content
-     */
     public function setCompression(int $compression): self
     {
         $this->compression = $compression;
@@ -73,9 +70,6 @@ final class Content
         return $this->size;
     }
 
-    /**
-     * @return Content
-     */
     public function setSize(int $size): self
     {
         $this->size = $size;
@@ -101,9 +95,6 @@ final class Content
         return $this->number;
     }
 
-    /**
-     * @return Content
-     */
     public function setNumber(int $number): self
     {
         $this->number = $number;
@@ -121,9 +112,6 @@ final class Content
         return $this->encoding;
     }
 
-    /**
-     * @return Content
-     */
     public function setEncoding(string $encoding): self
     {
         $this->encoding = $encoding;
