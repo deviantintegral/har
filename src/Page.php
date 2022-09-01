@@ -15,18 +15,21 @@ final class Page
 
     /**
      * @var string
+     *
      * @Serializer\Type("string")
      */
     private $id;
 
     /**
      * @var string
+     *
      * @Serializer\Type("string")
      */
     private $title;
 
     /**
      * @var \Deviantintegral\Har\PageTimings
+     *
      * @Serializer\Type("Deviantintegral\Har\PageTimings")
      */
     private $pageTimings;
@@ -36,9 +39,6 @@ final class Page
         return $this->id;
     }
 
-    /**
-     * @return Page
-     */
     public function setId(string $id): self
     {
         $this->id = $id;
@@ -51,9 +51,6 @@ final class Page
         return $this->title;
     }
 
-    /**
-     * @return Page
-     */
     public function setTitle(string $title): self
     {
         $this->title = $title;
@@ -71,8 +68,6 @@ final class Page
 
     /**
      * @param \Deviantintegral\Har\PageTimings $pageTimings
-     *
-     * @return Page
      */
     public function setPageTimings(PageTimings $pageTimings): self
     {

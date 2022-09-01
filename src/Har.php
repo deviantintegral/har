@@ -10,6 +10,7 @@ final class Har
 {
     /**
      * @var \Deviantintegral\Har\Log
+     *
      * @Serializer\Type("Deviantintegral\Har\Log")
      */
     private $log;
@@ -24,8 +25,6 @@ final class Har
 
     /**
      * @param \Deviantintegral\Har\Log $log
-     *
-     * @return Har
      */
     public function setLog(Log $log): self
     {

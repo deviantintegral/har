@@ -20,6 +20,7 @@ final class Params
      * Name of a posted file.
      *
      * @var string
+     *
      * @Serializer\Type("string")
      */
     private $fileName;
@@ -28,6 +29,7 @@ final class Params
      * Content type of a posted file.
      *
      * @var string
+     *
      * @Serializer\Type("string")
      */
     private $contentType;
@@ -42,9 +44,6 @@ final class Params
         return $this->fileName;
     }
 
-    /**
-     * @return Params
-     */
     public function setFileName(string $fileName): self
     {
         $this->fileName = $fileName;
@@ -62,9 +61,6 @@ final class Params
         return $this->contentType;
     }
 
-    /**
-     * @return Params
-     */
     public function setContentType(string $contentType): self
     {
         $this->contentType = $contentType;

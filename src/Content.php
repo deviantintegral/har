@@ -21,6 +21,7 @@ final class Content
      * has been compressed.
      *
      * @var int
+     *
      * @Serializer\Type("integer")
      */
     private $size;
@@ -30,6 +31,7 @@ final class Content
      * field if the information is not available.
      *
      * @var int
+     *
      * @Serializer\Type("integer")
      */
     private $compression;
@@ -39,6 +41,7 @@ final class Content
      * available.
      *
      * @var int
+     *
      * @Serializer\Type("integer")
      */
     private $number;
@@ -49,6 +52,7 @@ final class Content
      * trans-coded from its original character set into UTF-8.
      *
      * @var string
+     *
      * @Serializer\Type("string")
      */
     private $encoding;
@@ -58,9 +62,6 @@ final class Content
         return $this->compression;
     }
 
-    /**
-     * @return Content
-     */
     public function setCompression(int $compression): self
     {
         $this->compression = $compression;
@@ -73,9 +74,6 @@ final class Content
         return $this->size;
     }
 
-    /**
-     * @return Content
-     */
     public function setSize(int $size): self
     {
         $this->size = $size;
@@ -101,9 +99,6 @@ final class Content
         return $this->number;
     }
 
-    /**
-     * @return Content
-     */
     public function setNumber(int $number): self
     {
         $this->number = $number;
@@ -121,9 +116,6 @@ final class Content
         return $this->encoding;
     }
 
-    /**
-     * @return Content
-     */
     public function setEncoding(string $encoding): self
     {
         $this->encoding = $encoding;

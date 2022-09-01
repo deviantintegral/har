@@ -11,6 +11,7 @@ final class Initiator
 {
     /**
      * @var string
+     *
      * @Serializer\Type("string")
      *
      * parser:
@@ -29,6 +30,7 @@ final class Initiator
      * URL of the entry that initiated this request.
      *
      * @var \Psr\Http\Message\UriInterface
+     *
      * @Serializer\Type("Psr\Http\Message\UriInterface")
      */
     private $url;
@@ -37,6 +39,7 @@ final class Initiator
      * Line number that initiated this request.
      *
      * @var int
+     *
      * @Serializer\Type("integer")
      */
     private $lineNumber;
@@ -46,9 +49,6 @@ final class Initiator
         return $this->type;
     }
 
-    /**
-     * @return Initiator
-     */
     public function setType(string $type): self
     {
         $this->type = $type;
@@ -66,9 +66,6 @@ final class Initiator
         return null !== $this->url;
     }
 
-    /**
-     * @return Initiator
-     */
     public function setUrl(\Psr\Http\Message\UriInterface $url): self
     {
         $this->url = $url;
@@ -86,9 +83,6 @@ final class Initiator
         return null !== $this->lineNumber;
     }
 
-    /**
-     * @return Initiator
-     */
     public function setLineNumber(int $lineNumber): self
     {
         $this->lineNumber = $lineNumber;

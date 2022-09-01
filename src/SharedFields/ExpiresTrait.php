@@ -14,6 +14,7 @@ trait ExpiresTrait
      * 2009-07-24T19:20:30.123+02:00).
      *
      * @var DateTimeFormatInterface
+     *
      * @Serializer\Type("Deviantintegral\NullDateTime\DateTimeFormatInterface")
      */
     private $expires;

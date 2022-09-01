@@ -13,6 +13,7 @@ trait TextTrait
      * response body. Leave out this field if the information is not available.
      *
      * @var string
+     *
      * @Serializer\Type("string")
      */
     protected $text;

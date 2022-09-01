@@ -20,6 +20,7 @@ final class CacheState
      * lastAccess [string] - The last time the cache entry was opened.
      *
      * @var string
+     *
      * @Serializer\Type("string")
      */
     private $lastAccess;
@@ -28,6 +29,7 @@ final class CacheState
      * eTag [string] - Etag.
      *
      * @var string
+     *
      * @Serializer\Type("string")
      */
     private $eTag;
@@ -36,6 +38,7 @@ final class CacheState
      * hitCount [number] - The number of times the cache entry has been opened.
      *
      * @var int
+     *
      * @Serializer\Type("integer")
      */
     private $hitCount = 0;
@@ -45,9 +48,6 @@ final class CacheState
         return $this->lastAccess;
     }
 
-    /**
-     * @return CacheState
-     */
     public function setLastAccess(string $lastAccess): self
     {
         $this->lastAccess = $lastAccess;
@@ -60,9 +60,6 @@ final class CacheState
         return $this->eTag;
     }
 
-    /**
-     * @return CacheState
-     */
     public function setETag(string $eTag): self
     {
         $this->eTag = $eTag;
@@ -75,9 +72,6 @@ final class CacheState
         return $this->hitCount;
     }
 
-    /**
-     * @return CacheState
-     */
     public function setHitCount(int $hitCount): self
     {
         $this->hitCount = $hitCount;

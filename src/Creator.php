@@ -20,6 +20,7 @@ class Creator
 
     /**
      * @var string
+     *
      * @Serializer\Type("string")
      */
     private $version;
@@ -29,9 +30,6 @@ class Creator
         return $this->version;
     }
 
-    /**
-     * @return Creator
-     */
     public function setVersion(string $version): self
     {
         $this->version = $version;

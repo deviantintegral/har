@@ -12,6 +12,7 @@ trait MimeTypeTrait
      * available).
      *
      * @var string
+     *
      * @Serializer\Type("string")
      */
     protected $mimeType;

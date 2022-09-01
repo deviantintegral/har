@@ -27,12 +27,14 @@ final class Request implements MessageInterface
      * method [string] - Request method (GET, POST, ...).
      *
      * @var string
+     *
      * @Serializer\Type("string")
      */
     private $method;
 
     /**
      * @var \Psr\Http\Message\UriInterface
+     *
      * @Serializer\Type("Psr\Http\Message\UriInterface")
      */
     private $url;
@@ -41,6 +43,7 @@ final class Request implements MessageInterface
      * List of query parameter objects.
      *
      * @var \Deviantintegral\Har\Params[]
+     *
      * @Serializer\Type("array<Deviantintegral\Har\Params>")
      */
     private $queryString;
@@ -49,6 +52,7 @@ final class Request implements MessageInterface
      * postData [object, optional] - Posted data info.
      *
      * @var \Deviantintegral\Har\PostData
+     *
      * @Serializer\Type("Deviantintegral\Har\PostData")
      */
     private $postData;
@@ -78,9 +82,6 @@ final class Request implements MessageInterface
         return $this->method;
     }
 
-    /**
-     * @return Request
-     */
     public function setMethod(string $method): self
     {
         $this->method = $method;
@@ -93,9 +94,6 @@ final class Request implements MessageInterface
         return $this->url;
     }
 
-    /**
-     * @return Request
-     */
     public function setUrl(\Psr\Http\Message\UriInterface $url): self
     {
         $this->url = $url;
@@ -113,8 +111,6 @@ final class Request implements MessageInterface
 
     /**
      * @param \Deviantintegral\Har\Params[] $queryString
-     *
-     * @return Request
      */
     public function setQueryString(array $queryString): self
     {
@@ -143,8 +139,6 @@ final class Request implements MessageInterface
 
     /**
      * @param \Deviantintegral\Har\PostData $postData
-     *
-     * @return Request
      */
     public function setPostData(PostData $postData
     ): self {

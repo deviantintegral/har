@@ -19,6 +19,7 @@ final class Cache
      * request. Leave out this field if the information is not available.
      *
      * @var \Deviantintegral\Har\CacheState
+     *
      * @Serializer\Type("Deviantintegral\Har\CacheState")
      */
     private $beforeRequest;
@@ -28,6 +29,7 @@ final class Cache
      * request. Leave out this field if the information is not available.
      *
      * @var \Deviantintegral\Har\CacheState
+     *
      * @Serializer\Type("Deviantintegral\Har\CacheState")
      */
     private $afterRequest;
@@ -47,8 +49,6 @@ final class Cache
 
     /**
      * @param \Deviantintegral\Har\CacheState $beforeRequest
-     *
-     * @return Cache
      */
     public function setBeforeRequest(
         CacheState $beforeRequest
@@ -73,8 +73,6 @@ final class Cache
 
     /**
      * @param \Deviantintegral\Har\CacheState $afterRequest
-     *
-     * @return Cache
      */
     public function setAfterRequest(
         CacheState $afterRequest

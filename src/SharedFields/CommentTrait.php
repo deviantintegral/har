@@ -10,6 +10,7 @@ trait CommentTrait
 {
     /**
      * @var string
+     *
      * @Serializer\Type("string")
      */
     protected $comment;

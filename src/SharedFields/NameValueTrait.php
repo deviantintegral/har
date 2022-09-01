@@ -14,6 +14,7 @@ trait NameValueTrait
      * The value.
      *
      * @var string
+     *
      * @Serializer\Type("string")
      */
     protected $value;

@@ -22,6 +22,7 @@ final class Cookie
      * The name of the cookie.
      *
      * @var string
+     *
      * @Serializer\Type("string")
      */
     private $cookie;
@@ -30,6 +31,7 @@ final class Cookie
      * The path pertaining to the cookie.
      *
      * @var string
+     *
      * @Serializer\Type("string")
      */
     private $path;
@@ -38,6 +40,7 @@ final class Cookie
      * The host of the cookie.
      *
      * @var string
+     *
      * @Serializer\Type("string")
      */
     private $domain;
@@ -46,6 +49,7 @@ final class Cookie
      * Set to true if the cookie is HTTP only, false otherwise.
      *
      * @var bool
+     *
      * @Serializer\Type("boolean")
      */
     private $httpOnly;
@@ -54,6 +58,7 @@ final class Cookie
      * True if the cookie was transmitted over ssl, false otherwise.
      *
      * @var bool
+     *
      * @Serializer\Type("boolean")
      */
     private $secure;
@@ -63,9 +68,6 @@ final class Cookie
         return $this->cookie;
     }
 
-    /**
-     * @return Cookie
-     */
     public function setCookie(string $cookie): self
     {
         $this->cookie = $cookie;
@@ -78,9 +80,6 @@ final class Cookie
         return $this->path;
     }
 
-    /**
-     * @return Cookie
-     */
     public function setPath(string $path): self
     {
         $this->path = $path;
@@ -93,9 +92,6 @@ final class Cookie
         return $this->domain;
     }
 
-    /**
-     * @return Cookie
-     */
     public function setDomain(string $domain): self
     {
         $this->domain = $domain;
@@ -113,9 +109,6 @@ final class Cookie
         return $this->httpOnly;
     }
 
-    /**
-     * @return Cookie
-     */
     public function setHttpOnly(bool $httpOnly): self
     {
         $this->httpOnly = $httpOnly;
@@ -133,9 +126,6 @@ final class Cookie
         return $this->secure;
     }
 
-    /**
-     * @return Cookie
-     */
     public function setSecure(bool $secure): self
     {
         $this->secure = $secure;
