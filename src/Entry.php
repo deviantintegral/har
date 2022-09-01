@@ -23,6 +23,7 @@ final class Entry
      * does not support grouping by pages.
      *
      * @var string
+     *
      * @Serializer\Type("string")
      */
     private $pageref;
@@ -32,6 +33,7 @@ final class Entry
      * timings available in the timings object (i.e. not including -1 values).
      *
      * @var float
+     *
      * @Serializer\Type("float")
      */
     private $time;
@@ -40,6 +42,7 @@ final class Entry
      * Detailed info about the request.
      *
      * @var \Deviantintegral\Har\Request
+     *
      * @Serializer\Type("Deviantintegral\Har\Request")
      */
     private $request;
@@ -48,6 +51,7 @@ final class Entry
      * Detailed info about the response.
      *
      * @var \Deviantintegral\Har\Response
+     *
      * @Serializer\Type("Deviantintegral\Har\Response")
      */
     private $response;
@@ -56,24 +60,28 @@ final class Entry
      * Info about cache usage.
      *
      * @var \Deviantintegral\Har\Cache
+     *
      * @Serializer\Type("Deviantintegral\Har\Cache")
      */
     private $cache;
 
     /**
      * @var \Deviantintegral\Har\Timings
+     *
      * @Serializer\Type("Deviantintegral\Har\Timings")
      */
     private $timings;
 
     /**
      * @var string
+     *
      * @Serializer\Type("string")
      */
     private $serverIPAddress;
 
     /**
      * @var string
+     *
      * @Serializer\Type("string")
      */
     private $connection;
@@ -82,6 +90,7 @@ final class Entry
      * Detailed info about the request.
      *
      * @var \Deviantintegral\Har\Initiator
+     *
      * @Serializer\Type("Deviantintegral\Har\Initiator")
      */
     private $_initiator;

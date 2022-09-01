@@ -24,6 +24,7 @@ final class Response implements MessageInterface
      * status [number] - Response status.
      *
      * @var int
+     *
      * @Serializer\Type("integer")
      */
     private $status;
@@ -32,6 +33,7 @@ final class Response implements MessageInterface
      * statusText [string] - Response status description.
      *
      * @var string
+     *
      * @Serializer\Type("string")
      */
     private $statusText;
@@ -40,6 +42,7 @@ final class Response implements MessageInterface
      * content [object] - Details about the response body.
      *
      * @var \Deviantintegral\Har\Content
+     *
      * @Serializer\Type("Deviantintegral\Har\Content")
      */
     private $content;
@@ -49,6 +52,7 @@ final class Response implements MessageInterface
      * header.
      *
      * @var \Psr\Http\Message\UriInterface
+     *
      * @Serializer\Type("Psr\Http\Message\UriInterface")
      */
     private $redirectURL;

@@ -23,30 +23,35 @@ class Log
 
     /**
      * @var string
+     *
      * @Serializer\Type("string")
      */
     private $version;
 
     /**
      * @var \Deviantintegral\Har\Creator
+     *
      * @Serializer\Type("Deviantintegral\Har\Creator")
      */
     private $creator;
 
     /**
      * @var \Deviantintegral\Har\Browser
+     *
      * @Serializer\Type("Deviantintegral\Har\Browser")
      */
     private $browser;
 
     /**
      * @var \Deviantintegral\Har\Page[]
+     *
      * @Serializer\Type("array<Deviantintegral\Har\Page>")
      */
     private $pages;
 
     /**
      * @var \Deviantintegral\Har\Entry[]
+     *
      * @Serializer\Type("array<integer, Deviantintegral\Har\Entry>")
      */
     private $entries;

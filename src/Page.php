@@ -15,18 +15,21 @@ final class Page
 
     /**
      * @var string
+     *
      * @Serializer\Type("string")
      */
     private $id;
 
     /**
      * @var string
+     *
      * @Serializer\Type("string")
      */
     private $title;
 
     /**
      * @var \Deviantintegral\Har\PageTimings
+     *
      * @Serializer\Type("Deviantintegral\Har\PageTimings")
      */
     private $pageTimings;

@@ -27,12 +27,14 @@ final class Request implements MessageInterface
      * method [string] - Request method (GET, POST, ...).
      *
      * @var string
+     *
      * @Serializer\Type("string")
      */
     private $method;
 
     /**
      * @var \Psr\Http\Message\UriInterface
+     *
      * @Serializer\Type("Psr\Http\Message\UriInterface")
      */
     private $url;
@@ -41,6 +43,7 @@ final class Request implements MessageInterface
      * List of query parameter objects.
      *
      * @var \Deviantintegral\Har\Params[]
+     *
      * @Serializer\Type("array<Deviantintegral\Har\Params>")
      */
     private $queryString;
@@ -49,6 +52,7 @@ final class Request implements MessageInterface
      * postData [object, optional] - Posted data info.
      *
      * @var \Deviantintegral\Har\PostData
+     *
      * @Serializer\Type("Deviantintegral\Har\PostData")
      */
     private $postData;

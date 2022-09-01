@@ -20,6 +20,7 @@ class Creator
 
     /**
      * @var string
+     *
      * @Serializer\Type("string")
      */
     private $version;

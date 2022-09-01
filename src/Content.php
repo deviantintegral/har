@@ -21,6 +21,7 @@ final class Content
      * has been compressed.
      *
      * @var int
+     *
      * @Serializer\Type("integer")
      */
     private $size;
@@ -30,6 +31,7 @@ final class Content
      * field if the information is not available.
      *
      * @var int
+     *
      * @Serializer\Type("integer")
      */
     private $compression;
@@ -39,6 +41,7 @@ final class Content
      * available.
      *
      * @var int
+     *
      * @Serializer\Type("integer")
      */
     private $number;
@@ -49,6 +52,7 @@ final class Content
      * trans-coded from its original character set into UTF-8.
      *
      * @var string
+     *
      * @Serializer\Type("string")
      */
     private $encoding;

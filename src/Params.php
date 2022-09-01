@@ -20,6 +20,7 @@ final class Params
      * Name of a posted file.
      *
      * @var string
+     *
      * @Serializer\Type("string")
      */
     private $fileName;
@@ -28,6 +29,7 @@ final class Params
      * Content type of a posted file.
      *
      * @var string
+     *
      * @Serializer\Type("string")
      */
     private $contentType;

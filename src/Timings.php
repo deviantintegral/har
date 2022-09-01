@@ -16,6 +16,7 @@ final class Timings
      * timing does not apply to the current request.
      *
      * @var float
+     *
      * @Serializer\Type("float"))
      */
     private $blocked = -1;
@@ -25,6 +26,7 @@ final class Timings
      * the timing does not apply to the current request.
      *
      * @var float
+     *
      * @Serializer\Type("float")
      */
     private $dns = -1;
@@ -34,6 +36,7 @@ final class Timings
      * apply to the current request.
      *
      * @var float
+     *
      * @Serializer\Type("float")
      */
     private $connect = -1;
@@ -42,6 +45,7 @@ final class Timings
      * Time required to send HTTP request to the server.
      *
      * @var float
+     *
      * @Serializer\Type("float")
      */
     private $send;
@@ -50,6 +54,7 @@ final class Timings
      * Waiting for a response from the server.
      *
      * @var float
+     *
      * @Serializer\Type("float")
      */
     private $wait;
@@ -58,6 +63,7 @@ final class Timings
      * Time required to read entire response from the server (or cache).
      *
      * @var float
+     *
      * @Serializer\Type("float")
      */
     private $receive;
@@ -69,6 +75,7 @@ final class Timings
      * current request.
      *
      * @var float
+     *
      * @Serializer\Type("float")
      */
     private $ssl = -1;

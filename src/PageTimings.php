@@ -17,6 +17,7 @@ final class PageTimings
      * the current request.
      *
      * @var float
+     *
      * @Serializer\Type("float")
      */
     private $onContentLoad;
@@ -27,6 +28,7 @@ final class PageTimings
      * to the current request.
      *
      * @var float
+     *
      * @Serializer\Type("float")
      */
     private $onLoad;

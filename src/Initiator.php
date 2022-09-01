@@ -11,6 +11,7 @@ final class Initiator
 {
     /**
      * @var string
+     *
      * @Serializer\Type("string")
      *
      * parser:
@@ -29,6 +30,7 @@ final class Initiator
      * URL of the entry that initiated this request.
      *
      * @var \Psr\Http\Message\UriInterface
+     *
      * @Serializer\Type("Psr\Http\Message\UriInterface")
      */
     private $url;
@@ -37,6 +39,7 @@ final class Initiator
      * Line number that initiated this request.
      *
      * @var int
+     *
      * @Serializer\Type("integer")
      */
     private $lineNumber;

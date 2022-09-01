@@ -10,6 +10,7 @@ trait CookiesTrait
      * cookies [array] - List of cookie objects.
      *
      * @var \Deviantintegral\Har\Cookie[]
+     *
      * @Serializer\Type("array<Deviantintegral\Har\Cookie>")
      */
     private $cookies;

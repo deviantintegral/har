@@ -12,6 +12,7 @@ trait BodySizeTrait
      * info is not available.
      *
      * @var int
+     *
      * @Serializer\Type("integer")
      */
     protected $bodySize = -1;

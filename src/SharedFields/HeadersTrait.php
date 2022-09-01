@@ -10,6 +10,7 @@ trait HeadersTrait
      * headers [array] - List of header objects.
      *
      * @var \Deviantintegral\Har\Header[]
+     *
      * @Serializer\Type("array<Deviantintegral\Har\Header>")
      */
     protected $headers = [];
@@ -20,6 +21,7 @@ trait HeadersTrait
      * Set to -1 if the info is not available.
      *
      * @var int
+     *
      * @Serializer\Type("integer")
      */
     protected $headersSize = -1;

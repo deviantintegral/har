@@ -10,6 +10,7 @@ final class Har
 {
     /**
      * @var \Deviantintegral\Har\Log
+     *
      * @Serializer\Type("Deviantintegral\Har\Log")
      */
     private $log;

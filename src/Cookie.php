@@ -22,6 +22,7 @@ final class Cookie
      * The name of the cookie.
      *
      * @var string
+     *
      * @Serializer\Type("string")
      */
     private $cookie;
@@ -30,6 +31,7 @@ final class Cookie
      * The path pertaining to the cookie.
      *
      * @var string
+     *
      * @Serializer\Type("string")
      */
     private $path;
@@ -38,6 +40,7 @@ final class Cookie
      * The host of the cookie.
      *
      * @var string
+     *
      * @Serializer\Type("string")
      */
     private $domain;
@@ -46,6 +49,7 @@ final class Cookie
      * Set to true if the cookie is HTTP only, false otherwise.
      *
      * @var bool
+     *
      * @Serializer\Type("boolean")
      */
     private $httpOnly;
@@ -54,6 +58,7 @@ final class Cookie
      * True if the cookie was transmitted over ssl, false otherwise.
      *
      * @var bool
+     *
      * @Serializer\Type("boolean")
      */
     private $secure;

@@ -8,6 +8,7 @@ trait NameTrait
 {
     /**
      * @var string
+     *
      * @Serializer\Type("string")
      */
     protected $name;
