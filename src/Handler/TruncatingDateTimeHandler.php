@@ -85,8 +85,6 @@ class TruncatingDateTimeHandler implements SubscribingHandlerInterface
     /**
      * Truncate microseconds in a date to 6 digits of precision, which is the maximum PHP's DateTime supports.
      *
-     * @param $data
-     *
      * @return string|string[]
      */
     public function truncateMicroseconds($data)
