@@ -62,10 +62,6 @@ class SplitCommand extends Command
         $io->progressFinish();
     }
 
-    /**
-     * @param $index
-     * @param $md5
-     */
     private function getSplitDestination(
         $index,
         $md5,
