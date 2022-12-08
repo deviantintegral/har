@@ -188,7 +188,7 @@ build_phar: &build_phar
 jobs:
   build_php81:
     docker:
-      - image: php:8.1
+      - image: php:8.2
 
     working_directory: ~/repo
 
@@ -196,7 +196,7 @@ jobs:
 
   build_php80:
     docker:
-      - image: php:8.0
+      - image: php:8.2
 
     working_directory: ~/repo
 
@@ -204,7 +204,7 @@ jobs:
 
   build_php74:
     docker:
-      - image: php:7.4
+      - image: php:8.2
 
     environment:
       - COMPOSER_FLAGS: --prefer-lowest
@@ -215,7 +215,7 @@ jobs:
 
   code_fixer:
     docker:
-      - image: php:8.1
+      - image: php:8.2
 
     working_directory: ~/repo
 
@@ -223,7 +223,7 @@ jobs:
 
   build_phar:
     docker:
-      - image: php:7.4
+      - image: php:8.2
 
     working_directory: ~/repo
 
