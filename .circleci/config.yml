@@ -194,17 +194,17 @@ jobs:
 
     <<: *test_and_cover
 
-  build_php80:
+  build_php82:
     docker:
-      - image: php:8.0
+      - image: php:8.2
 
     working_directory: ~/repo
 
     <<: *test
 
-  build_php74:
+  build_php80:
     docker:
-      - image: php:7.4
+      - image: php:8.0
 
     environment:
       - COMPOSER_FLAGS: --prefer-lowest
@@ -223,7 +223,7 @@ jobs:
 
   build_phar:
     docker:
-      - image: php:7.4
+      - image: php:8.2
 
     working_directory: ~/repo
 
@@ -235,13 +235,13 @@ workflows:
   # Declare a workflow that runs all of our jobs in parallel.
   test_cover_workflow:
     jobs:
-      - build_php74
       - build_php80
       - build_php81
+      - build_php82
       - code_fixer
       - build_phar:
           requires:
-            - build_php74
+            - build_php82
 
   nightly:
     triggers:
@@ -253,10 +253,10 @@ workflows:
               only:
                 - master
     jobs:
-      - build_php74
       - build_php80
       - build_php81
+      - build_php82
       - code_fixer
       - build_phar:
           requires:
-            - build_php74
+            - build_php82
