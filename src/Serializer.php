@@ -7,7 +7,6 @@ namespace Deviantintegral\Har;
 use Deviantintegral\Har\Handler\DateFormatInterfaceHandler;
 use Deviantintegral\Har\Handler\TruncatingDateTimeHandler;
 use Deviantintegral\JmsSerializerUriHandler\UriHandler;
-use Doctrine\Common\Annotations\AnnotationRegistry;
 use JMS\Serializer\Handler\HandlerRegistryInterface;
 use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
 use JMS\Serializer\SerializerBuilder;
@@ -23,7 +22,6 @@ final class Serializer
 
     public function getSerializerBuilder(): SerializerBuilder
     {
-        AnnotationRegistry::registerLoader('class_exists');
         $builder = SerializerBuilder::create()
           ->setPropertyNamingStrategy(new IdenticalPropertyNamingStrategy())
           ->configureHandlers(
