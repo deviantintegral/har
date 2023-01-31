@@ -15,7 +15,7 @@
         "php": "^8.0",
         "ext-json": "*",
         "jms/serializer": "^3.0",
-        "doctrine/annotations": "^1.7",
+        "doctrine/annotations": "^2.0",
         "guzzlehttp/psr7": "^2.0",
         "deviantintegral/jms-serializer-uri-handler": "^1.1",
         "deviantintegral/null-date-time": "^1.0",
