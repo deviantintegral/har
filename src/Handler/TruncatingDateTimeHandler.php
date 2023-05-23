@@ -19,9 +19,6 @@ class TruncatingDateTimeHandler implements SubscribingHandlerInterface
      */
     private $innerHandler;
 
-    /**
-     * {@inheritdoc}
-     */
     public static function getSubscribingMethods()
     {
         $methods = [];
@@ -58,9 +55,6 @@ class TruncatingDateTimeHandler implements SubscribingHandlerInterface
         $this->innerHandler = new DateHandler($defaultFormat, $defaultTimezone);
     }
 
-    /**
-     * @param mixed $data
-     */
     public function deserializeDateTimeFromJson(JsonDeserializationVisitor $visitor, $data, array $type): ?\DateTimeInterface
     {
         $data = $this->truncateMicroseconds($data);
@@ -74,8 +68,6 @@ class TruncatingDateTimeHandler implements SubscribingHandlerInterface
 
     /**
      * Delegate undefined methods to the inner class.
-     *
-     * @return mixed
      */
     public function __call(string $name, array $arguments)
     {

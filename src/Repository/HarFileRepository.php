@@ -27,9 +27,6 @@ class HarFileRepository implements RepositoryInterface
         $this->repositoryPath = $repositoryPath;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function load(string $id): Har
     {
         $contents = $this->loadJson($id);
@@ -37,9 +34,6 @@ class HarFileRepository implements RepositoryInterface
         return (new Serializer())->deserializeHar($contents);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function loadMultiple(array $ids = []): \Generator
     {
         if (empty($ids)) {
@@ -51,9 +45,6 @@ class HarFileRepository implements RepositoryInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getIds(): array
     {
         $hars = scandir($this->repositoryPath);
@@ -79,9 +70,6 @@ class HarFileRepository implements RepositoryInterface
         return $hars;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function loadJson(string $id): string
     {
         $path = $this->repositoryPath.'/'.$id;

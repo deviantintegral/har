@@ -20,9 +20,6 @@ class DateFormatInterfaceHandler implements SubscribingHandlerInterface
      */
     private $innerHandler;
 
-    /**
-     * {@inheritdoc}
-     */
     public static function getSubscribingMethods()
     {
         $types = [
@@ -54,9 +51,6 @@ class DateFormatInterfaceHandler implements SubscribingHandlerInterface
         $this->innerHandler = new \JMS\Serializer\Handler\DateHandler($defaultFormat, $defaultTimezone);
     }
 
-    /**
-     * @return mixed
-     */
     public function serializeDateTimeFormatInterface(SerializationVisitorInterface $visitor, DateTimeFormatInterface $date, array $type, SerializationContext $context)
     {
         if ($date instanceof ConcreteDateTime) {
@@ -66,9 +60,6 @@ class DateFormatInterfaceHandler implements SubscribingHandlerInterface
         return $date->format('');
     }
 
-    /**
-     * @param mixed $data
-     */
     public function deserializeDateTimeFormatInterfaceFromJson(JsonDeserializationVisitor $visitor, $data, array $type): DateTimeFormatInterface
     {
         if (null === $data || '' === $data) {

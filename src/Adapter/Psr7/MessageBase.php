@@ -19,9 +19,6 @@ abstract class MessageBase implements MessageInterface
         $this->message = $message;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getHeaderLine($name)
     {
         if ($this->hasHeader($name)) {
@@ -31,9 +28,6 @@ abstract class MessageBase implements MessageInterface
         return '';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function hasHeader($name)
     {
         foreach ($this->message->getHeaders() as $header) {
@@ -45,9 +39,6 @@ abstract class MessageBase implements MessageInterface
         return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function withHeader($name, $value)
     {
         $message = clone $this->message;
@@ -82,9 +73,6 @@ abstract class MessageBase implements MessageInterface
         return new static($message);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function withoutHeader($name)
     {
         $message = clone $this->message;
@@ -102,9 +90,6 @@ abstract class MessageBase implements MessageInterface
         return new static($message);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getHeaders()
     {
         $headers = $this->message->getHeaders();
@@ -116,9 +101,6 @@ abstract class MessageBase implements MessageInterface
         return $return;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getHeader($name)
     {
         if ($this->hasHeader($name)) {
@@ -133,9 +115,6 @@ abstract class MessageBase implements MessageInterface
         return [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function withAddedHeader($name, $value)
     {
         $message = clone $this->message;
@@ -155,9 +134,6 @@ abstract class MessageBase implements MessageInterface
         return new static($message);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function withProtocolVersion($version)
     {
         $message = clone $this->message;
@@ -166,9 +142,6 @@ abstract class MessageBase implements MessageInterface
         return new static($message);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getProtocolVersion()
     {
         return substr($this->message->getHttpVersion(), 5);

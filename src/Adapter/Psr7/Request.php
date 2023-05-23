@@ -26,17 +26,11 @@ class Request extends MessageBase implements RequestInterface
         $this->request = clone $request;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getRequestTarget()
     {
         return (string) $this->request->getUrl();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function withRequestTarget($requestTarget)
     {
         $url = new Uri($requestTarget);
@@ -50,17 +44,11 @@ class Request extends MessageBase implements RequestInterface
         return new static($request);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getMethod()
     {
         return $this->request->getMethod();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function withMethod($method)
     {
         if (!\is_string($method) || '' === $method) {
@@ -73,17 +61,11 @@ class Request extends MessageBase implements RequestInterface
         return new static($request);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getUri()
     {
         return $this->request->getUrl();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function withUri(UriInterface $uri, $preserveHost = false)
     {
         $request = clone $this->request;
@@ -104,9 +86,6 @@ class Request extends MessageBase implements RequestInterface
         return clone $this->request;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getBody()
     {
         $body = '';
@@ -117,9 +96,6 @@ class Request extends MessageBase implements RequestInterface
         return Utils::streamFor($body);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function withBody(StreamInterface $body)
     {
         $request = clone $this->request;
