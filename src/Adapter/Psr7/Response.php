@@ -26,11 +26,13 @@ final class Response extends MessageBase implements ResponseInterface
         $this->response = $response;
     }
 
-    public function getStatusCode(): int {
+    public function getStatusCode(): int
+    {
         return $this->response->getStatus();
     }
 
-    public function withStatus($code, $reasonPhrase = ''): ResponseInterface {
+    public function withStatus($code, $reasonPhrase = ''): ResponseInterface
+    {
         $response = clone $this->response;
         $response->setStatus($code)
             ->setStatusText($reasonPhrase);
@@ -38,15 +40,18 @@ final class Response extends MessageBase implements ResponseInterface
         return new static($response);
     }
 
-    public function getReasonPhrase(): string {
+    public function getReasonPhrase(): string
+    {
         return $this->response->getStatusText();
     }
 
-    public function getBody(): StreamInterface {
+    public function getBody(): StreamInterface
+    {
         return stream_for($this->response->getContent()->getText());
     }
 
-    public function withBody(StreamInterface $body): \Psr\Http\Message\MessageInterface {
+    public function withBody(StreamInterface $body): \Psr\Http\Message\MessageInterface
+    {
         $response = clone $this->response;
 
         // We don't have any information about $body so we create a new
