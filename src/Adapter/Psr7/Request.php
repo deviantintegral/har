@@ -26,18 +26,12 @@ class Request extends MessageBase implements RequestInterface
         $this->request = clone $request;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getRequestTarget()
+    public function getRequestTarget(): string
     {
         return (string) $this->request->getUrl();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function withRequestTarget($requestTarget)
+    public function withRequestTarget($requestTarget): RequestInterface
     {
         $url = new Uri($requestTarget);
         if (!$url->getScheme() || !$url->getHost()) {
@@ -50,18 +44,12 @@ class Request extends MessageBase implements RequestInterface
         return new static($request);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getMethod()
+    public function getMethod(): string
     {
         return $this->request->getMethod();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function withMethod($method)
+    public function withMethod($method): RequestInterface
     {
         if (!\is_string($method) || '' === $method) {
             throw new \InvalidArgumentException('Method must be a non-empty string.');
@@ -73,18 +61,12 @@ class Request extends MessageBase implements RequestInterface
         return new static($request);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getUri()
+    public function getUri(): UriInterface
     {
         return $this->request->getUrl();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function withUri(UriInterface $uri, $preserveHost = false)
+    public function withUri(UriInterface $uri, $preserveHost = false): RequestInterface
     {
         $request = clone $this->request;
         $request->setUrl($uri);
@@ -104,10 +86,7 @@ class Request extends MessageBase implements RequestInterface
         return clone $this->request;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getBody()
+    public function getBody(): StreamInterface
     {
         $body = '';
         if ($this->request->hasPostData()) {
@@ -117,10 +96,7 @@ class Request extends MessageBase implements RequestInterface
         return Utils::streamFor($body);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function withBody(StreamInterface $body)
+    public function withBody(StreamInterface $body): \Psr\Http\Message\MessageInterface
     {
         $request = clone $this->request;
         $postData = new PostData();

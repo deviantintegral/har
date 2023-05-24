@@ -56,7 +56,7 @@ class ReadmeTest extends TestCase
         } catch (\Exception $e) {
             // Since we don't control the above server, we don't fail this
             // test.
-            $this->markTestSkipped(sprintf('%s: %s %s', \get_class($e), $e->getCode(), $e->getMessage()));
+            $this->markTestSkipped(sprintf('%s: %s %s', $e::class, $e->getCode(), $e->getMessage()));
         }
     }
 }

@@ -15,9 +15,6 @@ abstract class HarTestBase extends TestCase
         return (new Serializer())->getSerializer();
     }
 
-    /**
-     * @param mixed $expected
-     */
     protected function assertDeserialize(
         string $serialized,
         string $class,

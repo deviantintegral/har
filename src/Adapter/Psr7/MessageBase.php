@@ -19,10 +19,7 @@ abstract class MessageBase implements MessageInterface
         $this->message = $message;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getHeaderLine($name)
+    public function getHeaderLine($name): string
     {
         if ($this->hasHeader($name)) {
             return implode(', ', $this->getHeader($name));
@@ -31,10 +28,7 @@ abstract class MessageBase implements MessageInterface
         return '';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function hasHeader($name)
+    public function hasHeader($name): bool
     {
         foreach ($this->message->getHeaders() as $header) {
             if (strtolower($header->getName()) === strtolower($name)) {
@@ -45,10 +39,7 @@ abstract class MessageBase implements MessageInterface
         return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function withHeader($name, $value)
+    public function withHeader($name, $value): MessageInterface
     {
         $message = clone $this->message;
 
@@ -82,10 +73,7 @@ abstract class MessageBase implements MessageInterface
         return new static($message);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function withoutHeader($name)
+    public function withoutHeader($name): MessageInterface
     {
         $message = clone $this->message;
 
@@ -102,10 +90,7 @@ abstract class MessageBase implements MessageInterface
         return new static($message);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getHeaders()
+    public function getHeaders(): array
     {
         $headers = $this->message->getHeaders();
         $return = [];
@@ -116,10 +101,7 @@ abstract class MessageBase implements MessageInterface
         return $return;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getHeader($name)
+    public function getHeader($name): array
     {
         if ($this->hasHeader($name)) {
             $headers = $this->getHeaders();
@@ -133,10 +115,7 @@ abstract class MessageBase implements MessageInterface
         return [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function withAddedHeader($name, $value)
+    public function withAddedHeader($name, $value): MessageInterface
     {
         $message = clone $this->message;
 
@@ -155,10 +134,7 @@ abstract class MessageBase implements MessageInterface
         return new static($message);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function withProtocolVersion($version)
+    public function withProtocolVersion($version): MessageInterface
     {
         $message = clone $this->message;
         $message->setHttpVersion('HTTP/'.$version);
@@ -166,10 +142,7 @@ abstract class MessageBase implements MessageInterface
         return new static($message);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getProtocolVersion()
+    public function getProtocolVersion(): string
     {
         return substr($this->message->getHttpVersion(), 5);
     }
