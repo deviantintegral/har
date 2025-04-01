@@ -37,7 +37,7 @@ class SplitCommand extends Command
         $serializer = new Serializer();
         $har = $serializer->deserializeHar($contents);
 
-        $io->text(sprintf('Splitting %s into one file per entry',
+        $io->text(\sprintf('Splitting %s into one file per entry',
             $source
         ));
         $io->progressStart(\count($har->getLog()->getEntries()));
@@ -52,10 +52,10 @@ class SplitCommand extends Command
 
             if ($input->getOption('force') || !file_exists($destination)) {
                 if (false === file_put_contents($destination, $serializer->serializeHar($cloned))) {
-                    throw new \RuntimeException(sprintf('Unable to write to %s.', $destination));
+                    throw new \RuntimeException(\sprintf('Unable to write to %s.', $destination));
                 }
             } else {
-                throw new \RuntimeException(sprintf('%s exists. Use --force to overwrite it and all other existing files', $destination));
+                throw new \RuntimeException(\sprintf('%s exists. Use --force to overwrite it and all other existing files', $destination));
             }
             $io->progressAdvance();
         }
@@ -66,7 +66,7 @@ class SplitCommand extends Command
         $index,
         $md5,
         \Deviantintegral\Har\Har $cloned,
-        string $destination_path
+        string $destination_path,
     ): string {
         $filename = $index + 1 .'.har';
         if ($md5) {

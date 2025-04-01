@@ -18,9 +18,6 @@ trait TextTrait
      */
     protected $text;
 
-    /**
-     * @param string $text
-     */
     public function setText(string $text = null): self
     {
         $this->text = $text;
@@ -33,9 +30,6 @@ trait TextTrait
         return null !== $this->text;
     }
 
-    /**
-     * @return string
-     */
     public function getText(): ?string
     {
         return $this->text;

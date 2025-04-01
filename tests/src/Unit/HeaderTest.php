@@ -23,7 +23,7 @@ class HeaderTest extends HarTestBase
         $serializer = $this->getSerializer();
         $serialized = $serializer->serialize($header, 'json');
         $this->assertEquals([
-          'name' => 'Host',
+            'name' => 'Host',
             'value' => 'www.example.com',
             'comment' => 'Test value',
         ], json_decode($serialized, true));

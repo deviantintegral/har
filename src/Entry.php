@@ -41,7 +41,7 @@ final class Entry
     /**
      * Detailed info about the request.
      *
-     * @var \Deviantintegral\Har\Request
+     * @var Request
      *
      * @Serializer\Type("Deviantintegral\Har\Request")
      */
@@ -50,7 +50,7 @@ final class Entry
     /**
      * Detailed info about the response.
      *
-     * @var \Deviantintegral\Har\Response
+     * @var Response
      *
      * @Serializer\Type("Deviantintegral\Har\Response")
      */
@@ -59,14 +59,14 @@ final class Entry
     /**
      * Info about cache usage.
      *
-     * @var \Deviantintegral\Har\Cache
+     * @var Cache
      *
      * @Serializer\Type("Deviantintegral\Har\Cache")
      */
     private $cache;
 
     /**
-     * @var \Deviantintegral\Har\Timings
+     * @var Timings
      *
      * @Serializer\Type("Deviantintegral\Har\Timings")
      */
@@ -89,7 +89,7 @@ final class Entry
     /**
      * Detailed info about the request.
      *
-     * @var \Deviantintegral\Har\Initiator
+     * @var Initiator
      *
      * @Serializer\Type("Deviantintegral\Har\Initiator")
      */
@@ -119,17 +119,11 @@ final class Entry
         return $this;
     }
 
-    /**
-     * @return \Deviantintegral\Har\Request
-     */
     public function getRequest(): Request
     {
         return $this->request;
     }
 
-    /**
-     * @param \Deviantintegral\Har\Request $request
-     */
     public function setRequest(Request $request): self
     {
         $this->request = $request;
@@ -137,17 +131,11 @@ final class Entry
         return $this;
     }
 
-    /**
-     * @return \Deviantintegral\Har\Response
-     */
     public function getResponse(): Response
     {
         return $this->response;
     }
 
-    /**
-     * @param \Deviantintegral\Har\Response $response
-     */
     public function setResponse(Response $response): self
     {
         $this->response = $response;
@@ -155,17 +143,11 @@ final class Entry
         return $this;
     }
 
-    /**
-     * @return \Deviantintegral\Har\Cache
-     */
     public function getCache(): Cache
     {
         return $this->cache;
     }
 
-    /**
-     * @param \Deviantintegral\Har\Cache $cache
-     */
     public function setCache(Cache $cache): self
     {
         $this->cache = $cache;
@@ -173,17 +155,11 @@ final class Entry
         return $this;
     }
 
-    /**
-     * @return \Deviantintegral\Har\Timings
-     */
     public function getTimings(): Timings
     {
         return $this->timings;
     }
 
-    /**
-     * @param \Deviantintegral\Har\Timings $timings
-     */
     public function setTimings(Timings $timings): self
     {
         $this->timings = $timings;

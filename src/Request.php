@@ -42,7 +42,7 @@ final class Request implements MessageInterface
     /**
      * List of query parameter objects.
      *
-     * @var \Deviantintegral\Har\Params[]
+     * @var Params[]
      *
      * @Serializer\Type("array<Deviantintegral\Har\Params>")
      */
@@ -51,7 +51,7 @@ final class Request implements MessageInterface
     /**
      * postData [object, optional] - Posted data info.
      *
-     * @var \Deviantintegral\Har\PostData
+     * @var PostData
      *
      * @Serializer\Type("Deviantintegral\Har\PostData")
      */
@@ -59,8 +59,6 @@ final class Request implements MessageInterface
 
     /**
      * Construct a new Request from a PSR-7 Request.
-     *
-     * @return \Deviantintegral\Har\Request
      */
     public static function fromPsr7Request(RequestInterface $source): self
     {
@@ -102,7 +100,7 @@ final class Request implements MessageInterface
     }
 
     /**
-     * @return \Deviantintegral\Har\Params[]
+     * @return Params[]
      */
     public function getQueryString(): array
     {
@@ -110,7 +108,7 @@ final class Request implements MessageInterface
     }
 
     /**
-     * @param \Deviantintegral\Har\Params[] $queryString
+     * @param Params[] $queryString
      */
     public function setQueryString(array $queryString): self
     {
@@ -129,18 +127,12 @@ final class Request implements MessageInterface
         return null !== $this->postData;
     }
 
-    /**
-     * @return \Deviantintegral\Har\PostData
-     */
     public function getPostData(): PostData
     {
         return $this->postData;
     }
 
-    /**
-     * @param \Deviantintegral\Har\PostData $postData
-     */
-    public function setPostData(PostData $postData
+    public function setPostData(PostData $postData,
     ): self {
         $this->postData = $postData;
 

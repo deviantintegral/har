@@ -47,16 +47,16 @@ class ReadmeTest extends TestCase
             $response_har = (new Har())
               ->setLog((new Log())
               ->setEntries([
-                (new Entry())
-                ->setRequest($entry->getRequest())
-                ->setResponse($response),
+                  (new Entry())
+                  ->setRequest($entry->getRequest())
+                  ->setResponse($response),
               ]));
             $serialized = (new Serializer())->serializeHar($response_har);
             self::assertJson($serialized);
         } catch (\Exception $e) {
             // Since we don't control the above server, we don't fail this
             // test.
-            $this->markTestSkipped(sprintf('%s: %s %s', $e::class, $e->getCode(), $e->getMessage()));
+            $this->markTestSkipped(\sprintf('%s: %s %s', $e::class, $e->getCode(), $e->getMessage()));
         }
     }
 }

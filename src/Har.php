@@ -9,23 +9,17 @@ use JMS\Serializer\Annotation as Serializer;
 final class Har
 {
     /**
-     * @var \Deviantintegral\Har\Log
+     * @var Log
      *
      * @Serializer\Type("Deviantintegral\Har\Log")
      */
     private $log;
 
-    /**
-     * @return \Deviantintegral\Har\Log
-     */
     public function getLog(): Log
     {
         return $this->log;
     }
 
-    /**
-     * @param \Deviantintegral\Har\Log $log
-     */
     public function setLog(Log $log): self
     {
         $this->log = $log;
@@ -36,7 +30,7 @@ final class Har
     /**
      * Return a generator that returns cloned HARs with one per HAR entry.
      *
-     * @return \Deviantintegral\Har\Har[]
+     * @return Har[]
      */
     public function splitLogEntries(): \Generator
     {

@@ -29,28 +29,28 @@ class Log
     private $version;
 
     /**
-     * @var \Deviantintegral\Har\Creator
+     * @var Creator
      *
      * @Serializer\Type("Deviantintegral\Har\Creator")
      */
     private $creator;
 
     /**
-     * @var \Deviantintegral\Har\Browser
+     * @var Browser
      *
      * @Serializer\Type("Deviantintegral\Har\Browser")
      */
     private $browser;
 
     /**
-     * @var \Deviantintegral\Har\Page[]
+     * @var Page[]
      *
      * @Serializer\Type("array<Deviantintegral\Har\Page>")
      */
     private $pages;
 
     /**
-     * @var \Deviantintegral\Har\Entry[]
+     * @var Entry[]
      *
      * @Serializer\Type("array<integer, Deviantintegral\Har\Entry>")
      */
@@ -68,17 +68,11 @@ class Log
         return $this;
     }
 
-    /**
-     * @return \Deviantintegral\Har\Creator
-     */
     public function getCreator(): Creator
     {
         return $this->creator;
     }
 
-    /**
-     * @param \Deviantintegral\Har\Creator $creator
-     */
     public function setCreator(Creator $creator): self
     {
         $this->creator = $creator;
@@ -86,17 +80,11 @@ class Log
         return $this;
     }
 
-    /**
-     * @return \Deviantintegral\Har\Browser
-     */
     public function getBrowser(): Browser
     {
         return $this->browser;
     }
 
-    /**
-     * @param \Deviantintegral\Har\Browser $browser
-     */
     public function setBrowser(Browser $browser): self
     {
         $this->browser = $browser;
@@ -105,7 +93,7 @@ class Log
     }
 
     /**
-     * @return \Deviantintegral\Har\Page[]
+     * @return Page[]
      */
     public function getPages(): array
     {
@@ -113,7 +101,7 @@ class Log
     }
 
     /**
-     * @param \Deviantintegral\Har\Page[] $pages
+     * @param Page[] $pages
      */
     public function setPages(array $pages): self
     {
@@ -123,7 +111,7 @@ class Log
     }
 
     /**
-     * @return \Deviantintegral\Har\Entry[]
+     * @return Entry[]
      */
     public function getEntries(): array
     {
@@ -131,7 +119,7 @@ class Log
     }
 
     /**
-     * @param \Deviantintegral\Har\Entry[] $entries
+     * @param Entry[] $entries
      */
     public function setEntries(array $entries): self
     {

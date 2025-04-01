@@ -12,7 +12,7 @@ use Deviantintegral\Har\Har;
  * A repository could be a directory with files on disk, a database, or a remote
  * service.
  *
- * @see \Deviantintegral\Har\Repository\HarFileRepository
+ * @see HarFileRepository
  */
 interface RepositoryInterface
 {
