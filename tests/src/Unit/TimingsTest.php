@@ -28,14 +28,14 @@ class TimingsTest extends HarTestBase
         $serialized = $serializer->serialize($timings, 'json');
         $this->assertEquals(
             [
-              'blocked' => $timings->getBlocked(),
-              'dns' => $timings->getDns(),
-              'connect' => $timings->getConnect(),
-              'send' => $timings->getSend(),
-              'wait' => $timings->getWait(),
-              'receive' => $timings->getReceive(),
-              'ssl' => $timings->getSsl(),
-              'comment' => $timings->getComment(),
+                'blocked' => $timings->getBlocked(),
+                'dns' => $timings->getDns(),
+                'connect' => $timings->getConnect(),
+                'send' => $timings->getSend(),
+                'wait' => $timings->getWait(),
+                'receive' => $timings->getReceive(),
+                'ssl' => $timings->getSsl(),
+                'comment' => $timings->getComment(),
             ],
             json_decode($serialized, true)
         );

@@ -25,14 +25,14 @@ final class PostData
     /**
      * List of posted parameters (in case of URL encoded parameters).
      *
-     * @var \Deviantintegral\Har\Params[]
+     * @var Params[]
      *
      * @Serializer\Type("array<Deviantintegral\Har\Params>")
      */
     private $params;
 
     /**
-     * @return \Deviantintegral\Har\Params[]
+     * @return Params[]
      */
     public function getParams(): array
     {
@@ -45,7 +45,7 @@ final class PostData
     }
 
     /**
-     * @param \Deviantintegral\Har\Params[] $params
+     * @param Params[] $params
      */
     public function setParams(array $params): self
     {

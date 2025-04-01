@@ -41,7 +41,7 @@ final class Response implements MessageInterface
     /**
      * content [object] - Details about the response body.
      *
-     * @var \Deviantintegral\Har\Content
+     * @var Content
      *
      * @Serializer\Type("Deviantintegral\Har\Content")
      */
@@ -95,17 +95,11 @@ final class Response implements MessageInterface
         return $this;
     }
 
-    /**
-     * @return \Deviantintegral\Har\Content
-     */
     public function getContent(): Content
     {
         return $this->content;
     }
 
-    /**
-     * @param \Deviantintegral\Har\Content $content
-     */
     public function setContent(Content $content): self
     {
         $this->content = $content;
@@ -118,7 +112,7 @@ final class Response implements MessageInterface
         return $this->redirectURL;
     }
 
-    public function setRedirectURL(\Psr\Http\Message\UriInterface $redirectURL
+    public function setRedirectURL(\Psr\Http\Message\UriInterface $redirectURL,
     ): self {
         $this->redirectURL = $redirectURL;
 

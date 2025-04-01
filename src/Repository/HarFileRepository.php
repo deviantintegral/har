@@ -76,7 +76,7 @@ class HarFileRepository implements RepositoryInterface
         $contents = file_get_contents($path);
 
         if (!$contents) {
-            throw new \RuntimeException(sprintf('%s was unable to be loaded', $path));
+            throw new \RuntimeException(\sprintf('%s was unable to be loaded', $path));
         }
 
         return $contents;

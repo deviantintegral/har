@@ -35,7 +35,7 @@ class Request extends MessageBase implements RequestInterface
     {
         $url = new Uri($requestTarget);
         if (!$url->getScheme() || !$url->getHost()) {
-            throw new \LogicException(sprintf('%s must be an absolute-form target to use with this adapter.', $requestTarget));
+            throw new \LogicException(\sprintf('%s must be an absolute-form target to use with this adapter.', $requestTarget));
         }
 
         $request = clone $this->request;

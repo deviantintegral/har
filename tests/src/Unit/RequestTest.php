@@ -31,22 +31,22 @@ class RequestTest extends HarTestBase
         $serialized = $serializer->serialize($request, 'json');
         $this->assertEquals(
             [
-              'httpVersion' => $request->getHttpVersion(),
-              'cookies' => json_decode(
-                  $serializer->serialize($request->getCookies(), 'json'),
-                  true
-              ),
-              'headers' => json_decode(
-                  $serializer->serialize($request->getHeaders(), 'json'),
-                  true
-              ),
-              'postData' => json_decode(
-                  $serializer->serialize($request->getPostData(), 'json'),
-                  true
-              ),
-              'headersSize' => $request->getHeadersSize(),
-              'bodySize' => $request->getBodySize(),
-              'comment' => $request->getComment(),
+                'httpVersion' => $request->getHttpVersion(),
+                'cookies' => json_decode(
+                    $serializer->serialize($request->getCookies(), 'json'),
+                    true
+                ),
+                'headers' => json_decode(
+                    $serializer->serialize($request->getHeaders(), 'json'),
+                    true
+                ),
+                'postData' => json_decode(
+                    $serializer->serialize($request->getPostData(), 'json'),
+                    true
+                ),
+                'headersSize' => $request->getHeadersSize(),
+                'bodySize' => $request->getBodySize(),
+                'comment' => $request->getComment(),
             ],
             json_decode($serialized, true)
         );
@@ -69,8 +69,8 @@ class RequestTest extends HarTestBase
         $this->assertEquals($uri, $har_request->getUrl());
         $this->assertEquals(
             [
-              (new Header())->setName('Host')->setValue($uri->getHost()),
-              (new Header())->setName('Accept')->setValue('*/*'),
+                (new Header())->setName('Host')->setValue($uri->getHost()),
+                (new Header())->setName('Accept')->setValue('*/*'),
             ],
             $har_request->getHeaders()
         );

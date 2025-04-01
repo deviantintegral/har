@@ -15,7 +15,7 @@ use JMS\Serializer\JsonDeserializationVisitor;
 class TruncatingDateTimeHandler implements SubscribingHandlerInterface
 {
     /**
-     * @var \JMS\Serializer\Handler\DateHandler
+     * @var DateHandler
      */
     private $innerHandler;
 
@@ -58,6 +58,7 @@ class TruncatingDateTimeHandler implements SubscribingHandlerInterface
     public function deserializeDateTimeFromJson(JsonDeserializationVisitor $visitor, $data, array $type): ?\DateTimeInterface
     {
         $data = $this->truncateMicroseconds($data);
+
         /* @var \DateTime $dateTime */
         return $this->innerHandler->deserializeDateTimeFromJson(
             $visitor,

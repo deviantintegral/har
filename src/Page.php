@@ -28,7 +28,7 @@ final class Page
     private $title;
 
     /**
-     * @var \Deviantintegral\Har\PageTimings
+     * @var PageTimings
      *
      * @Serializer\Type("Deviantintegral\Har\PageTimings")
      */
@@ -58,17 +58,11 @@ final class Page
         return $this;
     }
 
-    /**
-     * @return \Deviantintegral\Har\PageTimings
-     */
     public function getPageTimings(): PageTimings
     {
         return $this->pageTimings;
     }
 
-    /**
-     * @param \Deviantintegral\Har\PageTimings $pageTimings
-     */
     public function setPageTimings(PageTimings $pageTimings): self
     {
         $this->pageTimings = $pageTimings;

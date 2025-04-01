@@ -18,7 +18,7 @@ class RequestTest extends HarTestBase
     private $getRequest;
 
     /**
-     * @var \Deviantintegral\Har\Adapter\Psr7\Request
+     * @var Request
      */
     private $postRequest;
 
@@ -116,26 +116,26 @@ class RequestTest extends HarTestBase
         $headers = $this->getRequest->getHeaders();
         $this->assertEquals(
             [
-              'Accept' => [
-                  0 => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                'Accept' => [
+                    0 => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
                 ],
-              'Upgrade-Insecure-Requests' => [
-                  0 => '1',
+                'Upgrade-Insecure-Requests' => [
+                    0 => '1',
                 ],
-              'Host' => [
-                  0 => 'www.softwareishard.com',
+                'Host' => [
+                    0 => 'www.softwareishard.com',
                 ],
-              'User-Agent' => [
-                  0 => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.2 Safari/605.1.15',
+                'User-Agent' => [
+                    0 => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.2 Safari/605.1.15',
                 ],
-              'Accept-Language' => [
-                  0 => 'en-ca',
+                'Accept-Language' => [
+                    0 => 'en-ca',
                 ],
-              'Accept-Encoding' => [
-                  0 => 'gzip, deflate',
+                'Accept-Encoding' => [
+                    0 => 'gzip, deflate',
                 ],
-              'Connection' => [
-                  0 => 'keep-alive',
+                'Connection' => [
+                    0 => 'keep-alive',
                 ],
             ],
             $headers
@@ -163,8 +163,8 @@ class RequestTest extends HarTestBase
     {
         $with_added = $this->getRequest->withAddedHeader('Accept', '*/*');
         $this->assertEquals([
-          'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-          '*/*',
+            'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            '*/*',
         ], $with_added->getHeader('Accept'));
     }
 

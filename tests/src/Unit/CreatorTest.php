@@ -21,9 +21,9 @@ class CreatorTest extends HarTestBase
         $serialized = $serializer->serialize($creator, 'json');
         $this->assertEquals(
             [
-              'name' => 'CreatorTest',
-              'version' => '1.9',
-              'comment' => 'Test case',
+                'name' => 'CreatorTest',
+                'version' => '1.9',
+                'comment' => 'Test case',
             ],
             json_decode($serialized, true)
         );

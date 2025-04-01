@@ -31,11 +31,11 @@ class ParamsTest extends HarTestBase
         $serialized = $serializer->serialize($params, 'json');
         $this->assertEquals(
             [
-              'name' => 'Host',
-              'value' => 'www.example.com',
-              'fileName' => $params->getFileName(),
-              'contentType' => $params->getContentType(),
-              'comment' => 'Test value',
+                'name' => 'Host',
+                'value' => 'www.example.com',
+                'fileName' => $params->getFileName(),
+                'contentType' => $params->getContentType(),
+                'comment' => 'Test value',
             ],
             json_decode($serialized, true)
         );

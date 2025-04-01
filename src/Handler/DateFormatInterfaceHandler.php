@@ -23,23 +23,23 @@ class DateFormatInterfaceHandler implements SubscribingHandlerInterface
     public static function getSubscribingMethods()
     {
         $types = [
-          'Deviantintegral\NullDateTime\DateTimeFormatInterface',
-          'Deviantintegral\NullDateTime\NullDateTime',
-          'Deviantintegral\NullDateTime\ConcreteDateTime',
+            'Deviantintegral\NullDateTime\DateTimeFormatInterface',
+            'Deviantintegral\NullDateTime\NullDateTime',
+            'Deviantintegral\NullDateTime\ConcreteDateTime',
         ];
         $methods = [];
 
         foreach ($types as $type) {
             $methods[] = [
-              'type' => $type,
-              'direction' => GraphNavigatorInterface::DIRECTION_DESERIALIZATION,
-              'format' => 'json',
+                'type' => $type,
+                'direction' => GraphNavigatorInterface::DIRECTION_DESERIALIZATION,
+                'format' => 'json',
             ];
             $methods[] = [
-              'type' => $type,
-              'format' => 'json',
-              'direction' => GraphNavigatorInterface::DIRECTION_SERIALIZATION,
-              'method' => 'serializeDateTimeFormatInterface',
+                'type' => $type,
+                'format' => 'json',
+                'direction' => GraphNavigatorInterface::DIRECTION_SERIALIZATION,
+                'method' => 'serializeDateTimeFormatInterface',
             ];
         }
 

@@ -18,7 +18,7 @@ final class Cache
      * beforeRequest [object, optional] - State of a cache entry before the
      * request. Leave out this field if the information is not available.
      *
-     * @var \Deviantintegral\Har\CacheState
+     * @var CacheState
      *
      * @Serializer\Type("Deviantintegral\Har\CacheState")
      */
@@ -28,7 +28,7 @@ final class Cache
      * afterRequest [object, optional] - State of a cache entry after the
      * request. Leave out this field if the information is not available.
      *
-     * @var \Deviantintegral\Har\CacheState
+     * @var CacheState
      *
      * @Serializer\Type("Deviantintegral\Har\CacheState")
      */
@@ -39,19 +39,13 @@ final class Cache
         return null !== $this->beforeRequest;
     }
 
-    /**
-     * @return \Deviantintegral\Har\CacheState
-     */
     public function getBeforeRequest(): ?CacheState
     {
         return $this->beforeRequest;
     }
 
-    /**
-     * @param \Deviantintegral\Har\CacheState $beforeRequest
-     */
     public function setBeforeRequest(
-        CacheState $beforeRequest
+        CacheState $beforeRequest,
     ): self {
         $this->beforeRequest = $beforeRequest;
 
@@ -63,19 +57,13 @@ final class Cache
         return null !== $this->afterRequest;
     }
 
-    /**
-     * @return \Deviantintegral\Har\CacheState
-     */
     public function getAfterRequest(): ?CacheState
     {
         return $this->afterRequest;
     }
 
-    /**
-     * @param \Deviantintegral\Har\CacheState $afterRequest
-     */
     public function setAfterRequest(
-        CacheState $afterRequest
+        CacheState $afterRequest,
     ): self {
         $this->afterRequest = $afterRequest;
 

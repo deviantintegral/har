@@ -15,7 +15,7 @@ class ResponseTest extends HarTestBase
         $response = \Deviantintegral\Har\Response::fromPsr7Response($psr7);
         $this->assertEquals(200, $response->getStatus());
         $this->assertEquals([
-          (new Header())->setName('Content-Type')->setValue('text/plain'),
+            (new Header())->setName('Content-Type')->setValue('text/plain'),
         ], $response->getHeaders());
         $this->assertEquals('testing', $response->getContent()->getText());
         $this->assertEquals('HTTP/2.0', $response->getHttpVersion());

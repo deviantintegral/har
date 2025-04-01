@@ -46,9 +46,6 @@ final class Serializer
         return $this->getSerializer()->deserialize($data, Har::class, 'json');
     }
 
-    /**
-     * @param \Deviantintegral\Har\Har $data
-     */
     public function serializeHar(Har $data): string
     {
         return $this->getSerializer()->serialize($data, 'json');

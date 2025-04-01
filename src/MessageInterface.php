@@ -9,14 +9,14 @@ interface MessageInterface
     public function getBodySize(): int;
 
     /**
-     * @return \Deviantintegral\Har\Cookie[]
+     * @return Cookie[]
      */
     public function getCookies(): array;
 
     public function getHeadersSize(): int;
 
     /**
-     * @return \Deviantintegral\Har\Header[]
+     * @return Header[]
      */
     public function getHeaders(): array;
 

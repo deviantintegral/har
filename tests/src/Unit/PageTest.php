@@ -28,13 +28,13 @@ class PageTest extends HarTestBase
 
         $this->assertEquals(
             [
-              'startedDateTime' => $page->getStartedDateTime()->format(
-                  Log::ISO_8601_MICROSECONDS
-              ),
-              'id' => $page->getId(),
-              'title' => $page->getTitle(),
-              'pageTimings' => [],
-              'comment' => $page->getComment(),
+                'startedDateTime' => $page->getStartedDateTime()->format(
+                    Log::ISO_8601_MICROSECONDS
+                ),
+                'id' => $page->getId(),
+                'title' => $page->getTitle(),
+                'pageTimings' => [],
+                'comment' => $page->getComment(),
             ],
             json_decode($serialized, true)
         );
