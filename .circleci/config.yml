@@ -196,7 +196,7 @@ jobs:
 
   build_php82:
     docker:
-      - image: php:8.2
+      - image: php:8.4
 
     working_directory: ~/repo
 
@@ -223,7 +223,7 @@ jobs:
 
   build_phar:
     docker:
-      - image: php:8.2
+      - image: php:8.4
 
     working_directory: ~/repo
 
