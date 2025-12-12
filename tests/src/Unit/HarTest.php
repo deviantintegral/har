@@ -8,14 +8,14 @@ use Deviantintegral\Har\Handler\TruncatingDateTimeHandler;
 use Deviantintegral\Har\Har;
 use Deviantintegral\Har\Log;
 use Deviantintegral\Har\Serializer;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class HarTest extends HarTestBase
 {
     /**
      * Tests deserializing and reserializing a complete HAR file.
-     *
-     * @dataProvider fixtureDataProvider
      */
+    #[DataProvider('fixtureDataProvider')]
     public function testExportedFixture(string $id, Har $har)
     {
         $repository = $this->getHarFileRepository();
@@ -28,9 +28,9 @@ class HarTest extends HarTestBase
         $this->assertEquals($jsonDecode, json_decode($serialized, true));
     }
 
-    public function fixtureDataProvider()
+    public static function fixtureDataProvider()
     {
-        $repository = $this->getHarFileRepository();
+        $repository = new \Deviantintegral\Har\Repository\HarFileRepository(__DIR__.'/../../fixtures');
 
         foreach ($repository->loadMultiple() as $id => $har) {
             yield [$id, $har];
