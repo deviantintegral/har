@@ -16,11 +16,6 @@ class ServerRequest extends Request implements ServerRequestInterface
     /**
      * @var array
      */
-    private $serverParams = [];
-
-    /**
-     * @var array
-     */
     private $cookieParams = [];
 
     /**
@@ -32,16 +27,6 @@ class ServerRequest extends Request implements ServerRequestInterface
      * @var array|object|null
      */
     private $parsedBody;
-
-    /**
-     * @var array
-     */
-    private $uploadedFiles = [];
-
-    /**
-     * @var array
-     */
-    private $attributes = [];
 
     public function __construct(\Deviantintegral\Har\Request $request)
     {
@@ -79,21 +64,7 @@ class ServerRequest extends Request implements ServerRequestInterface
 
     public function getServerParams(): array
     {
-        return $this->serverParams;
-    }
-
-    /**
-     * Set server parameters.
-     *
-     * This is not part of PSR-7 but allows setting server params
-     * for testing and internal use. Returns a new instance.
-     */
-    public function withServerParams(array $serverParams): self
-    {
-        $new = clone $this;
-        $new->serverParams = $serverParams;
-
-        return $new;
+        return [];
     }
 
     public function getCookieParams(): array
@@ -124,15 +95,13 @@ class ServerRequest extends Request implements ServerRequestInterface
 
     public function getUploadedFiles(): array
     {
-        return $this->uploadedFiles;
+        return [];
     }
 
     public function withUploadedFiles(array $uploadedFiles): ServerRequestInterface
     {
-        $new = clone $this;
-        $new->uploadedFiles = $uploadedFiles;
-
-        return $new;
+        // Uploaded files are not part of HAR spec, return unchanged clone
+        return clone $this;
     }
 
     public function getParsedBody()
@@ -154,32 +123,24 @@ class ServerRequest extends Request implements ServerRequestInterface
 
     public function getAttributes(): array
     {
-        return $this->attributes;
+        return [];
     }
 
     public function getAttribute($name, $default = null)
     {
-        if (!\array_key_exists($name, $this->attributes)) {
-            return $default;
-        }
-
-        return $this->attributes[$name];
+        return $default;
     }
 
     public function withAttribute($name, $value): ServerRequestInterface
     {
-        $new = clone $this;
-        $new->attributes[$name] = $value;
-
-        return $new;
+        // Attributes are not part of HAR spec, return unchanged clone
+        return clone $this;
     }
 
     public function withoutAttribute($name): ServerRequestInterface
     {
-        $new = clone $this;
-        unset($new->attributes[$name]);
-
-        return $new;
+        // Attributes are not part of HAR spec, return unchanged clone
+        return clone $this;
     }
 
     /**

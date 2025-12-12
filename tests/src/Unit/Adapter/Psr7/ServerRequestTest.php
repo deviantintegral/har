@@ -51,19 +51,15 @@ class ServerRequestTest extends HarTestBase
             );
 
         $this->serverRequest = (new ServerRequest($this->harRequest))
-            ->withServerParams(['REQUEST_METHOD' => 'POST', 'SERVER_NAME' => 'www.example.com'])
             ->withCookieParams(['session' => 'abc123'])
             ->withQueryParams(['foo' => 'bar'])
-            ->withParsedBody(['username' => 'john', 'password' => 'secret'])
-            ->withAttribute('custom_attr', 'custom_value');
+            ->withParsedBody(['username' => 'john', 'password' => 'secret']);
     }
 
     public function testGetServerParams()
     {
-        $this->assertEquals(
-            ['REQUEST_METHOD' => 'POST', 'SERVER_NAME' => 'www.example.com'],
-            $this->serverRequest->getServerParams()
-        );
+        // Server params are not part of HAR spec, always returns empty array
+        $this->assertEquals([], $this->serverRequest->getServerParams());
     }
 
     public function testGetCookieParams()
@@ -100,15 +96,16 @@ class ServerRequestTest extends HarTestBase
 
     public function testGetUploadedFiles()
     {
+        // Uploaded files are not part of HAR spec, always returns empty array
         $this->assertEquals([], $this->serverRequest->getUploadedFiles());
     }
 
     public function testWithUploadedFiles()
     {
+        // Uploaded files are not part of HAR spec, this is a no-op
         $files = ['file' => 'mock_uploaded_file'];
         $new = $this->serverRequest->withUploadedFiles($files);
-        $this->assertEquals($files, $new->getUploadedFiles());
-        // Verify immutability
+        $this->assertEquals([], $new->getUploadedFiles());
         $this->assertEquals([], $this->serverRequest->getUploadedFiles());
     }
 
@@ -145,34 +142,33 @@ class ServerRequestTest extends HarTestBase
 
     public function testGetAttributes()
     {
-        $this->assertEquals(
-            ['custom_attr' => 'custom_value'],
-            $this->serverRequest->getAttributes()
-        );
+        // Attributes are not part of HAR spec, always returns empty array
+        $this->assertEquals([], $this->serverRequest->getAttributes());
     }
 
     public function testGetAttribute()
     {
-        $this->assertEquals('custom_value', $this->serverRequest->getAttribute('custom_attr'));
+        // Attributes are not part of HAR spec, always returns default
+        $this->assertNull($this->serverRequest->getAttribute('custom_attr'));
         $this->assertNull($this->serverRequest->getAttribute('nonexistent'));
         $this->assertEquals('default', $this->serverRequest->getAttribute('nonexistent', 'default'));
     }
 
     public function testWithAttribute()
     {
+        // Attributes are not part of HAR spec, this is a no-op
         $new = $this->serverRequest->withAttribute('new_attr', 'new_value');
-        $this->assertEquals('new_value', $new->getAttribute('new_attr'));
-        $this->assertEquals('custom_value', $new->getAttribute('custom_attr'));
-        // Verify immutability
+        $this->assertNull($new->getAttribute('new_attr'));
+        $this->assertNull($new->getAttribute('custom_attr'));
         $this->assertNull($this->serverRequest->getAttribute('new_attr'));
     }
 
     public function testWithoutAttribute()
     {
+        // Attributes are not part of HAR spec, this is a no-op
         $new = $this->serverRequest->withoutAttribute('custom_attr');
         $this->assertNull($new->getAttribute('custom_attr'));
-        // Verify immutability
-        $this->assertEquals('custom_value', $this->serverRequest->getAttribute('custom_attr'));
+        $this->assertNull($this->serverRequest->getAttribute('custom_attr'));
     }
 
     public function testInheritedMethodsPreserveServerRequestState()
@@ -182,7 +178,6 @@ class ServerRequestTest extends HarTestBase
         $this->assertEquals('GET', $new->getMethod());
         $this->assertEquals(['session' => 'abc123'], $new->getCookieParams());
         $this->assertEquals(['foo' => 'bar'], $new->getQueryParams());
-        $this->assertEquals(['custom_attr' => 'custom_value'], $new->getAttributes());
     }
 
     public function testWithBody()
