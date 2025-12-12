@@ -19,7 +19,7 @@ trait MimeTypeTrait
 
     public function getMimeType(): string
     {
-        return $this->mimeType;
+        return $this->mimeType ?? '';
     }
 
     public function setMimeType(string $mimeType): self

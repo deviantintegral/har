@@ -11,6 +11,7 @@ use Deviantintegral\Har\SharedFields\HeadersTrait;
 use Deviantintegral\Har\SharedFields\HttpVersionTrait;
 use JMS\Serializer\Annotation as Serializer;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * @see http://www.softwareishard.com/blog/har-12-spec/#request
@@ -75,6 +76,41 @@ final class Request implements MessageInterface
         return $request->getHarRequest();
     }
 
+    /**
+     * Construct a new Request from a PSR-7 ServerRequest.
+     */
+    public static function fromPsr7ServerRequest(ServerRequestInterface $source): self
+    {
+        // Start with the basic request conversion (ServerRequest extends Request)
+        $harRequest = static::fromPsr7Request($source);
+
+        // Extract and set cookies from ServerRequest
+        $cookies = [];
+        foreach ($source->getCookieParams() as $name => $value) {
+            $cookie = (new Cookie())
+                ->setName($name)
+                ->setValue($value);
+            $cookies[] = $cookie;
+        }
+        if (!empty($cookies)) {
+            $harRequest->setCookies($cookies);
+        }
+
+        // Extract and set query parameters from ServerRequest
+        $queryParams = [];
+        foreach ($source->getQueryParams() as $name => $value) {
+            $param = (new Params())
+                ->setName($name)
+                ->setValue((string) $value);
+            $queryParams[] = $param;
+        }
+        if (!empty($queryParams)) {
+            $harRequest->setQueryString($queryParams);
+        }
+
+        return $harRequest;
+    }
+
     public function getMethod(): string
     {
         return $this->method;
@@ -104,7 +140,7 @@ final class Request implements MessageInterface
      */
     public function getQueryString(): array
     {
-        return $this->queryString;
+        return $this->queryString ?? [];
     }
 
     /**

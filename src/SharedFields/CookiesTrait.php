@@ -20,7 +20,7 @@ trait CookiesTrait
      */
     public function getCookies(): array
     {
-        return $this->cookies;
+        return $this->cookies ?? [];
     }
 
     /**
