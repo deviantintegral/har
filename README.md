@@ -1,6 +1,6 @@
 # HTTP Archive for PHP
 
-[![CircleCI](https://circleci.com/gh/deviantintegral/har.svg?style=svg)](https://circleci.com/gh/deviantintegral/har) [![Packagist](https://img.shields.io/packagist/dt/deviantintegral/har?style=flat-square)](https://packagist.org/packages/deviantintegral/har)
+[![CI](https://github.com/deviantintegral/har/actions/workflows/ci.yml/badge.svg)](https://github.com/deviantintegral/har/actions/workflows/ci.yml) [![Packagist](https://img.shields.io/packagist/dt/deviantintegral/har?style=flat-square)](https://packagist.org/packages/deviantintegral/har)
 
 ## Requirements
 
