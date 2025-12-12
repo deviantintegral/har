@@ -2,23 +2,30 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended",
-    "helpers:pinGitHubActionDigests",
-    ":preserveSemverRanges"
+    ":preserveSemverRanges",
+    "helpers:pinGitHubActionDigests"
   ],
   "packageRules": [
     {
-      "matchUpdateTypes": ["minor", "patch"],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
       "matchCurrentVersion": "!/^0/",
       "automerge": true
     },
     {
       "matchCurrentVersion": "8.0",
-      "matchPackageNames": ["php"],
+      "matchPackageNames": [
+        "php"
+      ],
       "enabled": false
     },
     {
       "matchCurrentVersion": "8.1",
-      "matchPackageNames": ["php"],
+      "matchPackageNames": [
+        "php"
+      ],
       "enabled": false
     }
   ]
