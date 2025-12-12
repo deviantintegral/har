@@ -11,6 +11,7 @@ use Deviantintegral\Har\SharedFields\HeadersTrait;
 use Deviantintegral\Har\SharedFields\HttpVersionTrait;
 use JMS\Serializer\Annotation as Serializer;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * @see http://www.softwareishard.com/blog/har-12-spec/#request
@@ -75,6 +76,34 @@ final class Request implements MessageInterface
         return $request->getHarRequest();
     }
 
+    /**
+     * Construct a new Request from a PSR-7 ServerRequest.
+     */
+    public static function fromPsr7ServerRequest(ServerRequestInterface $source): self
+    {
+        $request = new Adapter\Psr7\ServerRequest(
+            new static(),
+            $source->getServerParams(),
+            $source->getCookieParams(),
+            $source->getQueryParams(),
+            $source->getParsedBody(),
+            $source->getUploadedFiles(),
+            $source->getAttributes()
+        );
+
+        $request = $request
+          ->withBody($source->getBody())
+          ->withMethod($source->getMethod())
+          ->withProtocolVersion($source->getProtocolVersion())
+          ->withUri($source->getUri());
+
+        foreach ($source->getHeaders() as $name => $value) {
+            $request = $request->withHeader($name, $value);
+        }
+
+        return $request->getHarRequest();
+    }
+
     public function getMethod(): string
     {
         return $this->method;
@@ -104,7 +133,7 @@ final class Request implements MessageInterface
      */
     public function getQueryString(): array
     {
-        return $this->queryString;
+        return $this->queryString ?? [];
     }
 
     /**

@@ -7,9 +7,8 @@ namespace Deviantintegral\Har;
 use Deviantintegral\Har\SharedFields\CommentTrait;
 use Deviantintegral\Har\SharedFields\MimeTypeTrait;
 use Deviantintegral\Har\SharedFields\TextTrait;
+use GuzzleHttp\Psr7\Query;
 use JMS\Serializer\Annotation as Serializer;
-
-use function GuzzleHttp\Psr7\build_query;
 
 /**
  * @see http://www.softwareishard.com/blog/har-12-spec/#postData
@@ -77,7 +76,7 @@ final class PostData
             foreach ($this->params as $param) {
                 $query[$param->getName()] = $param->getValue();
             }
-            $string = build_query($query);
+            $string = Query::build($query);
 
             return \strlen($string);
         }
