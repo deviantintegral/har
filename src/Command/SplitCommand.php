@@ -17,7 +17,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class SplitCommand extends Command
 {
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
         $this->setName('har:split')

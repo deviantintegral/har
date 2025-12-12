@@ -9,6 +9,9 @@
     <testsuite name="Unit">
       <directory suffix="Test.php">./tests/src/Unit</directory>
     </testsuite>
+    <testsuite name="Functional">
+      <directory suffix="Test.php">./tests/src/Functional</directory>
+    </testsuite>
   </testsuites>
   <logging>
     <junit outputFile="build/logs/results.xml"/>
