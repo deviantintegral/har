@@ -20,7 +20,7 @@ class SplitCommandTest extends HarTestBase
         parent::setUp();
 
         // Create a temporary directory for test outputs
-        $this->tempDir = sys_get_temp_dir() . '/har_test_' . uniqid();
+        $this->tempDir = sys_get_temp_dir().'/har_test_'.uniqid();
         mkdir($this->tempDir, recursive: true);
 
         // Set up the command tester
@@ -40,7 +40,7 @@ class SplitCommandTest extends HarTestBase
 
     public function testSplitMultipleEntries(): void
     {
-        $harFile = __DIR__ . '/../../fixtures/www.softwareishard.com-multiple-entries.har';
+        $harFile = __DIR__.'/../../fixtures/www.softwareishard.com-multiple-entries.har';
 
         $this->commandTester->execute([
             'har' => $harFile,
@@ -51,13 +51,13 @@ class SplitCommandTest extends HarTestBase
         $this->assertSame(Command::SUCCESS, $this->commandTester->getStatusCode());
 
         // Should create 11 files (one per entry)
-        $files = glob($this->tempDir . '/*.har');
+        $files = glob($this->tempDir.'/*.har');
         $this->assertCount(11, $files);
 
         // Verify file names are sequential
         $expectedFiles = [];
-        for ($i = 1; $i <= 11; $i++) {
-            $expectedFiles[] = $this->tempDir . '/' . $i . '.har';
+        for ($i = 1; $i <= 11; ++$i) {
+            $expectedFiles[] = $this->tempDir.'/'.$i.'.har';
         }
         natsort($files);
         $files = array_values($files); // Re-index array after sorting
@@ -74,7 +74,7 @@ class SplitCommandTest extends HarTestBase
 
     public function testSplitSingleEntry(): void
     {
-        $harFile = __DIR__ . '/../../fixtures/www.softwareishard.com-single-entry.har';
+        $harFile = __DIR__.'/../../fixtures/www.softwareishard.com-single-entry.har';
 
         $this->commandTester->execute([
             'har' => $harFile,
@@ -84,20 +84,20 @@ class SplitCommandTest extends HarTestBase
         $this->assertSame(Command::SUCCESS, $this->commandTester->getStatusCode());
 
         // Should create 1 file
-        $files = glob($this->tempDir . '/*.har');
+        $files = glob($this->tempDir.'/*.har');
         $this->assertCount(1, $files);
-        $this->assertFileExists($this->tempDir . '/1.har');
+        $this->assertFileExists($this->tempDir.'/1.har');
 
         // Verify the file is valid HAR
         $serializer = new Serializer();
-        $contents = file_get_contents($this->tempDir . '/1.har');
+        $contents = file_get_contents($this->tempDir.'/1.har');
         $har = $serializer->deserializeHar($contents);
         $this->assertCount(1, $har->getLog()->getEntries());
     }
 
     public function testSplitWithMd5Option(): void
     {
-        $harFile = __DIR__ . '/../../fixtures/www.softwareishard.com-multiple-entries.har';
+        $harFile = __DIR__.'/../../fixtures/www.softwareishard.com-multiple-entries.har';
 
         $this->commandTester->execute([
             'har' => $harFile,
@@ -108,7 +108,7 @@ class SplitCommandTest extends HarTestBase
         $this->assertSame(Command::SUCCESS, $this->commandTester->getStatusCode());
 
         // Should create 11 files
-        $files = glob($this->tempDir . '/*.har');
+        $files = glob($this->tempDir.'/*.har');
         $this->assertCount(11, $files);
 
         // Verify file names are MD5 hashes
@@ -134,7 +134,7 @@ class SplitCommandTest extends HarTestBase
 
     public function testSplitWithForceOption(): void
     {
-        $harFile = __DIR__ . '/../../fixtures/www.softwareishard.com-single-entry.har';
+        $harFile = __DIR__.'/../../fixtures/www.softwareishard.com-single-entry.har';
 
         // First split
         $this->commandTester->execute([
@@ -143,7 +143,7 @@ class SplitCommandTest extends HarTestBase
         ]);
         $this->assertSame(Command::SUCCESS, $this->commandTester->getStatusCode());
 
-        $outputFile = $this->tempDir . '/1.har';
+        $outputFile = $this->tempDir.'/1.har';
         $this->assertFileExists($outputFile);
         $originalContent = file_get_contents($outputFile);
 
@@ -167,7 +167,7 @@ class SplitCommandTest extends HarTestBase
 
     public function testSplitFailsWhenFileExistsWithoutForce(): void
     {
-        $harFile = __DIR__ . '/../../fixtures/www.softwareishard.com-single-entry.har';
+        $harFile = __DIR__.'/../../fixtures/www.softwareishard.com-single-entry.har';
 
         // First split
         $this->commandTester->execute([
@@ -188,7 +188,7 @@ class SplitCommandTest extends HarTestBase
 
     public function testSplitToCurrentDirectoryByDefault(): void
     {
-        $harFile = __DIR__ . '/../../fixtures/www.softwareishard.com-single-entry.har';
+        $harFile = __DIR__.'/../../fixtures/www.softwareishard.com-single-entry.har';
 
         // Save current directory
         $originalDir = getcwd();
@@ -205,7 +205,7 @@ class SplitCommandTest extends HarTestBase
             $this->assertSame(Command::SUCCESS, $this->commandTester->getStatusCode());
 
             // File should be created in current directory (tempDir)
-            $this->assertFileExists($this->tempDir . '/1.har');
+            $this->assertFileExists($this->tempDir.'/1.har');
         } finally {
             // Restore original directory
             chdir($originalDir);
@@ -214,7 +214,7 @@ class SplitCommandTest extends HarTestBase
 
     public function testSplitPreservesHarStructure(): void
     {
-        $harFile = __DIR__ . '/../../fixtures/www.softwareishard.com-multiple-entries.har';
+        $harFile = __DIR__.'/../../fixtures/www.softwareishard.com-multiple-entries.har';
 
         // Load original HAR
         $serializer = new Serializer();
@@ -228,8 +228,8 @@ class SplitCommandTest extends HarTestBase
         ]);
 
         // Load split files and compare each entry
-        for ($i = 0; $i < count($originalEntries); $i++) {
-            $splitFile = $this->tempDir . '/' . ($i + 1) . '.har';
+        for ($i = 0; $i < \count($originalEntries); ++$i) {
+            $splitFile = $this->tempDir.'/'.($i + 1).'.har';
             $this->assertFileExists($splitFile);
 
             $splitContents = file_get_contents($splitFile);
@@ -252,7 +252,7 @@ class SplitCommandTest extends HarTestBase
 
         $items = array_diff(scandir($directory), ['.', '..']);
         foreach ($items as $item) {
-            $path = $directory . '/' . $item;
+            $path = $directory.'/'.$item;
             if (is_dir($path)) {
                 $this->recursiveRemoveDirectory($path);
             } else {
