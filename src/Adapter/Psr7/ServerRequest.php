@@ -13,55 +13,6 @@ use Psr\Http\Message\UriInterface;
 
 class ServerRequest extends Request implements ServerRequestInterface
 {
-    /**
-     * @var array
-     */
-    private $cookieParams = [];
-
-    /**
-     * @var array
-     */
-    private $queryParams = [];
-
-    /**
-     * @var array|object|null
-     */
-    private $parsedBody;
-
-    public function __construct(\Deviantintegral\Har\Request $request)
-    {
-        parent::__construct($request);
-
-        // Initialize query params from HAR request
-        $this->queryParams = [];
-        foreach ($request->getQueryString() as $param) {
-            $this->queryParams[$param->getName()] = $param->getValue();
-        }
-
-        // Initialize cookie params from HAR request
-        $this->cookieParams = [];
-        foreach ($request->getCookies() as $cookie) {
-            $this->cookieParams[$cookie->getName()] = $cookie->getValue();
-        }
-
-        // Initialize parsed body from HAR post data
-        if ($request->hasPostData()) {
-            $postData = $request->getPostData();
-            if ($postData->hasParams()) {
-                $this->parsedBody = [];
-                foreach ($postData->getParams() as $param) {
-                    $this->parsedBody[$param->getName()] = $param->getValue();
-                }
-            } elseif ($postData->hasText()) {
-                // Try to parse as form data if content type suggests it
-                $contentType = $postData->getMimeType();
-                if ($contentType === 'application/x-www-form-urlencoded') {
-                    parse_str($postData->getText(), $this->parsedBody);
-                }
-            }
-        }
-    }
-
     public function getServerParams(): array
     {
         return [];
@@ -69,28 +20,52 @@ class ServerRequest extends Request implements ServerRequestInterface
 
     public function getCookieParams(): array
     {
-        return $this->cookieParams;
+        $request = $this->getHarRequest();
+        $cookieParams = [];
+        foreach ($request->getCookies() as $cookie) {
+            $cookieParams[$cookie->getName()] = $cookie->getValue();
+        }
+
+        return $cookieParams;
     }
 
     public function withCookieParams(array $cookies): ServerRequestInterface
     {
-        $new = clone $this;
-        $new->cookieParams = $cookies;
+        $request = clone $this->getHarRequest();
+        $harCookies = [];
+        foreach ($cookies as $name => $value) {
+            $harCookies[] = (new Cookie())
+                ->setName($name)
+                ->setValue($value);
+        }
+        $request->setCookies($harCookies);
 
-        return $new;
+        return new static($request);
     }
 
     public function getQueryParams(): array
     {
-        return $this->queryParams;
+        $request = $this->getHarRequest();
+        $queryParams = [];
+        foreach ($request->getQueryString() as $param) {
+            $queryParams[$param->getName()] = $param->getValue();
+        }
+
+        return $queryParams;
     }
 
     public function withQueryParams(array $query): ServerRequestInterface
     {
-        $new = clone $this;
-        $new->queryParams = $query;
+        $request = clone $this->getHarRequest();
+        $harParams = [];
+        foreach ($query as $name => $value) {
+            $harParams[] = (new Params())
+                ->setName($name)
+                ->setValue((string) $value);
+        }
+        $request->setQueryString($harParams);
 
-        return $new;
+        return new static($request);
     }
 
     public function getUploadedFiles(): array
@@ -101,12 +76,39 @@ class ServerRequest extends Request implements ServerRequestInterface
     public function withUploadedFiles(array $uploadedFiles): ServerRequestInterface
     {
         // Uploaded files are not part of HAR spec, return unchanged clone
-        return clone $this;
+        return new static($this->getHarRequest());
     }
 
     public function getParsedBody()
     {
-        return $this->parsedBody;
+        $request = $this->getHarRequest();
+
+        if (!$request->hasPostData()) {
+            return null;
+        }
+
+        $postData = $request->getPostData();
+        if ($postData->hasParams()) {
+            $parsedBody = [];
+            foreach ($postData->getParams() as $param) {
+                $parsedBody[$param->getName()] = $param->getValue();
+            }
+
+            return $parsedBody;
+        }
+
+        if ($postData->hasText()) {
+            // Try to parse as form data if content type suggests it
+            $contentType = $postData->getMimeType();
+            if ($contentType === 'application/x-www-form-urlencoded') {
+                $parsedBody = [];
+                parse_str($postData->getText(), $parsedBody);
+
+                return $parsedBody;
+            }
+        }
+
+        return null;
     }
 
     public function withParsedBody($data): ServerRequestInterface
@@ -115,10 +117,25 @@ class ServerRequest extends Request implements ServerRequestInterface
             throw new \InvalidArgumentException('Parsed body must be an array, object, or null.');
         }
 
-        $new = clone $this;
-        $new->parsedBody = $data;
+        $request = clone $this->getHarRequest();
 
-        return $new;
+        if (\is_array($data)) {
+            $postData = new PostData();
+            $harParams = [];
+            foreach ($data as $name => $value) {
+                $harParams[] = (new Params())
+                    ->setName($name)
+                    ->setValue((string) $value);
+            }
+            $postData->setParams($harParams);
+            $request->setPostData($postData);
+        } elseif (null === $data) {
+            // Clear post data
+            $request->setPostData(new PostData());
+        }
+        // For objects, we can't represent them in HAR, so leave unchanged
+
+        return new static($request);
     }
 
     public function getAttributes(): array
@@ -134,96 +151,71 @@ class ServerRequest extends Request implements ServerRequestInterface
     public function withAttribute($name, $value): ServerRequestInterface
     {
         // Attributes are not part of HAR spec, return unchanged clone
-        return clone $this;
+        return new static($this->getHarRequest());
     }
 
     public function withoutAttribute($name): ServerRequestInterface
     {
         // Attributes are not part of HAR spec, return unchanged clone
-        return clone $this;
+        return new static($this->getHarRequest());
     }
 
     /**
-     * Clone this ServerRequest with a modified HAR request.
-     *
-     * This helper method clones the current ServerRequest and updates its
-     * underlying HAR request, preserving all ServerRequest-specific state.
-     */
-    private function cloneWithHarRequest(\Deviantintegral\Har\Request $request): self
-    {
-        $new = clone $this;
-
-        // Use reflection to update both the Request's $request property
-        // and MessageBase's $message property
-        $requestReflection = new \ReflectionClass(Request::class);
-        $requestProperty = $requestReflection->getProperty('request');
-        $requestProperty->setAccessible(true);
-        $requestProperty->setValue($new, $request);
-
-        $messageReflection = new \ReflectionClass(MessageBase::class);
-        $messageProperty = $messageReflection->getProperty('message');
-        $messageProperty->setAccessible(true);
-        $messageProperty->setValue($new, $request);
-
-        return $new;
-    }
-
-    /**
-     * Override parent methods to preserve ServerRequest state.
+     * Override parent methods to return ServerRequestInterface.
      */
     public function withMethod($method): ServerRequestInterface
     {
         $parent = parent::withMethod($method);
 
-        return $this->cloneWithHarRequest($parent->getHarRequest());
+        return new static($parent->getHarRequest());
     }
 
     public function withUri(UriInterface $uri, $preserveHost = false): ServerRequestInterface
     {
         $parent = parent::withUri($uri, $preserveHost);
 
-        return $this->cloneWithHarRequest($parent->getHarRequest());
+        return new static($parent->getHarRequest());
     }
 
     public function withRequestTarget($requestTarget): ServerRequestInterface
     {
         $parent = parent::withRequestTarget($requestTarget);
 
-        return $this->cloneWithHarRequest($parent->getHarRequest());
+        return new static($parent->getHarRequest());
     }
 
     public function withBody(StreamInterface $body): ServerRequestInterface
     {
         $parent = parent::withBody($body);
 
-        return $this->cloneWithHarRequest($parent->getHarRequest());
+        return new static($parent->getHarRequest());
     }
 
     public function withHeader($name, $value): ServerRequestInterface
     {
         $parent = parent::withHeader($name, $value);
 
-        return $this->cloneWithHarRequest($parent->getHarRequest());
+        return new static($parent->getHarRequest());
     }
 
     public function withAddedHeader($name, $value): ServerRequestInterface
     {
         $parent = parent::withAddedHeader($name, $value);
 
-        return $this->cloneWithHarRequest($parent->getHarRequest());
+        return new static($parent->getHarRequest());
     }
 
     public function withoutHeader($name): ServerRequestInterface
     {
         $parent = parent::withoutHeader($name);
 
-        return $this->cloneWithHarRequest($parent->getHarRequest());
+        return new static($parent->getHarRequest());
     }
 
     public function withProtocolVersion($version): ServerRequestInterface
     {
         $parent = parent::withProtocolVersion($version);
 
-        return $this->cloneWithHarRequest($parent->getHarRequest());
+        return new static($parent->getHarRequest());
     }
 }
