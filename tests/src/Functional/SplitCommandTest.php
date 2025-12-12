@@ -21,7 +21,7 @@ class SplitCommandTest extends HarTestBase
 
         // Create a temporary directory for test outputs
         $this->tempDir = sys_get_temp_dir() . '/har_test_' . uniqid();
-        mkdir($this->tempDir, 0777, true);
+        mkdir($this->tempDir, recursive: true);
 
         // Set up the command tester
         $command = new SplitCommand();
