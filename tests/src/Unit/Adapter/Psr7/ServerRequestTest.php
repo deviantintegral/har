@@ -50,15 +50,12 @@ class ServerRequestTest extends HarTestBase
                 ])
             );
 
-        $this->serverRequest = new ServerRequest(
-            $this->harRequest,
-            ['REQUEST_METHOD' => 'POST', 'SERVER_NAME' => 'www.example.com'],
-            ['session' => 'abc123'],
-            ['foo' => 'bar'],
-            ['username' => 'john', 'password' => 'secret'],
-            [],
-            ['custom_attr' => 'custom_value']
-        );
+        $this->serverRequest = (new ServerRequest($this->harRequest))
+            ->withServerParams(['REQUEST_METHOD' => 'POST', 'SERVER_NAME' => 'www.example.com'])
+            ->withCookieParams(['session' => 'abc123'])
+            ->withQueryParams(['foo' => 'bar'])
+            ->withParsedBody(['username' => 'john', 'password' => 'secret'])
+            ->withAttribute('custom_attr', 'custom_value');
     }
 
     public function testGetServerParams()

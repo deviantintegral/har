@@ -81,27 +81,34 @@ final class Request implements MessageInterface
      */
     public static function fromPsr7ServerRequest(ServerRequestInterface $source): self
     {
-        $request = new Adapter\Psr7\ServerRequest(
-            new static(),
-            $source->getServerParams(),
-            $source->getCookieParams(),
-            $source->getQueryParams(),
-            $source->getParsedBody(),
-            $source->getUploadedFiles(),
-            $source->getAttributes()
-        );
+        // Start with the basic request conversion (ServerRequest extends Request)
+        $harRequest = static::fromPsr7Request($source);
 
-        $request = $request
-          ->withBody($source->getBody())
-          ->withMethod($source->getMethod())
-          ->withProtocolVersion($source->getProtocolVersion())
-          ->withUri($source->getUri());
-
-        foreach ($source->getHeaders() as $name => $value) {
-            $request = $request->withHeader($name, $value);
+        // Extract and set cookies from ServerRequest
+        $cookies = [];
+        foreach ($source->getCookieParams() as $name => $value) {
+            $cookie = (new Cookie())
+                ->setName($name)
+                ->setValue($value);
+            $cookies[] = $cookie;
+        }
+        if (!empty($cookies)) {
+            $harRequest->setCookies($cookies);
         }
 
-        return $request->getHarRequest();
+        // Extract and set query parameters from ServerRequest
+        $queryParams = [];
+        foreach ($source->getQueryParams() as $name => $value) {
+            $param = (new Params())
+                ->setName($name)
+                ->setValue((string) $value);
+            $queryParams[] = $param;
+        }
+        if (!empty($queryParams)) {
+            $harRequest->setQueryString($queryParams);
+        }
+
+        return $harRequest;
     }
 
     public function getMethod(): string
