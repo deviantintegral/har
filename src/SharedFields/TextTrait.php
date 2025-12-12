@@ -18,7 +18,7 @@ trait TextTrait
      */
     protected $text;
 
-    public function setText(?string $text = null): self
+    public function setText(string $text = null): self
     {
         $this->text = $text;
 
