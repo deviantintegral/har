@@ -1,2 +1,0 @@
-This is a test file to verify pre-commit hooks are working.
-Testing trailing whitespace and end of file fixer.
