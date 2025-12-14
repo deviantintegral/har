@@ -23,7 +23,7 @@ repos:
         pass_filenames: false
       - id: phpunit
         name: PHPUnit
-        entry: vendor/bin/phpunit
+        entry: env XDEBUG_MODE=coverage vendor/bin/phpunit
         language: system
         types: [php]
         pass_filenames: false

@@ -78,4 +78,40 @@ class RequestTest extends HarTestBase
         $this->assertEquals(4, $har_request->getBodySize());
         $this->assertEquals('HTTP/2.0', $har_request->getHttpVersion());
     }
+
+    public function testFromPsr7ServerRequest()
+    {
+        $uri = new Uri('https://www.example.com/path?foo=bar');
+        $psr7 = new \GuzzleHttp\Psr7\ServerRequest(
+            'POST',
+            $uri,
+            ['Accept' => '*/*', 'Cookie' => 'session=abc123'],
+            'name=value',
+            '1.1',
+            [
+                'REQUEST_METHOD' => 'POST',
+                'REQUEST_URI' => '/path?foo=bar',
+                'SERVER_NAME' => 'www.example.com',
+            ]
+        );
+        $psr7 = $psr7->withCookieParams(['session' => 'abc123'])
+            ->withQueryParams(['foo' => 'bar'])
+            ->withParsedBody(['name' => 'value'])
+            ->withAttribute('custom_attr', 'custom_value');
+
+        $har_request = Request::fromPsr7ServerRequest($psr7);
+
+        $this->assertEquals('POST', $har_request->getMethod());
+        $this->assertEquals($uri, $har_request->getUrl());
+        $this->assertEquals('HTTP/1.1', $har_request->getHttpVersion());
+
+        // Verify headers
+        $headers = $har_request->getHeaders();
+        $headerNames = array_map(fn ($h) => $h->getName(), $headers);
+        $this->assertContains('Host', $headerNames);
+        $this->assertContains('Accept', $headerNames);
+
+        // Verify body
+        $this->assertEquals('name=value', $har_request->getPostData()->getText());
+    }
 }
