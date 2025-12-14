@@ -75,8 +75,7 @@ class ServerRequest extends Request implements ServerRequestInterface
 
     public function withUploadedFiles(array $uploadedFiles): ServerRequestInterface
     {
-        // Uploaded files are not part of HAR spec, return unchanged clone
-        return new static($this->getHarRequest());
+        throw new \LogicException('Uploaded files are not supported.');
     }
 
     public function getParsedBody()
