@@ -11,6 +11,12 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
 
+/**
+ * Adapts PSR-7 ServerRequests.
+ *
+ * Only features supported by HAR spec are implemented. Unsupported features
+ * will throw a \LogicException if they involve possible data loss.
+ */
 class ServerRequest extends Request implements ServerRequestInterface
 {
     public function getServerParams(): array
@@ -99,7 +105,7 @@ class ServerRequest extends Request implements ServerRequestInterface
         if ($postData->hasText()) {
             // Try to parse as form data if content type suggests it
             $contentType = $postData->getMimeType();
-            if ($contentType === 'application/x-www-form-urlencoded') {
+            if ('application/x-www-form-urlencoded' === $contentType) {
                 $parsedBody = [];
                 parse_str($postData->getText(), $parsedBody);
 
@@ -112,13 +118,13 @@ class ServerRequest extends Request implements ServerRequestInterface
 
     public function withParsedBody($data): ServerRequestInterface
     {
-        if (!is_array($data) && !is_object($data) && null !== $data) {
+        if (!\is_array($data) && !\is_object($data) && null !== $data) {
             throw new \InvalidArgumentException('Parsed body must be an array, object, or null.');
         }
 
         $request = clone $this->getHarRequest();
 
-        if (is_array($data) || is_object($data)) {
+        if (\is_array($data) || \is_object($data)) {
             $postData = new PostData();
             $harParams = [];
             foreach ($data as $name => $value) {
@@ -148,8 +154,7 @@ class ServerRequest extends Request implements ServerRequestInterface
 
     public function withAttribute($name, $value): ServerRequestInterface
     {
-        // Attributes are not part of HAR spec, return unchanged clone
-        return new static($this->getHarRequest());
+        throw new \LogicException('Attributes are not supported.');
     }
 
     public function withoutAttribute($name): ServerRequestInterface

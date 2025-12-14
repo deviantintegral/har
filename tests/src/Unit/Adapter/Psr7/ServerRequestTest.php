@@ -104,9 +104,8 @@ class ServerRequestTest extends HarTestBase
     {
         // Uploaded files are not part of HAR spec, this is a no-op
         $files = ['file' => 'mock_uploaded_file'];
+        $this->expectException(\LogicException::class);
         $new = $this->serverRequest->withUploadedFiles($files);
-        $this->assertEquals([], $new->getUploadedFiles());
-        $this->assertEquals([], $this->serverRequest->getUploadedFiles());
     }
 
     public function testGetParsedBody()
@@ -156,11 +155,8 @@ class ServerRequestTest extends HarTestBase
 
     public function testWithAttribute()
     {
-        // Attributes are not part of HAR spec, this is a no-op
-        $new = $this->serverRequest->withAttribute('new_attr', 'new_value');
-        $this->assertNull($new->getAttribute('new_attr'));
-        $this->assertNull($new->getAttribute('custom_attr'));
-        $this->assertNull($this->serverRequest->getAttribute('new_attr'));
+        $this->expectException(\LogicException::class);
+        $this->serverRequest->withAttribute('new_attr', 'new_value');
     }
 
     public function testWithoutAttribute()

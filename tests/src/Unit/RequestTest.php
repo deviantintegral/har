@@ -107,7 +107,7 @@ class RequestTest extends HarTestBase
 
         // Verify headers
         $headers = $har_request->getHeaders();
-        $headerNames = array_map(fn($h) => $h->getName(), $headers);
+        $headerNames = array_map(fn ($h) => $h->getName(), $headers);
         $this->assertContains('Host', $headerNames);
         $this->assertContains('Accept', $headerNames);
 
