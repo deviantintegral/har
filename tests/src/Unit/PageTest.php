@@ -42,4 +42,23 @@ class PageTest extends HarTestBase
         $deserialized = $serializer->deserialize($serialized, Page::class, 'json');
         $this->assertEquals($page, $deserialized);
     }
+
+    public function testGetSetId()
+    {
+        $page = (new Page())->setId('page_123');
+        $this->assertEquals('page_123', $page->getId());
+    }
+
+    public function testGetSetTitle()
+    {
+        $page = (new Page())->setTitle('Test Page Title');
+        $this->assertEquals('Test Page Title', $page->getTitle());
+    }
+
+    public function testGetSetPageTimings()
+    {
+        $pageTimings = new PageTimings();
+        $page = (new Page())->setPageTimings($pageTimings);
+        $this->assertSame($pageTimings, $page->getPageTimings());
+    }
 }
