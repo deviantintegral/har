@@ -114,4 +114,49 @@ class RequestTest extends HarTestBase
         // Verify body
         $this->assertEquals('name=value', $har_request->getPostData()->getText());
     }
+
+    public function testIsResponseCached()
+    {
+        $request = (new Request())
+          ->setBodySize(0);
+        $this->assertTrue($request->isResponseCached());
+
+        $request->setBodySize(100);
+        $this->assertFalse($request->isResponseCached());
+    }
+
+    public function testHasPostData()
+    {
+        $request = new Request();
+        $this->assertFalse($request->hasPostData());
+
+        $request->setPostData(new PostData());
+        $this->assertTrue($request->hasPostData());
+    }
+
+    public function testGetSetUrl()
+    {
+        $uri = new Uri('https://www.example.com/path');
+        $request = (new Request())->setUrl($uri);
+        $this->assertSame($uri, $request->getUrl());
+    }
+
+    public function testGetQueryString()
+    {
+        $request = new Request();
+        $this->assertEquals([], $request->getQueryString());
+
+        $queryParams = [
+            (new \Deviantintegral\Har\Params())->setName('foo')->setValue('bar'),
+            (new \Deviantintegral\Har\Params())->setName('baz')->setValue('qux'),
+        ];
+        $request->setQueryString($queryParams);
+        $this->assertEquals($queryParams, $request->getQueryString());
+    }
+
+    public function testGetSetMethod()
+    {
+        $request = (new Request())->setMethod('POST');
+        $this->assertEquals('POST', $request->getMethod());
+    }
 }

@@ -10,6 +10,9 @@ use Deviantintegral\Har\Log;
 use Deviantintegral\Har\Serializer;
 use PHPUnit\Framework\Attributes\DataProvider;
 
+/**
+ * @covers \Deviantintegral\Har\Har
+ */
 class HarTest extends HarTestBase
 {
     /**
@@ -34,6 +37,36 @@ class HarTest extends HarTestBase
 
         foreach ($repository->loadMultiple() as $id => $har) {
             yield [$id, $har];
+        }
+    }
+
+    public function testGetSetLog()
+    {
+        $log = new Log();
+        $har = (new Har())->setLog($log);
+        $this->assertSame($log, $har->getLog());
+    }
+
+    public function testSplitLogEntries()
+    {
+        $repository = $this->getHarFileRepository();
+        $har = $repository->load('www.softwareishard.com-multiple-entries.har');
+
+        $originalEntryCount = \count($har->getLog()->getEntries());
+        $this->assertGreaterThan(1, $originalEntryCount);
+
+        $splitHars = [];
+        foreach ($har->splitLogEntries() as $index => $splitHar) {
+            $splitHars[$index] = $splitHar;
+        }
+
+        $this->assertCount($originalEntryCount, $splitHars);
+
+        // Verify each split HAR has only one entry
+        foreach ($splitHars as $splitHar) {
+            $this->assertCount(1, $splitHar->getLog()->getEntries());
+            // Verify it's a different instance (cloned)
+            $this->assertNotSame($har, $splitHar);
         }
     }
 
