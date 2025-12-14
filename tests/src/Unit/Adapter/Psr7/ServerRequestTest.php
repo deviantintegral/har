@@ -225,4 +225,102 @@ class ServerRequestTest extends HarTestBase
         // Server params should be empty by default
         $this->assertEquals([], $serverRequest->getServerParams());
     }
+
+    public function testGetParsedBodyWithNoPostData()
+    {
+        // Test that getParsedBody returns null when there's no post data
+        $harRequest = (new Request())
+            ->setMethod('GET')
+            ->setUrl(new Uri('https://www.example.com/path'));
+
+        $serverRequest = new ServerRequest($harRequest);
+        $this->assertNull($serverRequest->getParsedBody());
+    }
+
+    public function testGetParsedBodyWithFormUrlEncodedText()
+    {
+        // Test parsing application/x-www-form-urlencoded text
+        $harRequest = (new Request())
+            ->setMethod('POST')
+            ->setUrl(new Uri('https://www.example.com/path'))
+            ->setPostData(
+                (new PostData())
+                    ->setMimeType('application/x-www-form-urlencoded')
+                    ->setText('username=john&password=secret')
+            );
+
+        $serverRequest = new ServerRequest($harRequest);
+        $this->assertEquals(
+            ['username' => 'john', 'password' => 'secret'],
+            $serverRequest->getParsedBody()
+        );
+    }
+
+    public function testGetParsedBodyWithNonFormEncodedText()
+    {
+        // Test that getParsedBody returns null for non-form-encoded text
+        $harRequest = (new Request())
+            ->setMethod('POST')
+            ->setUrl(new Uri('https://www.example.com/path'))
+            ->setPostData(
+                (new PostData())
+                    ->setMimeType('application/json')
+                    ->setText('{"username":"john","password":"secret"}')
+            );
+
+        $serverRequest = new ServerRequest($harRequest);
+        $this->assertNull($serverRequest->getParsedBody());
+    }
+
+    public function testWithParsedBodyObject()
+    {
+        // Test that withParsedBody works with objects
+        $data = new \stdClass();
+        $data->username = 'john';
+        $data->password = 'secret';
+
+        $new = $this->serverRequest->withParsedBody($data);
+        $parsedBody = $new->getParsedBody();
+
+        $this->assertIsArray($parsedBody);
+        $this->assertEquals('john', $parsedBody['username']);
+        $this->assertEquals('secret', $parsedBody['password']);
+    }
+
+    public function testWithRequestTarget()
+    {
+        $new = $this->serverRequest->withRequestTarget('https://www.example.com/newpath');
+        $this->assertEquals('https://www.example.com/newpath', $new->getRequestTarget());
+        // Verify ServerRequest state is preserved
+        $this->assertEquals(['session' => 'abc123'], $new->getCookieParams());
+        $this->assertEquals(['foo' => 'bar'], $new->getQueryParams());
+    }
+
+    public function testWithAddedHeader()
+    {
+        $new = $this->serverRequest->withAddedHeader('X-Custom', 'value1');
+        $new = $new->withAddedHeader('X-Custom', 'value2');
+        $this->assertEquals(['value1', 'value2'], $new->getHeader('X-Custom'));
+        // Verify ServerRequest state is preserved
+        $this->assertEquals(['session' => 'abc123'], $new->getCookieParams());
+        $this->assertEquals(['foo' => 'bar'], $new->getQueryParams());
+    }
+
+    public function testWithoutHeader()
+    {
+        $new = $this->serverRequest->withoutHeader('Host');
+        $this->assertFalse($new->hasHeader('Host'));
+        // Verify ServerRequest state is preserved
+        $this->assertEquals(['session' => 'abc123'], $new->getCookieParams());
+        $this->assertEquals(['foo' => 'bar'], $new->getQueryParams());
+    }
+
+    public function testWithProtocolVersion()
+    {
+        $new = $this->serverRequest->withProtocolVersion('2.0');
+        $this->assertEquals('2.0', $new->getProtocolVersion());
+        // Verify ServerRequest state is preserved
+        $this->assertEquals(['session' => 'abc123'], $new->getCookieParams());
+        $this->assertEquals(['foo' => 'bar'], $new->getQueryParams());
+    }
 }
