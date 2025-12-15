@@ -2,7 +2,7 @@
     "name": "deviantintegral/har",
     "description": "A PHP library for working with HTTP Archives",
     "type": "library",
-    "license": "GPL-2.0+",
+    "license": "GPL-2.0-or-later",
     "minimum-stability": "dev",
     "prefer-stable": true,
     "authors": [
