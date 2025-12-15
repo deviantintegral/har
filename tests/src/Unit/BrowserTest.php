@@ -47,4 +47,27 @@ class BrowserTest extends HarTestBase
         $this->assertEquals('1.0', $browser->getVersion());
         $this->assertEquals('Test case', $browser->getComment());
     }
+
+    public function testClone()
+    {
+        $browser = (new Browser())
+          ->setName('BrowserTest')
+          ->setVersion('1.0')
+          ->setComment('Test case');
+
+        $clonedBrowser = clone $browser;
+
+        // Verify the clone is a different object
+        $this->assertNotSame($browser, $clonedBrowser);
+
+        // Verify the clone has the same property values
+        $this->assertEquals($browser->getName(), $clonedBrowser->getName());
+        $this->assertEquals($browser->getVersion(), $clonedBrowser->getVersion());
+        $this->assertEquals($browser->getComment(), $clonedBrowser->getComment());
+
+        // Verify modifying the clone doesn't affect the original
+        $clonedBrowser->setName('ModifiedBrowser');
+        $this->assertEquals('BrowserTest', $browser->getName());
+        $this->assertEquals('ModifiedBrowser', $clonedBrowser->getName());
+    }
 }
