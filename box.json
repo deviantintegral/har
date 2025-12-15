@@ -1,0 +1,21 @@
+{
+  "main": "bin/console",
+  "output": "har.phar",
+  "compression": "GZ",
+  "directories": ["src"],
+  "finder": [
+    {
+      "in": "vendor",
+      "exclude": [
+        "Tests",
+        "tests",
+        "docs",
+        "test",
+        "doc"
+      ]
+    }
+  ],
+  "compactors": [
+    "KevinGH\\Box\\Compactor\\Php"
+  ]
+}

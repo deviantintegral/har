@@ -5,3 +5,5 @@ build
 vendor
 .php-cs-fixer.cache
 har.phar
+.box_dump/
+.box.cache/

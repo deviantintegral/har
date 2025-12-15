@@ -17,6 +17,7 @@ jobs:
     outputs:
       release_created: ${{ steps.release.outputs.release_created }}
       tag_name: ${{ steps.release.outputs.tag_name }}
+      upload_url: ${{ steps.release.outputs.upload_url }}
     steps:
       - uses: googleapis/release-please-action@16a9c90856f42705d54a6fda1823352bdc62cf38 # v4
         id: release
@@ -24,3 +25,52 @@ jobs:
           token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
           # This should match the configuration of your conventional commits
           release-type: php
+
+  build-phar:
+    name: Build and Upload PHAR
+    runs-on: ubuntu-24.04
+    needs: release-please
+    if: needs.release-please.outputs.release_created == 'true'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@44454db4f0199b8b9685a5d763dc37cbf79108e1 # v2
+        with:
+          php-version: '8.2'
+          extensions: json
+          tools: composer:v2
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache dependencies
+        uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb # v5
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Build PHAR
+        run: php -d phar.readonly=0 vendor/bin/box compile
+
+      - name: Verify PHAR
+        run: |
+          chmod +x har.phar
+          ./har.phar list
+
+      - name: Upload PHAR to Release
+        uses: actions/upload-release-asset@e8f9f06c4b078e705bd2ea027f0926603fc9b4d5 # v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.release-please.outputs.upload_url }}
+          asset_path: ./har.phar
+          asset_name: har.phar
+          asset_content_type: application/octet-stream
