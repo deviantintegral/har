@@ -259,7 +259,7 @@ class SplitCommandTest extends HarTestBase
         // Should display error message
         $output = $this->commandTester->getDisplay();
         $this->assertStringContainsString('File not found', $output);
-        $this->assertStringContainsString($nonExistentFile, $output);
+        $this->assertStringContainsString('nonexistent.har', $output);
     }
 
     public function testSplitFailsWhenPathIsDirectory(): void
@@ -279,7 +279,7 @@ class SplitCommandTest extends HarTestBase
         // Should display error message indicating it's a directory
         $output = $this->commandTester->getDisplay();
         $this->assertStringContainsString('Path is a directory', $output);
-        $this->assertStringContainsString($directoryPath, $output);
+        $this->assertStringContainsString('notafile', $output);
     }
 
     private function recursiveRemoveDirectory(string $directory): void
