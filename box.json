@@ -17,5 +17,8 @@
   ],
   "compactors": [
     "KevinGH\\Box\\Compactor\\Php"
-  ]
+  ],
+  "git-version": "git-version",
+  "datetime": "build-time",
+  "datetime-format": "Y-m-d H:i:s T"
 }

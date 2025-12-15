@@ -8,7 +8,7 @@ use Deviantintegral\Har\Command\SplitCommand;
 require_once __DIR__ . '/../vendor/autoload.php';
 
 // Create the Application
-$application = new Symfony\Component\Console\Application;
+$application = new Symfony\Component\Console\Application('HAR Tools', '@git-version@ (built: @build-time@)');
 
 $application->add(new SplitCommand());
 
