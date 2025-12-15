@@ -9,11 +9,9 @@ trait HttpVersionTrait
     /**
      * httpVersion [string] - Response HTTP Version.
      *
-     * @var string
-     *
      * @Serializer\Type("string")
      */
-    private $httpVersion;
+    private string $httpVersion;
 
     public function setHttpVersion(string $httpVersion): self
     {

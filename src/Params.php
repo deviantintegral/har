@@ -19,20 +19,16 @@ final class Params
     /**
      * Name of a posted file.
      *
-     * @var string
-     *
      * @Serializer\Type("string")
      */
-    private $fileName;
+    private ?string $fileName = null;
 
     /**
      * Content type of a posted file.
      *
-     * @var string
-     *
      * @Serializer\Type("string")
      */
-    private $contentType;
+    private ?string $contentType = null;
 
     public function hasFileName(): bool
     {

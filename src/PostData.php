@@ -28,7 +28,7 @@ final class PostData
      *
      * @Serializer\Type("array<Deviantintegral\Har\Params>")
      */
-    private $params;
+    private ?array $params = null;
 
     /**
      * @return Params[]

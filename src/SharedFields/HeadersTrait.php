@@ -13,18 +13,16 @@ trait HeadersTrait
      *
      * @Serializer\Type("array<Deviantintegral\Har\Header>")
      */
-    protected $headers = [];
+    protected array $headers = [];
 
     /**
      * headersSize [number]* - Total number of bytes from the start of the HTTP
      * response message until (and including) the double CRLF before the body.
      * Set to -1 if the info is not available.
      *
-     * @var int
-     *
      * @Serializer\Type("integer")
      */
-    protected $headersSize = -1;
+    protected int $headersSize = -1;
 
     public function getHeadersSize(): int
     {

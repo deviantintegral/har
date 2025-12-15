@@ -13,11 +13,9 @@ trait NameValueTrait
     /**
      * The value.
      *
-     * @var string
-     *
      * @Serializer\Type("string")
      */
-    protected $value;
+    protected ?string $value = null;
 
     public function setValue(string $value): self
     {

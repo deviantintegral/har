@@ -12,11 +12,9 @@ trait TextTrait
      * HTTP decoded text or a encoded (e.g. "base64") representation of the
      * response body. Leave out this field if the information is not available.
      *
-     * @var string
-     *
      * @Serializer\Type("string")
      */
-    protected $text;
+    protected ?string $text = null;
 
     public function setText(?string $text = null): self
     {

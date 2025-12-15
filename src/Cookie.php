@@ -21,47 +21,37 @@ final class Cookie
     /**
      * The name of the cookie.
      *
-     * @var string
-     *
      * @Serializer\Type("string")
      */
-    private $cookie;
+    private string $cookie;
 
     /**
      * The path pertaining to the cookie.
      *
-     * @var string
-     *
      * @Serializer\Type("string")
      */
-    private $path;
+    private string $path;
 
     /**
      * The host of the cookie.
      *
-     * @var string
-     *
      * @Serializer\Type("string")
      */
-    private $domain;
+    private string $domain;
 
     /**
      * Set to true if the cookie is HTTP only, false otherwise.
      *
-     * @var bool
-     *
      * @Serializer\Type("boolean")
      */
-    private $httpOnly;
+    private ?bool $httpOnly = null;
 
     /**
      * True if the cookie was transmitted over ssl, false otherwise.
      *
-     * @var bool
-     *
      * @Serializer\Type("boolean")
      */
-    private $secure;
+    private ?bool $secure = null;
 
     public function getCookie(): string
     {
