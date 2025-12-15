@@ -162,8 +162,8 @@ final class Request implements MessageInterface
         return $this->postData;
     }
 
-    public function setPostData(PostData $postData,
-    ): self {
+    public function setPostData(PostData $postData): self
+    {
         $this->postData = $postData;
 
         $this->setBodySize($postData->getBodySize());
