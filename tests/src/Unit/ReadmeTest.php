@@ -12,6 +12,7 @@ use Deviantintegral\Har\Repository\HarFileRepository;
 use Deviantintegral\Har\Response;
 use Deviantintegral\Har\Serializer;
 use GuzzleHttp\Client;
+use GuzzleHttp\RequestOptions;
 use PHPUnit\Framework\TestCase;
 
 class ReadmeTest extends TestCase
@@ -33,7 +34,9 @@ class ReadmeTest extends TestCase
 
         // Send the request live!
         try {
-            $psr7_response = (new Client())->send($psr7_request);
+            $psr7_response = (new Client())->send($psr7_request, [
+                RequestOptions::TIMEOUT => 5,
+            ]);
 
             // Convert the response back to a HAR response object.
             $response = Response::fromPsr7Response($psr7_response);
