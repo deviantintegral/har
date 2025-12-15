@@ -64,8 +64,8 @@ class DateFormatInterfaceHandlerTest extends TestCase
         $nullDateTime = new NullDateTime();
 
         // Create a mock visitor that won't be called for NullDateTime
-        $visitor = $this->createMock(\JMS\Serializer\Visitor\SerializationVisitorInterface::class);
-        $context = $this->createMock(\JMS\Serializer\SerializationContext::class);
+        $visitor = $this->createStub(\JMS\Serializer\Visitor\SerializationVisitorInterface::class);
+        $context = $this->createStub(\JMS\Serializer\SerializationContext::class);
 
         $result = $this->handler->serializeDateTimeFormatInterface($visitor, $nullDateTime, [], $context);
         $this->assertEquals('', $result);
