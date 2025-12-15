@@ -104,8 +104,8 @@ final class Response implements MessageInterface
         return $this->redirectURL;
     }
 
-    public function setRedirectURL(\Psr\Http\Message\UriInterface $redirectURL,
-    ): self {
+    public function setRedirectURL(\Psr\Http\Message\UriInterface $redirectURL): self
+    {
         $this->redirectURL = $redirectURL;
 
         return $this;
