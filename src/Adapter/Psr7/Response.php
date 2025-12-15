@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace Deviantintegral\Har\Adapter\Psr7;
 
 use Deviantintegral\Har\Content;
+use GuzzleHttp\Psr7\Utils;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
-
-use function GuzzleHttp\Psr7\stream_for;
 
 final class Response extends MessageBase implements ResponseInterface
 {
@@ -47,7 +46,7 @@ final class Response extends MessageBase implements ResponseInterface
 
     public function getBody(): StreamInterface
     {
-        return stream_for($this->response->getContent()->getText());
+        return Utils::streamFor($this->response->getContent()->getText());
     }
 
     public function withBody(StreamInterface $body): \Psr\Http\Message\MessageInterface

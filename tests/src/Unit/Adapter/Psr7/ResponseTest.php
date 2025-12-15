@@ -128,4 +128,28 @@ class ResponseTest extends HarTestBase
         $withAdded = $this->response->withAddedHeader('X-Custom', ['value1', 'value2']);
         $this->assertEquals(['value1', 'value2'], $withAdded->getHeader('X-Custom'));
     }
+
+    public function testGetBody()
+    {
+        $body = $this->response->getBody();
+        $this->assertInstanceOf(\Psr\Http\Message\StreamInterface::class, $body);
+
+        // Verify the body content matches the response content
+        $bodyContent = $body->getContents();
+        $this->assertIsString($bodyContent);
+        $this->assertNotEmpty($bodyContent);
+    }
+
+    public function testWithBody()
+    {
+        $newBodyContent = 'Test body content';
+        $newBody = \GuzzleHttp\Psr7\Utils::streamFor($newBodyContent);
+
+        $withBody = $this->response->withBody($newBody);
+        $this->assertInstanceOf(Response::class, $withBody);
+
+        // Verify the new body content
+        $resultBody = $withBody->getBody();
+        $this->assertEquals($newBodyContent, $resultBody->getContents());
+    }
 }
