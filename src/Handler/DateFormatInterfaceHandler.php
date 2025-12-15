@@ -15,10 +15,7 @@ use JMS\Serializer\Visitor\SerializationVisitorInterface;
 
 class DateFormatInterfaceHandler implements SubscribingHandlerInterface
 {
-    /**
-     * @var \JMS\Serializer\Handler\DateHandler
-     */
-    private $innerHandler;
+    private \JMS\Serializer\Handler\DateHandler $innerHandler;
 
     public static function getSubscribingMethods()
     {
