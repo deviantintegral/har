@@ -26,6 +26,14 @@ final class Har
     }
 
     /**
+     * Deep clone the Log object when cloning Har.
+     */
+    public function __clone(): void
+    {
+        $this->log = clone $this->log;
+    }
+
+    /**
      * Return a generator that returns cloned HARs with one per HAR entry.
      *
      * @return Har[]
