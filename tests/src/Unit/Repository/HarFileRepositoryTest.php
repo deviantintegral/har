@@ -100,11 +100,13 @@ class HarFileRepositoryTest extends HarTestBase
         file_put_contents($emptyFile, '');
 
         $repository = new HarFileRepository($tempDir);
-        $json = $repository->loadJson('empty.har');
-        $this->assertIsString($json);
-        $this->assertEmpty($json);
-
-        unlink($emptyFile);
-        rmdir($tempDir);
+        $this->expectException(\RuntimeException::class);
+        try {
+            $repository->loadJson('empty.har');
+        } catch (\RuntimeException $e) {
+            unlink($emptyFile);
+            rmdir($tempDir);
+            throw $e;
+        }
     }
 }
