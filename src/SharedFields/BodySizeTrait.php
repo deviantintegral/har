@@ -11,11 +11,9 @@ trait BodySizeTrait
      * zero in case of responses coming from the cache (304). Set to -1 if the
      * info is not available.
      *
-     * @var int
-     *
      * @Serializer\Type("integer")
      */
-    protected $bodySize = -1;
+    protected int $bodySize = -1;
 
     public function setBodySize(int $bodySize): self
     {

@@ -9,11 +9,9 @@ trait StartedDateTimeTrait
     /**
      * Date and time stamp of the request start.
      *
-     * @var \DateTime
-     *
      * @Serializer\Type("DateTime")
      */
-    private $startedDateTime;
+    private \DateTime $startedDateTime;
 
     public function setStartedDateTime(\DateTime $startedDateTime): self
     {

@@ -18,21 +18,17 @@ final class Cache
      * beforeRequest [object, optional] - State of a cache entry before the
      * request. Leave out this field if the information is not available.
      *
-     * @var CacheState
-     *
      * @Serializer\Type("Deviantintegral\Har\CacheState")
      */
-    private $beforeRequest;
+    private ?CacheState $beforeRequest = null;
 
     /**
      * afterRequest [object, optional] - State of a cache entry after the
      * request. Leave out this field if the information is not available.
      *
-     * @var CacheState
-     *
      * @Serializer\Type("Deviantintegral\Har\CacheState")
      */
-    private $afterRequest;
+    private ?CacheState $afterRequest = null;
 
     public function hasBeforeRequest(): bool
     {

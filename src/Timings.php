@@ -15,58 +15,46 @@ final class Timings
      * Time spent in a queue waiting for a network connection. Use -1 if the
      * timing does not apply to the current request.
      *
-     * @var float
-     *
-     * @Serializer\Type("float"))
+     * @Serializer\Type("float")
      */
-    private $blocked = -1;
+    private float $blocked = -1.0;
 
     /**
      * DNS resolution time. The time required to resolve a host name. Use -1 if
      * the timing does not apply to the current request.
      *
-     * @var float
-     *
      * @Serializer\Type("float")
      */
-    private $dns = -1;
+    private float $dns = -1.0;
 
     /**
      * Time required to create TCP connection. Use -1 if the timing does not
      * apply to the current request.
      *
-     * @var float
-     *
      * @Serializer\Type("float")
      */
-    private $connect = -1;
+    private float $connect = -1.0;
 
     /**
      * Time required to send HTTP request to the server.
      *
-     * @var float
-     *
      * @Serializer\Type("float")
      */
-    private $send;
+    private float $send;
 
     /**
      * Waiting for a response from the server.
      *
-     * @var float
-     *
      * @Serializer\Type("float")
      */
-    private $wait;
+    private float $wait;
 
     /**
      * Time required to read entire response from the server (or cache).
      *
-     * @var float
-     *
      * @Serializer\Type("float")
      */
-    private $receive;
+    private float $receive;
 
     /**
      * Time required for SSL/TLS negotiation. If this field is defined then the
@@ -74,15 +62,13 @@ final class Timings
      * compatibility with HAR 1.1). Use -1 if the timing does not apply to the
      * current request.
      *
-     * @var float
-     *
      * @Serializer\Type("float")
      */
-    private $ssl = -1;
+    private float $ssl = -1.0;
 
     public function hasBlocked(): bool
     {
-        return -1 !== $this->blocked;
+        return -1.0 !== $this->blocked;
     }
 
     public function getBlocked(): float
@@ -99,7 +85,7 @@ final class Timings
 
     public function hasDns(): bool
     {
-        return -1 !== $this->dns;
+        return -1.0 !== $this->dns;
     }
 
     /**

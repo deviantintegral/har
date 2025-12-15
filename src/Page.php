@@ -14,25 +14,19 @@ final class Page
     use StartedDateTimeTrait;
 
     /**
-     * @var string
-     *
      * @Serializer\Type("string")
      */
-    private $id;
+    private string $id;
 
     /**
-     * @var string
-     *
      * @Serializer\Type("string")
      */
-    private $title;
+    private string $title;
 
     /**
-     * @var PageTimings
-     *
      * @Serializer\Type("Deviantintegral\Har\PageTimings")
      */
-    private $pageTimings;
+    private PageTimings $pageTimings;
 
     public function getId(): string
     {

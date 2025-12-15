@@ -19,11 +19,9 @@ class Creator
     use NameTrait;
 
     /**
-     * @var string
-     *
      * @Serializer\Type("string")
      */
-    private $version;
+    private string $version;
 
     public function getVersion(): string
     {
