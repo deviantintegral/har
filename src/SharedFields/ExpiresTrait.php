@@ -12,9 +12,8 @@ trait ExpiresTrait
     /**
      * Expiration time. (ISO 8601 - YYYY-MM-DDThh:mm:ss.sTZD, e.g.
      * 2009-07-24T19:20:30.123+02:00).
-     *
-     * @Serializer\Type("Deviantintegral\NullDateTime\DateTimeFormatInterface")
      */
+    #[Serializer\Type("Deviantintegral\NullDateTime\DateTimeFormatInterface")]
     private DateTimeFormatInterface $expires;
 
     public function getExpires(): DateTimeFormatInterface

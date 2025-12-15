@@ -14,46 +14,40 @@ final class Timings
     /**
      * Time spent in a queue waiting for a network connection. Use -1 if the
      * timing does not apply to the current request.
-     *
-     * @Serializer\Type("float")
      */
+    #[Serializer\Type('float')]
     private float $blocked = -1.0;
 
     /**
      * DNS resolution time. The time required to resolve a host name. Use -1 if
      * the timing does not apply to the current request.
-     *
-     * @Serializer\Type("float")
      */
+    #[Serializer\Type('float')]
     private float $dns = -1.0;
 
     /**
      * Time required to create TCP connection. Use -1 if the timing does not
      * apply to the current request.
-     *
-     * @Serializer\Type("float")
      */
+    #[Serializer\Type('float')]
     private float $connect = -1.0;
 
     /**
      * Time required to send HTTP request to the server.
-     *
-     * @Serializer\Type("float")
      */
+    #[Serializer\Type('float')]
     private float $send;
 
     /**
      * Waiting for a response from the server.
-     *
-     * @Serializer\Type("float")
      */
+    #[Serializer\Type('float')]
     private float $wait;
 
     /**
      * Time required to read entire response from the server (or cache).
-     *
-     * @Serializer\Type("float")
      */
+    #[Serializer\Type('float')]
     private float $receive;
 
     /**
@@ -61,9 +55,8 @@ final class Timings
      * time is also included in the connect field (to ensure backward
      * compatibility with HAR 1.1). Use -1 if the timing does not apply to the
      * current request.
-     *
-     * @Serializer\Type("float")
      */
+    #[Serializer\Type('float')]
     private float $ssl = -1.0;
 
     public function hasBlocked(): bool

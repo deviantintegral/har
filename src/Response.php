@@ -22,31 +22,27 @@ final class Response implements MessageInterface
 
     /**
      * status [number] - Response status.
-     *
-     * @Serializer\Type("integer")
      */
+    #[Serializer\Type('integer')]
     private int $status;
 
     /**
      * statusText [string] - Response status description.
-     *
-     * @Serializer\Type("string")
      */
+    #[Serializer\Type('string')]
     private string $statusText;
 
     /**
      * content [object] - Details about the response body.
-     *
-     * @Serializer\Type("Deviantintegral\Har\Content")
      */
+    #[Serializer\Type("Deviantintegral\Har\Content")]
     private Content $content;
 
     /**
      * redirectURL [string] - Redirection target URL from the Location response
      * header.
-     *
-     * @Serializer\Type("Psr\Http\Message\UriInterface")
      */
+    #[Serializer\Type("Psr\Http\Message\UriInterface")]
     private \Psr\Http\Message\UriInterface $redirectURL;
 
     public static function fromPsr7Response(ResponseInterface $source): self

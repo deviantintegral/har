@@ -25,9 +25,8 @@ final class PostData
      * List of posted parameters (in case of URL encoded parameters).
      *
      * @var Params[]
-     *
-     * @Serializer\Type("array<Deviantintegral\Har\Params>")
      */
+    #[Serializer\Type("array<Deviantintegral\Har\Params>")]
     private ?array $params = null;
 
     /**
