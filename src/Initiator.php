@@ -10,8 +10,6 @@ use JMS\Serializer\Annotation as Serializer;
 final class Initiator
 {
     /**
-     * @Serializer\Type("string")
-     *
      * parser:
      *   Chrome's HTML parser.
      * redirect:
@@ -22,20 +20,19 @@ final class Initiator
      *   Some other process or action, such as navigating to a page via a link
      *   or entering a URL in the address bar.
      */
+    #[Serializer\Type('string')]
     private ?string $type = null;
 
     /**
      * URL of the entry that initiated this request.
-     *
-     * @Serializer\Type("Psr\Http\Message\UriInterface")
      */
+    #[Serializer\Type("Psr\Http\Message\UriInterface")]
     private ?\Psr\Http\Message\UriInterface $url = null;
 
     /**
      * Line number that initiated this request.
-     *
-     * @Serializer\Type("integer")
      */
+    #[Serializer\Type('integer')]
     private ?int $lineNumber = null;
 
     public function getType(): ?string

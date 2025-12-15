@@ -15,18 +15,16 @@ final class PageTimings
      * Content of the page loaded. Number of milliseconds since page load
      * started (page.startedDateTime). Use -1 if the timing does not apply to
      * the current request.
-     *
-     * @Serializer\Type("float")
      */
+    #[Serializer\Type('float')]
     private float $onContentLoad;
 
     /**
      * Page is loaded (onLoad event fired). Number of milliseconds since page
      * load started (page.startedDateTime). Use -1 if the timing does not apply
      * to the current request.
-     *
-     * @Serializer\Type("float")
      */
+    #[Serializer\Type('float')]
     private float $onLoad;
 
     public function getOnContentLoad(): float

@@ -8,9 +8,7 @@ use JMS\Serializer\Annotation as Serializer;
 
 final class Har
 {
-    /**
-     * @Serializer\Type("Deviantintegral\Har\Log")
-     */
+    #[Serializer\Type("Deviantintegral\Har\Log")]
     private Log $log;
 
     public function getLog(): Log

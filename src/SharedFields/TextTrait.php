@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Deviantintegral\Har\SharedFields;
 
+use JMS\Serializer\Annotation as Serializer;
+
 trait TextTrait
 {
     /**
@@ -11,9 +13,8 @@ trait TextTrait
      * field is populated with textual content only. The text field is either
      * HTTP decoded text or a encoded (e.g. "base64") representation of the
      * response body. Leave out this field if the information is not available.
-     *
-     * @Serializer\Type("string")
      */
+    #[Serializer\Type('string')]
     protected ?string $text = null;
 
     public function setText(?string $text = null): self
