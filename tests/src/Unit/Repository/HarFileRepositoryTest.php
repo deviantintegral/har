@@ -91,4 +91,22 @@ class HarFileRepositoryTest extends HarTestBase
         $this->assertIsArray($ids);
         $this->assertEmpty($ids);
     }
+
+    public function testLoadJsonHandlesEmptyFile()
+    {
+        $tempDir = sys_get_temp_dir().'/har_test_'.uniqid();
+        mkdir($tempDir);
+        $emptyFile = $tempDir.'/empty.har';
+        file_put_contents($emptyFile, '');
+
+        $repository = new HarFileRepository($tempDir);
+        $this->expectException(\RuntimeException::class);
+        try {
+            $repository->loadJson('empty.har');
+        } catch (\RuntimeException $e) {
+            unlink($emptyFile);
+            rmdir($tempDir);
+            throw $e;
+        }
+    }
 }
