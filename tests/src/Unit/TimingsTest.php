@@ -43,4 +43,32 @@ class TimingsTest extends HarTestBase
         $deserialized = $serializer->deserialize($serialized, Timings::class, 'json');
         $this->assertEquals($timings, $deserialized);
     }
+
+    public function testHasBlocked()
+    {
+        $timings = new Timings();
+
+        // Default value is -1, so hasBlocked() should return false
+        $this->assertFalse($timings->hasBlocked());
+        $this->assertEquals(-1, $timings->getBlocked());
+
+        // After setting a value, hasBlocked() should return true
+        $timings->setBlocked(100.5);
+        $this->assertTrue($timings->hasBlocked());
+        $this->assertEquals(100.5, $timings->getBlocked());
+    }
+
+    public function testHasDns()
+    {
+        $timings = new Timings();
+
+        // Default value is -1, so hasDns() should return false
+        $this->assertFalse($timings->hasDns());
+        $this->assertEquals(-1, $timings->getDns());
+
+        // After setting a value, hasDns() should return true
+        $timings->setDns(50.3);
+        $this->assertTrue($timings->hasDns());
+        $this->assertEquals(50.3, $timings->getDns());
+    }
 }
