@@ -47,6 +47,10 @@ class HarFileRepository implements RepositoryInterface
 
     public function getIds(): array
     {
+        if (!is_dir($this->repositoryPath)) {
+            return [];
+        }
+
         $hars = scandir($this->repositoryPath);
         if (!$hars) {
             return [];
