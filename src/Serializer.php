@@ -63,7 +63,7 @@ final class Serializer
      */
     public function removeBOM(string $data): string
     {
-        if (substr($data, 0, 3) == pack('CCC', 0xEF, 0xBB, 0xBF)) {
+        if (substr($data, 0, 3) === pack('CCC', 0xEF, 0xBB, 0xBF)) {
             $data = substr($data, 3);
         }
 
