@@ -73,6 +73,10 @@ class HarFileRepository implements RepositoryInterface
     public function loadJson(string $id): string
     {
         $path = $this->repositoryPath.'/'.$id;
+        if (!file_exists($path)) {
+            throw new \RuntimeException(\sprintf('%s does not exist', $path));
+        }
+
         $contents = file_get_contents($path);
 
         if (!$contents) {
