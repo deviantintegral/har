@@ -65,8 +65,8 @@ class SplitCommand extends Command
     }
 
     private function getSplitDestination(
-        $index,
-        $md5,
+        int $index,
+        bool $md5,
         \Deviantintegral\Har\Har $cloned,
         string $destination_path,
     ): string {
