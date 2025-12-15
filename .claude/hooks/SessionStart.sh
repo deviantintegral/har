@@ -33,3 +33,5 @@ pre-commit install --hook-type commit-msg
 echo "Pre-commit hooks installed successfully!"
 
 pecl install xdebug || true
+
+composer install
