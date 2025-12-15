@@ -83,4 +83,12 @@ class HarFileRepositoryTest extends HarTestBase
         $this->expectException(\RuntimeException::class);
         $this->repository->loadJson('non-existent-file.har');
     }
+
+    public function testGetIdsReturnsEmptyArrayForNonExistentDirectory()
+    {
+        $repository = new HarFileRepository('/path/to/non-existent-directory');
+        $ids = $repository->getIds();
+        $this->assertIsArray($ids);
+        $this->assertEmpty($ids);
+    }
 }
