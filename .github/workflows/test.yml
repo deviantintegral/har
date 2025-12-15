@@ -5,6 +5,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: write
 
 jobs:
   tests:
@@ -47,6 +48,13 @@ jobs:
 
       - name: Run tests
         run: vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+
+      - name: Code Coverage Annotation
+        uses: ggilder/codecoverage@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COVERAGE_FILE_PATH: build/logs/clover.xml
+          COVERAGE_FORMAT: clover
 
       - name: Upload test results
         if: always()
