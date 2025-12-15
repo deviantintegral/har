@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Deviantintegral\Har\SharedFields;
 
+use JMS\Serializer\Annotation as Serializer;
+
 trait NameTrait
 {
-    /**
-     * @Serializer\Type("string")
-     */
+    #[Serializer\Type('string')]
     protected string $name;
 
     public function setName(string $name): self

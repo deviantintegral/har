@@ -18,9 +18,7 @@ class Creator
     use CommentTrait;
     use NameTrait;
 
-    /**
-     * @Serializer\Type("string")
-     */
+    #[Serializer\Type('string')]
     private string $version;
 
     public function getVersion(): string

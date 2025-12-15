@@ -4,24 +4,24 @@ declare(strict_types=1);
 
 namespace Deviantintegral\Har\SharedFields;
 
+use JMS\Serializer\Annotation as Serializer;
+
 trait HeadersTrait
 {
     /**
      * headers [array] - List of header objects.
      *
      * @var \Deviantintegral\Har\Header[]
-     *
-     * @Serializer\Type("array<Deviantintegral\Har\Header>")
      */
+    #[Serializer\Type("array<Deviantintegral\Har\Header>")]
     protected array $headers = [];
 
     /**
      * headersSize [number]* - Total number of bytes from the start of the HTTP
      * response message until (and including) the double CRLF before the body.
      * Set to -1 if the info is not available.
-     *
-     * @Serializer\Type("integer")
      */
+    #[Serializer\Type('integer')]
     protected int $headersSize = -1;
 
     public function getHeadersSize(): int

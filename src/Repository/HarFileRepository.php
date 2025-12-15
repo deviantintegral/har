@@ -29,6 +29,9 @@ class HarFileRepository implements RepositoryInterface
         return (new Serializer())->deserializeHar($contents);
     }
 
+    /**
+     * @param array<string> $ids
+     */
     public function loadMultiple(array $ids = []): \Generator
     {
         if (empty($ids)) {

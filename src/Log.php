@@ -21,33 +21,25 @@ class Log
      */
     public const ISO_8601_MICROSECONDS = 'Y-m-d\TH:i:s.uT';
 
-    /**
-     * @Serializer\Type("string")
-     */
+    #[Serializer\Type('string')]
     private string $version;
 
-    /**
-     * @Serializer\Type("Deviantintegral\Har\Creator")
-     */
+    #[Serializer\Type("Deviantintegral\Har\Creator")]
     private Creator $creator;
 
-    /**
-     * @Serializer\Type("Deviantintegral\Har\Browser")
-     */
+    #[Serializer\Type("Deviantintegral\Har\Browser")]
     private Browser $browser;
 
     /**
      * @var Page[]
-     *
-     * @Serializer\Type("array<Deviantintegral\Har\Page>")
      */
+    #[Serializer\Type("array<Deviantintegral\Har\Page>")]
     private array $pages;
 
     /**
      * @var Entry[]
-     *
-     * @Serializer\Type("array<integer, Deviantintegral\Har\Entry>")
      */
+    #[Serializer\Type("array<integer, Deviantintegral\Har\Entry>")]
     private array $entries;
 
     public function getVersion(): string

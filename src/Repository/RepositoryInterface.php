@@ -19,7 +19,7 @@ interface RepositoryInterface
     /**
      * Load multiple HAR objects.
      *
-     * @param array $ids (optional) An array of IDs to load. Omit to load all objects.
+     * @param array<string> $ids (optional) An array of IDs to load. Omit to load all objects.
      *
      * @return \Generator yields a key / value where the key is the ID and the
      *                    value is a \Deviantintegral\Har\Har

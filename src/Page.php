@@ -13,19 +13,13 @@ final class Page
     use CommentTrait;
     use StartedDateTimeTrait;
 
-    /**
-     * @Serializer\Type("string")
-     */
+    #[Serializer\Type('string')]
     private string $id;
 
-    /**
-     * @Serializer\Type("string")
-     */
+    #[Serializer\Type('string')]
     private string $title;
 
-    /**
-     * @Serializer\Type("Deviantintegral\Har\PageTimings")
-     */
+    #[Serializer\Type("Deviantintegral\Har\PageTimings")]
     private PageTimings $pageTimings;
 
     public function getId(): string

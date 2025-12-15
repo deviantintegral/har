@@ -26,30 +26,25 @@ final class Request implements MessageInterface
 
     /**
      * method [string] - Request method (GET, POST, ...).
-     *
-     * @Serializer\Type("string")
      */
+    #[Serializer\Type('string')]
     private string $method;
 
-    /**
-     * @Serializer\Type("Psr\Http\Message\UriInterface")
-     */
+    #[Serializer\Type("Psr\Http\Message\UriInterface")]
     private \Psr\Http\Message\UriInterface $url;
 
     /**
      * List of query parameter objects.
      *
      * @var Params[]
-     *
-     * @Serializer\Type("array<Deviantintegral\Har\Params>")
      */
+    #[Serializer\Type("array<Deviantintegral\Har\Params>")]
     private ?array $queryString = null;
 
     /**
      * postData [object, optional] - Posted data info.
-     *
-     * @Serializer\Type("Deviantintegral\Har\PostData")
      */
+    #[Serializer\Type("Deviantintegral\Har\PostData")]
     private ?PostData $postData = null;
 
     /**
@@ -162,8 +157,8 @@ final class Request implements MessageInterface
         return $this->postData;
     }
 
-    public function setPostData(PostData $postData,
-    ): self {
+    public function setPostData(PostData $postData): self
+    {
         $this->postData = $postData;
 
         $this->setBodySize($postData->getBodySize());

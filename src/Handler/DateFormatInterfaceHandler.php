@@ -15,12 +15,12 @@ use JMS\Serializer\Visitor\SerializationVisitorInterface;
 
 class DateFormatInterfaceHandler implements SubscribingHandlerInterface
 {
-    /**
-     * @var \JMS\Serializer\Handler\DateHandler
-     */
-    private $innerHandler;
+    private \JMS\Serializer\Handler\DateHandler $innerHandler;
 
-    public static function getSubscribingMethods()
+    /**
+     * @return array<array<string, mixed>>
+     */
+    public static function getSubscribingMethods(): array
     {
         $types = [
             'Deviantintegral\NullDateTime\DateTimeFormatInterface',
@@ -51,7 +51,10 @@ class DateFormatInterfaceHandler implements SubscribingHandlerInterface
         $this->innerHandler = new \JMS\Serializer\Handler\DateHandler($defaultFormat, $defaultTimezone);
     }
 
-    public function serializeDateTimeFormatInterface(SerializationVisitorInterface $visitor, DateTimeFormatInterface $date, array $type, SerializationContext $context)
+    /**
+     * @param array<string, mixed> $type
+     */
+    public function serializeDateTimeFormatInterface(SerializationVisitorInterface $visitor, DateTimeFormatInterface $date, array $type, SerializationContext $context): mixed
     {
         if ($date instanceof ConcreteDateTime) {
             return $this->innerHandler->serializeDateTime($visitor, $date->getDateTime(), $type, $context);
@@ -60,7 +63,10 @@ class DateFormatInterfaceHandler implements SubscribingHandlerInterface
         return $date->format('');
     }
 
-    public function deserializeDateTimeFormatInterfaceFromJson(JsonDeserializationVisitor $visitor, $data, array $type): DateTimeFormatInterface
+    /**
+     * @param array<string, mixed> $type
+     */
+    public function deserializeDateTimeFormatInterfaceFromJson(JsonDeserializationVisitor $visitor, mixed $data, array $type): DateTimeFormatInterface
     {
         if (null === $data || '' === $data) {
             return new NullDateTime();
