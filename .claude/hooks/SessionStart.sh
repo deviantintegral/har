@@ -32,30 +32,30 @@ pre-commit install --hook-type commit-msg
 
 echo "Pre-commit hooks installed successfully!"
 
-# Check if pecl is available, install php-pear if not
-echo "Checking for pecl..."
-if ! command -v pecl &> /dev/null; then
-    echo "pecl is not installed. Installing php-pear..."
+# Install xdebug if not already present
+echo "Checking for xdebug..."
+if ! php -m | grep -q xdebug; then
+    echo "xdebug is not installed. Installing xdebug..."
 
-    # Try to install php-pear using apt
+    # Try to install xdebug using apt
     if command -v apt-get &> /dev/null; then
-        apt-get update && apt-get install -y php-pear
+        # Detect PHP version and install corresponding xdebug package
+        PHP_VERSION=$(php -r 'echo PHP_MAJOR_VERSION . "." . PHP_MINOR_VERSION;')
+        apt-get install -y php${PHP_VERSION}-xdebug
     else
-        echo "Error: apt package manager is not available. Cannot install php-pear."
+        echo "Error: apt package manager is not available. Cannot install xdebug."
         exit 1
     fi
 
     # Verify installation
-    if ! command -v pecl &> /dev/null; then
-        echo "Error: Failed to install php-pear/pecl."
+    if ! php -m | grep -q xdebug; then
+        echo "Error: Failed to install xdebug."
         exit 1
     fi
 
-    echo "php-pear and pecl installed successfully!"
+    echo "xdebug installed successfully!"
 else
-    echo "pecl is already available."
+    echo "xdebug is already available."
 fi
-
-pecl install xdebug || true
 
 composer install
