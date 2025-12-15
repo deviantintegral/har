@@ -33,7 +33,26 @@ class SplitCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $source = $input->getArgument('har');
+
+        if (!file_exists($source)) {
+            $io->error(\sprintf('File not found: %s', $source));
+
+            return Command::FAILURE;
+        }
+
+        if (is_dir($source)) {
+            $io->error(\sprintf('Path is a directory, not a file: %s', $source));
+
+            return Command::FAILURE;
+        }
+
         $contents = file_get_contents($source);
+        if (false === $contents) {
+            $io->error(\sprintf('Unable to read file: %s', $source));
+
+            return Command::FAILURE;
+        }
+
         $serializer = new Serializer();
         $har = $serializer->deserializeHar($contents);
 
