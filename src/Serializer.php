@@ -13,7 +13,7 @@ use JMS\Serializer\SerializerBuilder;
 
 final class Serializer
 {
-    public function getSerializer()
+    public function getSerializer(): \JMS\Serializer\SerializerInterface
     {
         $builder = $this->getSerializerBuilder();
 

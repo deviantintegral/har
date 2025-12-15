@@ -20,7 +20,7 @@ class DateFormatInterfaceHandler implements SubscribingHandlerInterface
      */
     private $innerHandler;
 
-    public static function getSubscribingMethods()
+    public static function getSubscribingMethods(): array
     {
         $types = [
             'Deviantintegral\NullDateTime\DateTimeFormatInterface',
@@ -51,7 +51,7 @@ class DateFormatInterfaceHandler implements SubscribingHandlerInterface
         $this->innerHandler = new \JMS\Serializer\Handler\DateHandler($defaultFormat, $defaultTimezone);
     }
 
-    public function serializeDateTimeFormatInterface(SerializationVisitorInterface $visitor, DateTimeFormatInterface $date, array $type, SerializationContext $context)
+    public function serializeDateTimeFormatInterface(SerializationVisitorInterface $visitor, DateTimeFormatInterface $date, array $type, SerializationContext $context): mixed
     {
         if ($date instanceof ConcreteDateTime) {
             return $this->innerHandler->serializeDateTime($visitor, $date->getDateTime(), $type, $context);
