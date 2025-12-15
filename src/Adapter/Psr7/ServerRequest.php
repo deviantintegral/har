@@ -19,11 +19,17 @@ use Psr\Http\Message\UriInterface;
  */
 class ServerRequest extends Request implements ServerRequestInterface
 {
+    /**
+     * @return array<string, mixed>
+     */
     public function getServerParams(): array
     {
         return [];
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function getCookieParams(): array
     {
         $request = $this->getHarRequest();
@@ -35,6 +41,9 @@ class ServerRequest extends Request implements ServerRequestInterface
         return $cookieParams;
     }
 
+    /**
+     * @param array<string, string> $cookies
+     */
     public function withCookieParams(array $cookies): ServerRequestInterface
     {
         $request = clone $this->getHarRequest();
@@ -49,6 +58,9 @@ class ServerRequest extends Request implements ServerRequestInterface
         return new static($request);
     }
 
+    /**
+     * @return array<string, string>
+     */
     public function getQueryParams(): array
     {
         $request = $this->getHarRequest();
@@ -60,6 +72,9 @@ class ServerRequest extends Request implements ServerRequestInterface
         return $queryParams;
     }
 
+    /**
+     * @param array<string, mixed> $query
+     */
     public function withQueryParams(array $query): ServerRequestInterface
     {
         $request = clone $this->getHarRequest();
@@ -74,16 +89,25 @@ class ServerRequest extends Request implements ServerRequestInterface
         return new static($request);
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getUploadedFiles(): array
     {
         return [];
     }
 
+    /**
+     * @param array<mixed> $uploadedFiles
+     */
     public function withUploadedFiles(array $uploadedFiles): ServerRequestInterface
     {
         throw new \LogicException('Uploaded files are not supported.');
     }
 
+    /**
+     * @return array<string, string>|object|null
+     */
     public function getParsedBody()
     {
         $request = $this->getHarRequest();
@@ -116,6 +140,9 @@ class ServerRequest extends Request implements ServerRequestInterface
         return null;
     }
 
+    /**
+     * @param array<string, mixed>|object|null $data
+     */
     public function withParsedBody($data): ServerRequestInterface
     {
         if (!\is_array($data) && !\is_object($data) && null !== $data) {
@@ -142,6 +169,9 @@ class ServerRequest extends Request implements ServerRequestInterface
         return new static($request);
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getAttributes(): array
     {
         return [];
