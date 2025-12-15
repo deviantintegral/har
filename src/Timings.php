@@ -82,7 +82,7 @@ final class Timings
 
     public function hasBlocked(): bool
     {
-        return -1 === $this->blocked;
+        return -1 !== $this->blocked;
     }
 
     public function getBlocked(): float
@@ -99,7 +99,7 @@ final class Timings
 
     public function hasDns(): bool
     {
-        return -1 === $this->dns;
+        return -1 !== $this->dns;
     }
 
     /**
