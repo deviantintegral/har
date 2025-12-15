@@ -47,7 +47,7 @@ jobs:
         run: mkdir -p build/logs
 
       - name: Run tests
-        run: vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+        run: vendor/bin/phpunit --testdox --display-all-issues --coverage-clover build/logs/clover.xml
 
       - name: Code Coverage Annotation
         uses: ggilder/codecoverage@47c83daaf1d5a3190cad56363baf459c59114170 # v1

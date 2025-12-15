@@ -23,7 +23,7 @@ repos:
         pass_filenames: false
       - id: phpunit
         name: PHPUnit
-        entry: vendor/bin/phpunit
+        entry: vendor/bin/phpunit --testdox --display-all-issues
         language: system
         types: [php]
         pass_filenames: false
