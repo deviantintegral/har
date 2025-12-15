@@ -11,10 +11,7 @@ use Psr\Http\Message\StreamInterface;
 
 final class Response extends MessageBase implements ResponseInterface
 {
-    /**
-     * @var \Deviantintegral\Har\Response
-     */
-    private $response;
+    private \Deviantintegral\Har\Response $response;
 
     /**
      * Response constructor.

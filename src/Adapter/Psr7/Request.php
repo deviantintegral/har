@@ -13,10 +13,7 @@ use Psr\Http\Message\UriInterface;
 
 class Request extends MessageBase implements RequestInterface
 {
-    /**
-     * @var \Deviantintegral\Har\Request
-     */
-    private $request;
+    private \Deviantintegral\Har\Request $request;
 
     public function __construct(\Deviantintegral\Har\Request $request)
     {
