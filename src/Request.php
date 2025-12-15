@@ -27,18 +27,16 @@ final class Request implements MessageInterface
     /**
      * method [string] - Request method (GET, POST, ...).
      *
-     * @var string
-     *
      * @Serializer\Type("string")
      */
-    private $method;
+    private string $method;
 
     /**
      * @var \Psr\Http\Message\UriInterface
      *
      * @Serializer\Type("Psr\Http\Message\UriInterface")
      */
-    private $url;
+    private PsrHttpMessageRIINTERFACE $URL;
 
     /**
      * List of query parameter objects.
@@ -47,16 +45,14 @@ final class Request implements MessageInterface
      *
      * @Serializer\Type("array<Deviantintegral\Har\Params>")
      */
-    private $queryString;
+    private ?array $queryString = null;
 
     /**
      * postData [object, optional] - Posted data info.
      *
-     * @var PostData
-     *
      * @Serializer\Type("Deviantintegral\Har\PostData")
      */
-    private $postData;
+    private ?PostData $postData = null;
 
     /**
      * Construct a new Request from a PSR-7 Request.

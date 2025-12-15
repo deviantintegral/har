@@ -11,11 +11,9 @@ trait MimeTypeTrait
      * header). The charset attribute of the MIME type is included (if
      * available).
      *
-     * @var string
-     *
      * @Serializer\Type("string")
      */
-    protected $mimeType;
+    protected ?string $mimeType = null;
 
     public function getMimeType(): string
     {

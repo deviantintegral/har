@@ -10,8 +10,6 @@ use JMS\Serializer\Annotation as Serializer;
 final class Initiator
 {
     /**
-     * @var string
-     *
      * @Serializer\Type("string")
      *
      * parser:
@@ -24,25 +22,21 @@ final class Initiator
      *   Some other process or action, such as navigating to a page via a link
      *   or entering a URL in the address bar.
      */
-    private $type;
+    private ?string $type = null;
 
     /**
      * URL of the entry that initiated this request.
      *
-     * @var \Psr\Http\Message\UriInterface
-     *
      * @Serializer\Type("Psr\Http\Message\UriInterface")
      */
-    private $url;
+    private ?\Psr\Http\Message\UriInterface $url = null;
 
     /**
      * Line number that initiated this request.
      *
-     * @var int
-     *
      * @Serializer\Type("integer")
      */
-    private $lineNumber;
+    private ?int $lineNumber = null;
 
     public function getType(): ?string
     {

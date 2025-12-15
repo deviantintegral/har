@@ -16,7 +16,7 @@ class Request extends MessageBase implements RequestInterface
     /**
      * @var \Deviantintegral\Har\Request
      */
-    private $request;
+    private DeviantintegralHarRequest $request;
 
     public function __construct(\Deviantintegral\Har\Request $request)
     {

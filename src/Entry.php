@@ -22,78 +22,60 @@ final class Entry
      * Reference to the parent page. Leave out this field if the application
      * does not support grouping by pages.
      *
-     * @var string
-     *
      * @Serializer\Type("string")
      */
-    private $pageref;
+    private string $pageref;
 
     /**
      * Total elapsed time of the request in milliseconds. This is the sum of all
      * timings available in the timings object (i.e. not including -1 values).
      *
-     * @var float
-     *
      * @Serializer\Type("float")
      */
-    private $time;
+    private float $time;
 
     /**
      * Detailed info about the request.
      *
-     * @var Request
-     *
      * @Serializer\Type("Deviantintegral\Har\Request")
      */
-    private $request;
+    private Request $request;
 
     /**
      * Detailed info about the response.
      *
-     * @var Response
-     *
      * @Serializer\Type("Deviantintegral\Har\Response")
      */
-    private $response;
+    private Response $response;
 
     /**
      * Info about cache usage.
      *
-     * @var Cache
-     *
      * @Serializer\Type("Deviantintegral\Har\Cache")
      */
-    private $cache;
+    private Cache $cache;
 
     /**
-     * @var Timings
-     *
      * @Serializer\Type("Deviantintegral\Har\Timings")
      */
-    private $timings;
+    private Timings $timings;
 
     /**
-     * @var string
-     *
      * @Serializer\Type("string")
      */
-    private $serverIPAddress;
+    private string $serverIPAddress;
 
     /**
-     * @var string
-     *
      * @Serializer\Type("string")
      */
-    private $connection;
+    private string $connection;
 
     /**
      * Detailed info about the request.
      *
-     * @var Initiator
-     *
      * @Serializer\Type("Deviantintegral\Har\Initiator")
      */
-    private $_initiator;
+    private ?Initiator $_initiator = null;
 
     public function getPageref(): string
     {

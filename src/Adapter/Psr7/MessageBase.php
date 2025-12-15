@@ -12,7 +12,7 @@ abstract class MessageBase implements MessageInterface
     /**
      * @var \Deviantintegral\Har\MessageInterface
      */
-    protected $message;
+    protected \Deviantintegral\Har\MessageInterface $message;
 
     public function __construct(\Deviantintegral\Har\MessageInterface $message)
     {

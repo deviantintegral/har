@@ -14,10 +14,7 @@ use JMS\Serializer\JsonDeserializationVisitor;
  */
 class TruncatingDateTimeHandler implements SubscribingHandlerInterface
 {
-    /**
-     * @var DateHandler
-     */
-    private $innerHandler;
+    private DateHandler $innerHandler;
 
     public static function getSubscribingMethods()
     {

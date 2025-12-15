@@ -15,7 +15,7 @@ final class Response extends MessageBase implements ResponseInterface
     /**
      * @var \Deviantintegral\Har\Response
      */
-    private $response;
+    private DeviantintegralHarResponse $response;
 
     /**
      * Response constructor.

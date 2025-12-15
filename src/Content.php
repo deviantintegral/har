@@ -20,42 +20,34 @@ final class Content
      * response.bodySize if there is no compression and bigger when the content
      * has been compressed.
      *
-     * @var int
-     *
      * @Serializer\Type("integer")
      */
-    private $size;
+    private int $size;
 
     /**
      * compression [number, optional] - Number of bytes saved. Leave out this
      * field if the information is not available.
      *
-     * @var int
-     *
      * @Serializer\Type("integer")
      */
-    private $compression;
+    private int $compression;
 
     /**
      * Number of bytes saved. Leave out this field if the information is not
      * available.
      *
-     * @var int
-     *
      * @Serializer\Type("integer")
      */
-    private $number;
+    private ?int $number = null;
 
     /**
      * Encoding used for response text field e.g "base64". Leave out this field
      * if the text field is HTTP decoded (decompressed & unchunked), than
      * trans-coded from its original character set into UTF-8.
      *
-     * @var string
-     *
      * @Serializer\Type("string")
      */
-    private $encoding;
+    private ?string $encoding = null;
 
     public function getCompression(): int
     {

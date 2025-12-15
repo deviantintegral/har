@@ -13,7 +13,7 @@ trait CookiesTrait
      *
      * @Serializer\Type("array<Deviantintegral\Har\Cookie>")
      */
-    private $cookies;
+    private ?array $cookies = null;
 
     /**
      * @return \Deviantintegral\Har\Cookie[]

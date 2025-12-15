@@ -7,11 +7,9 @@ namespace Deviantintegral\Har\SharedFields;
 trait NameTrait
 {
     /**
-     * @var string
-     *
      * @Serializer\Type("string")
      */
-    protected $name;
+    protected string $name;
 
     public function setName(string $name): self
     {

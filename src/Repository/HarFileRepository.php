@@ -12,10 +12,7 @@ use Deviantintegral\Har\Serializer;
  */
 class HarFileRepository implements RepositoryInterface
 {
-    /**
-     * @var string
-     */
-    private $repositoryPath;
+    private string $repositoryPath;
 
     /**
      * HarFileRepository constructor.

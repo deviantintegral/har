@@ -9,11 +9,9 @@ use JMS\Serializer\Annotation as Serializer;
 trait CommentTrait
 {
     /**
-     * @var string
-     *
      * @Serializer\Type("string")
      */
-    protected $comment;
+    protected ?string $comment = null;
 
     public function setComment(string $comment): self
     {
