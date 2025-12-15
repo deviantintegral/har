@@ -70,6 +70,54 @@ class HarTest extends HarTestBase
         }
     }
 
+    public function testCloneIsDeep()
+    {
+        $repository = $this->getHarFileRepository();
+        $har = $repository->load('www.softwareishard.com-multiple-entries.har');
+
+        $originalEntryCount = \count($har->getLog()->getEntries());
+        $this->assertGreaterThan(1, $originalEntryCount);
+
+        // Clone the HAR
+        $cloned = clone $har;
+
+        // Verify the clone has a different Log instance
+        $this->assertNotSame($har->getLog(), $cloned->getLog());
+
+        // Modify the cloned HAR's entries
+        $cloned->getLog()->setEntries([]);
+
+        // Verify the original HAR's entries are unchanged
+        $this->assertCount($originalEntryCount, $har->getLog()->getEntries());
+        $this->assertCount(0, $cloned->getLog()->getEntries());
+    }
+
+    public function testCloneBrowserIsDeep()
+    {
+        $repository = $this->getHarFileRepository();
+        $har = $repository->load('www.softwareishard.com-multiple-entries.har');
+
+        // Set up a browser object for testing (HAR files may not include browser data)
+        $browser = new \Deviantintegral\Har\Browser();
+        $browser->setVersion('1.0.0');
+        $har->getLog()->setBrowser($browser);
+
+        $originalBrowserVersion = $har->getLog()->getBrowser()->getVersion();
+
+        // Clone the HAR
+        $cloned = clone $har;
+
+        // Verify the Browser object is a different instance
+        $this->assertNotSame($har->getLog()->getBrowser(), $cloned->getLog()->getBrowser());
+
+        // Modify the cloned HAR's browser version
+        $cloned->getLog()->getBrowser()->setVersion('modified-version');
+
+        // Verify the original HAR's browser version is unchanged
+        $this->assertSame($originalBrowserVersion, $har->getLog()->getBrowser()->getVersion());
+        $this->assertSame('modified-version', $cloned->getLog()->getBrowser()->getVersion());
+    }
+
     private function removeCustomFields(array &$a)
     {
         foreach ($a as &$value) {

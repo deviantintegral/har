@@ -113,4 +113,27 @@ class Log
 
         return $this;
     }
+
+    /**
+     * Deep clone all object properties when cloning Log.
+     */
+    public function __clone(): void
+    {
+        if (isset($this->creator)) {
+            $this->creator = clone $this->creator;
+        }
+
+        if (isset($this->browser)) {
+            $this->browser = clone $this->browser;
+        }
+
+        // Deep clone arrays of objects
+        if (isset($this->pages)) {
+            $this->pages = array_map(fn (Page $page) => clone $page, $this->pages);
+        }
+
+        if (isset($this->entries)) {
+            $this->entries = array_map(fn (Entry $entry) => clone $entry, $this->entries);
+        }
+    }
 }
