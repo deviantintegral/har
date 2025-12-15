@@ -13,7 +13,7 @@ trait HttpVersionTrait
      */
     private string $httpVersion;
 
-    public function setHttpVersion(string $httpVersion): self
+    public function setHttpVersion(string $httpVersion): static
     {
         $this->httpVersion = $httpVersion;
 

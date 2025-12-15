@@ -20,9 +20,9 @@ interface MessageInterface
      */
     public function getHeaders(): array;
 
-    public function setHeaders(array $headers);
+    public function setHeaders(array $headers): static;
 
     public function getHttpVersion(): string;
 
-    public function setHttpVersion(string $version);
+    public function setHttpVersion(string $version): static;
 }

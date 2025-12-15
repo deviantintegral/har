@@ -32,7 +32,7 @@ trait HeadersTrait
     /**
      * @param \Deviantintegral\Har\Header[] $headers
      */
-    public function setHeaders(array $headers): self
+    public function setHeaders(array $headers): static
     {
         $this->headers = $headers;
 
