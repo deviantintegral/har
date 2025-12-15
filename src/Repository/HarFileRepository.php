@@ -12,14 +12,9 @@ use Deviantintegral\Har\Serializer;
  */
 class HarFileRepository implements RepositoryInterface
 {
-    /**
-     * @var string
-     */
-    private $repositoryPath;
+    private string $repositoryPath;
 
     /**
-     * HarFileRepository constructor.
-     *
      * @param string $repositoryPath the path to the repository on disk
      */
     public function __construct(string $repositoryPath)

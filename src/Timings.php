@@ -88,20 +88,12 @@ final class Timings
         return -1.0 !== $this->dns;
     }
 
-    /**
-     * @return float
-     */
-    public function getDns()
+    public function getDns(): float
     {
         return $this->dns;
     }
 
-    /**
-     * @param float $dns
-     *
-     * @return Timings
-     */
-    public function setDns($dns)
+    public function setDns(float $dns): self
     {
         $this->dns = $dns;
 

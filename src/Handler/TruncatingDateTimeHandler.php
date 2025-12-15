@@ -14,12 +14,9 @@ use JMS\Serializer\JsonDeserializationVisitor;
  */
 class TruncatingDateTimeHandler implements SubscribingHandlerInterface
 {
-    /**
-     * @var DateHandler
-     */
-    private $innerHandler;
+    private DateHandler $innerHandler;
 
-    public static function getSubscribingMethods()
+    public static function getSubscribingMethods(): array
     {
         $methods = [];
         $types = ['DateTime', 'DateTimeImmutable', 'DateInterval'];
@@ -70,17 +67,15 @@ class TruncatingDateTimeHandler implements SubscribingHandlerInterface
     /**
      * Delegate undefined methods to the inner class.
      */
-    public function __call(string $name, array $arguments)
+    public function __call(string $name, array $arguments): mixed
     {
         return $this->innerHandler->{$name}(...$arguments);
     }
 
     /**
      * Truncate microseconds in a date to 6 digits of precision, which is the maximum PHP's DateTime supports.
-     *
-     * @return string|string[]
      */
-    public function truncateMicroseconds($data)
+    public function truncateMicroseconds(string $data): string
     {
         $microseconds = substr($data, 19);
         if (str_contains($data, '+')) {
