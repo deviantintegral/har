@@ -40,6 +40,12 @@ class SplitCommand extends Command
             return Command::FAILURE;
         }
 
+        if (is_dir($source)) {
+            $io->error(\sprintf('Path is a directory, not a file: %s', $source));
+
+            return Command::FAILURE;
+        }
+
         $contents = file_get_contents($source);
         if (false === $contents) {
             $io->error(\sprintf('Unable to read file: %s', $source));

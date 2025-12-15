@@ -262,6 +262,26 @@ class SplitCommandTest extends HarTestBase
         $this->assertStringContainsString($nonExistentFile, $output);
     }
 
+    public function testSplitFailsWhenPathIsDirectory(): void
+    {
+        // Create a directory instead of a file
+        $directoryPath = $this->tempDir.'/notafile';
+        mkdir($directoryPath);
+
+        $this->commandTester->execute([
+            'har' => $directoryPath,
+            'destination' => $this->tempDir,
+        ]);
+
+        // Should fail with FAILURE status
+        $this->assertSame(Command::FAILURE, $this->commandTester->getStatusCode());
+
+        // Should display error message indicating it's a directory
+        $output = $this->commandTester->getDisplay();
+        $this->assertStringContainsString('Path is a directory', $output);
+        $this->assertStringContainsString($directoryPath, $output);
+    }
+
     private function recursiveRemoveDirectory(string $directory): void
     {
         if (!is_dir($directory)) {
