@@ -38,9 +38,7 @@ if ! command -v pecl &> /dev/null; then
     echo "pecl is not installed. Installing php-pear..."
 
     # Try to install php-pear using apt
-    if command -v apt &> /dev/null; then
-        apt update && apt install -y php-pear
-    elif command -v apt-get &> /dev/null; then
+    if command -v apt-get &> /dev/null; then
         apt-get update && apt-get install -y php-pear
     else
         echo "Error: apt package manager is not available. Cannot install php-pear."
