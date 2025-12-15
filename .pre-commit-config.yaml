@@ -21,6 +21,12 @@ repos:
         language: system
         types: [php]
         pass_filenames: false
+      - id: phpstan
+        name: PHPStan
+        entry: vendor/bin/phpstan analyse
+        language: system
+        types: [php]
+        pass_filenames: false
       - id: phpunit
         name: PHPUnit
         entry: vendor/bin/phpunit --testdox --display-all-issues
