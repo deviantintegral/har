@@ -46,7 +46,8 @@ final class ServerRequest extends Request implements ServerRequestInterface
      */
     public function withCookieParams(array $cookies): ServerRequestInterface
     {
-        $request = clone $this->getHarRequest();
+        // getHarRequest() already returns a clone, so no need to clone again
+        $request = $this->getHarRequest();
         $harCookies = [];
         foreach ($cookies as $name => $value) {
             $harCookies[] = (new Cookie())
@@ -77,7 +78,8 @@ final class ServerRequest extends Request implements ServerRequestInterface
      */
     public function withQueryParams(array $query): ServerRequestInterface
     {
-        $request = clone $this->getHarRequest();
+        // getHarRequest() already returns a clone, so no need to clone again
+        $request = $this->getHarRequest();
         $harParams = [];
         foreach ($query as $name => $value) {
             $harParams[] = (new Params())
@@ -150,7 +152,8 @@ final class ServerRequest extends Request implements ServerRequestInterface
             throw new \InvalidArgumentException('Parsed body must be an array, object, or null.');
         }
 
-        $request = clone $this->getHarRequest();
+        // getHarRequest() already returns a clone, so no need to clone again
+        $request = $this->getHarRequest();
 
         if (\is_array($data) || \is_object($data)) {
             $postData = new PostData();
