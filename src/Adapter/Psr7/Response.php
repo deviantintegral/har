@@ -15,6 +15,10 @@ final class Response extends MessageBase implements ResponseInterface
 
     /**
      * Response constructor.
+     *
+     * @phpstan-param \Deviantintegral\Har\Response $response
+     *
+     * @phpstan-ignore method.childParameterType
      */
     public function __construct(\Deviantintegral\Har\Response $response)
     {

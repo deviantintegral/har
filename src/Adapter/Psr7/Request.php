@@ -18,6 +18,11 @@ class Request extends MessageBase implements RequestInterface
 {
     private \Deviantintegral\Har\Request $request;
 
+    /**
+     * @phpstan-param \Deviantintegral\Har\Request $request
+     *
+     * @phpstan-ignore method.childParameterType
+     */
     public function __construct(\Deviantintegral\Har\Request $request)
     {
         parent::__construct($request);
