@@ -31,7 +31,10 @@ class HarTest extends HarTestBase
         $this->assertEquals($jsonDecode, json_decode($serialized, true));
     }
 
-    public static function fixtureDataProvider()
+    /**
+     * @return \Generator<int, array{0: string, 1: Har}>
+     */
+    public static function fixtureDataProvider(): \Generator
     {
         $repository = new \Deviantintegral\Har\Repository\HarFileRepository(__DIR__.'/../../fixtures');
 
@@ -118,6 +121,9 @@ class HarTest extends HarTestBase
         $this->assertSame('modified-version', $cloned->getLog()->getBrowser()->getVersion());
     }
 
+    /**
+     * @param array<mixed> $a
+     */
     private function removeCustomFields(array &$a): void
     {
         foreach ($a as &$value) {
@@ -131,6 +137,9 @@ class HarTest extends HarTestBase
         }, \ARRAY_FILTER_USE_KEY);
     }
 
+    /**
+     * @param array<mixed> $a
+     */
     private function normalizeDateTime(array &$a): void
     {
         foreach ($a as &$value) {
