@@ -17,7 +17,7 @@ use Psr\Http\Message\UriInterface;
  * Only features supported by HAR spec are implemented. Unsupported features
  * will throw a \LogicException if they involve possible data loss.
  */
-class ServerRequest extends Request implements ServerRequestInterface
+final class ServerRequest extends Request implements ServerRequestInterface
 {
     /**
      * @return array<string, mixed>
