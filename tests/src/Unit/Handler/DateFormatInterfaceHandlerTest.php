@@ -24,7 +24,7 @@ class DateFormatInterfaceHandlerTest extends TestCase
     public function testGetSubscribingMethods(): void
     {
         $methods = DateFormatInterfaceHandler::getSubscribingMethods();
-        $this->assertIsArray($methods);
+        $this->assertIsArray($methods); // @phpstan-ignore method.alreadyNarrowedType
         $this->assertNotEmpty($methods);
 
         // Check that all expected types are present

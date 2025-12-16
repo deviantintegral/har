@@ -22,7 +22,7 @@ class TruncatingDateTimeHandlerTest extends TestCase
     public function testGetSubscribingMethods(): void
     {
         $methods = TruncatingDateTimeHandler::getSubscribingMethods();
-        $this->assertIsArray($methods);
+        $this->assertIsArray($methods); // @phpstan-ignore method.alreadyNarrowedType
         $this->assertNotEmpty($methods);
 
         // Check that all expected types are present
