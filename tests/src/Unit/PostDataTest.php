@@ -41,4 +41,30 @@ class PostDataTest extends HarTestBase
         $class = PostData::class;
         $this->assertDeserialize($serialized, $class, $postData);
     }
+
+    public function testGetBodySizeWithNoData(): void
+    {
+        $postData = new PostData();
+        // Test that getBodySize returns exactly 0 when there are no params and no text
+        // This kills IncrementInteger mutation (0 -> 1) and DecrementInteger mutation (0 -> -1)
+        $this->assertSame(0, $postData->getBodySize());
+    }
+
+    public function testGetBodySizeWithText(): void
+    {
+        $postData = (new PostData())->setText('test content');
+        // The body size should be the length of the text
+        $this->assertSame(12, $postData->getBodySize());
+    }
+
+    public function testGetBodySizeWithParams(): void
+    {
+        $postData = (new PostData())
+            ->setParams([
+                (new Params())->setName('key1')->setValue('value1'),
+                (new Params())->setName('key2')->setValue('value2'),
+            ]);
+        // The body size should be the length of the query string: key1=value1&key2=value2
+        $this->assertSame(23, $postData->getBodySize());
+    }
 }

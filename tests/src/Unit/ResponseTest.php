@@ -86,4 +86,53 @@ class ResponseTest extends HarTestBase
         $this->assertEquals((string) $response->getRedirectURL(), (string) $deserialized->getRedirectURL());
         $this->assertEquals($response->getComment(), $deserialized->getComment());
     }
+
+    public function testSetHeadersCalculatesCorrectSize(): void
+    {
+        $response = new \Deviantintegral\Har\Response();
+
+        // Test with single header: "Content-Type: application/json"
+        // Size calculation: strlen("Content-Type") + 2 + strlen("application/json") + 2 = 12 + 2 + 16 + 2 = 32
+        // Plus final 2 for double CRLF: 32 + 2 = 34
+        $headers = [(new Header())->setName('Content-Type')->setValue('application/json')];
+        $response->setHeaders($headers);
+        $this->assertSame(34, $response->getHeadersSize());
+    }
+
+    public function testSetHeadersWithMultipleHeaders(): void
+    {
+        $response = new \Deviantintegral\Har\Response();
+
+        // Test with multiple headers to ensure correct calculation
+        // "Content-Type: text/html" = 12 + 2 + 9 + 2 = 25
+        // "Server: nginx" = 6 + 2 + 5 + 2 = 15
+        // Total = 25 + 15 + 2 (final CRLF) = 42
+        $headers = [
+            (new Header())->setName('Content-Type')->setValue('text/html'),
+            (new Header())->setName('Server')->setValue('nginx'),
+        ];
+        $response->setHeaders($headers);
+        $this->assertSame(42, $response->getHeadersSize());
+    }
+
+    public function testSetHeadersWithEmptyArray(): void
+    {
+        $response = new \Deviantintegral\Har\Response();
+
+        // Test with no headers
+        // Size should be just the final 2 bytes for double CRLF
+        $response->setHeaders([]);
+        $this->assertSame(2, $response->getHeadersSize());
+    }
+
+    public function testSetHeadersWithSingleCharacterValues(): void
+    {
+        $response = new \Deviantintegral\Har\Response();
+
+        // Test with minimal header to ensure each +2 is necessary
+        // "X: Y" = 1 + 2 + 1 + 2 = 6, plus final 2 = 8
+        $headers = [(new Header())->setName('X')->setValue('Y')];
+        $response->setHeaders($headers);
+        $this->assertSame(8, $response->getHeadersSize());
+    }
 }
