@@ -323,4 +323,67 @@ class ServerRequestTest extends HarTestBase
         $this->assertEquals(['session' => 'abc123'], $new->getCookieParams());
         $this->assertEquals(['foo' => 'bar'], $new->getQueryParams());
     }
+
+    public function testWithCookieParamsClonesHarRequest(): void
+    {
+        $original = $this->serverRequest;
+
+        // Capture state before modification
+        $originalCookiesBefore = $original->getCookieParams();
+        $originalHarBefore = $original->getHarRequest();
+        $originalCookiesCountBefore = \count($originalHarBefore->getCookies());
+
+        $modified = $original->withCookieParams(['new_cookie' => 'xyz789']);
+
+        // Verify the original wasn't modified
+        $this->assertEquals($originalCookiesBefore, $original->getCookieParams());
+
+        $originalHarAfter = $original->getHarRequest();
+        $this->assertCount($originalCookiesCountBefore, $originalHarAfter->getCookies());
+
+        // Verify modified has the new cookies
+        $this->assertEquals(['new_cookie' => 'xyz789'], $modified->getCookieParams());
+    }
+
+    public function testWithQueryParamsClonesHarRequest(): void
+    {
+        $original = $this->serverRequest;
+
+        // Capture state before modification
+        $originalQueryBefore = $original->getQueryParams();
+        $originalHarBefore = $original->getHarRequest();
+        $originalQueryCountBefore = \count($originalHarBefore->getQueryString());
+
+        $modified = $original->withQueryParams(['new_param' => 'value']);
+
+        // Verify the original wasn't modified
+        $this->assertEquals($originalQueryBefore, $original->getQueryParams());
+
+        $originalHarAfter = $original->getHarRequest();
+        $this->assertCount($originalQueryCountBefore, $originalHarAfter->getQueryString());
+
+        // Verify modified has the new query params
+        $this->assertEquals(['new_param' => 'value'], $modified->getQueryParams());
+    }
+
+    public function testWithParsedBodyClonesHarRequest(): void
+    {
+        $original = $this->serverRequest;
+
+        // Capture state before modification
+        $originalParsedBodyBefore = $original->getParsedBody();
+        $originalHarBefore = $original->getHarRequest();
+        $originalHasPostDataBefore = $originalHarBefore->hasPostData();
+
+        $modified = $original->withParsedBody(['new_key' => 'new_value']);
+
+        // Verify the original wasn't modified
+        $this->assertEquals($originalParsedBodyBefore, $original->getParsedBody());
+
+        $originalHarAfter = $original->getHarRequest();
+        $this->assertEquals($originalHasPostDataBefore, $originalHarAfter->hasPostData());
+
+        // Verify modified has the new parsed body
+        $this->assertEquals(['new_key' => 'new_value'], $modified->getParsedBody());
+    }
 }
