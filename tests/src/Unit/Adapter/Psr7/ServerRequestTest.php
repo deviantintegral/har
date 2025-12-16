@@ -136,7 +136,7 @@ class ServerRequestTest extends HarTestBase
     public function testWithParsedBodyInvalidType(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->serverRequest->withParsedBody('invalid');
+        $this->serverRequest->withParsedBody('invalid'); // @phpstan-ignore argument.type
     }
 
     public function testGetAttributes(): void

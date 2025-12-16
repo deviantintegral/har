@@ -17,7 +17,7 @@ use Deviantintegral\Har\Timings;
  */
 class EntryTest extends HarTestBase
 {
-    private $repository;
+    private HarFileRepository $repository;
 
     protected function setUp(): void
     {
