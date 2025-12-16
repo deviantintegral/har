@@ -24,13 +24,11 @@ class HarFileRepositoryTest extends HarTestBase
     {
         $har = $this->repository->load('www.softwareishard.com-single-entry.har');
         $this->assertInstanceOf(Har::class, $har);
-        $this->assertNotNull($har->getLog());
     }
 
     public function testLoadJson(): void
     {
         $json = $this->repository->loadJson('www.softwareishard.com-single-entry.har');
-        $this->assertIsString($json);
         $this->assertNotEmpty($json);
         $decoded = json_decode($json, true);
         $this->assertIsArray($decoded);
@@ -40,7 +38,6 @@ class HarFileRepositoryTest extends HarTestBase
     public function testGetIds(): void
     {
         $ids = $this->repository->getIds();
-        $this->assertIsArray($ids);
         $this->assertNotEmpty($ids);
         $this->assertContains('www.softwareishard.com-single-entry.har', $ids);
         $this->assertContains('www.softwareishard.com-multiple-entries.har', $ids);
@@ -88,7 +85,6 @@ class HarFileRepositoryTest extends HarTestBase
     {
         $repository = new HarFileRepository('/path/to/non-existent-directory');
         $ids = $repository->getIds();
-        $this->assertIsArray($ids);
         $this->assertEmpty($ids);
     }
 

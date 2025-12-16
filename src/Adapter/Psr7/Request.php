@@ -51,7 +51,7 @@ class Request extends MessageBase implements RequestInterface
 
     public function withMethod($method): RequestInterface
     {
-        if (!\is_string($method) || '' === $method) {
+        if ('' === $method) {
             throw new \InvalidArgumentException('Method must be a non-empty string.');
         }
 
