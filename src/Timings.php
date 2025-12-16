@@ -93,6 +93,11 @@ final class Timings
         return $this;
     }
 
+    public function hasConnect(): bool
+    {
+        return -1.0 !== $this->connect;
+    }
+
     public function getConnect(): float
     {
         return $this->connect;
@@ -106,6 +111,11 @@ final class Timings
         $this->connect = $connect;
 
         return $this;
+    }
+
+    public function hasSsl(): bool
+    {
+        return -1.0 !== $this->ssl;
     }
 
     public function getSsl(): float
