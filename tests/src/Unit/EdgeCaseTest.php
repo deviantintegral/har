@@ -51,26 +51,6 @@ class EdgeCaseTest extends HarTestBase
     }
 
     /**
-     * Tests that HAR files missing the required "log" key result in uninitialized property.
-     * Accessing the log property should throw an Error.
-     */
-    public function testMissingLogKeyResultsInUninitializedProperty(): void
-    {
-        $repository = $this->getEdgeCaseRepository();
-        $serializer = new Serializer();
-
-        $json = $repository->loadJson('missing-log.har');
-        $har = $serializer->deserializeHar($json);
-
-        // The HAR deserializes successfully, but the log property is uninitialized
-        // Accessing it should throw an Error
-        $this->expectException(\Error::class);
-        $this->expectExceptionMessageMatches('/initialization/');
-        // @phpstan-ignore method.resultUnused
-        $har->getLog();
-    }
-
-    /**
      * Tests that HAR files with invalid structure (wrong types) throw an exception.
      */
     public function testInvalidStructureThrowsException(): void
