@@ -99,4 +99,94 @@ class TimingsTest extends HarTestBase
         $this->assertTrue($timings->hasSsl());
         $this->assertEquals(25.7, $timings->getSsl());
     }
+
+    public function testSetConnectAllowsConnectEqualToSSL(): void
+    {
+        $timings = new Timings();
+        $timings->setSsl(100.0);
+
+        // Connect time equal to SSL time should be allowed
+        // The check is (connect < ssl), so connect >= ssl is valid
+        $timings->setConnect(100.0);
+        $this->assertEquals(100.0, $timings->getConnect());
+    }
+
+    public function testSetConnectThrowsExceptionWhenConnectLessThanSSL(): void
+    {
+        $timings = new Timings();
+        $timings->setSsl(100.0);
+
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Connect time must include SSL time');
+
+        // Connect time less than SSL time should throw exception
+        $timings->setConnect(50.0);
+    }
+
+    public function testSetConnectAllowsConnectGreaterThanSSL(): void
+    {
+        $timings = new Timings();
+        $timings->setSsl(100.0);
+
+        // Connect time greater than SSL time should be allowed
+        $timings->setConnect(150.0);
+        $this->assertEquals(150.0, $timings->getConnect());
+    }
+
+    public function testSetSendAllowsZero(): void
+    {
+        $timings = new Timings();
+
+        // Send time of 0 should be allowed (not negative)
+        $timings->setSend(0.0);
+        $this->assertEquals(0.0, $timings->getSend());
+    }
+
+    public function testSetSendThrowsExceptionForNegativeValues(): void
+    {
+        $timings = new Timings();
+
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Send must not be negative');
+
+        $timings->setSend(-1.0);
+    }
+
+    public function testSetWaitAllowsZero(): void
+    {
+        $timings = new Timings();
+
+        // Wait time of 0 should be allowed (not negative)
+        $timings->setWait(0.0);
+        $this->assertEquals(0.0, $timings->getWait());
+    }
+
+    public function testSetWaitThrowsExceptionForNegativeValues(): void
+    {
+        $timings = new Timings();
+
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Wait must not be negative');
+
+        $timings->setWait(-1.0);
+    }
+
+    public function testSetReceiveAllowsZero(): void
+    {
+        $timings = new Timings();
+
+        // Receive time of 0 should be allowed (not negative)
+        $timings->setReceive(0.0);
+        $this->assertEquals(0.0, $timings->getReceive());
+    }
+
+    public function testSetReceiveThrowsExceptionForNegativeValues(): void
+    {
+        $timings = new Timings();
+
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Receive must not be negative');
+
+        $timings->setReceive(-1.0);
+    }
 }
