@@ -76,12 +76,32 @@ class RequestTest extends HarTestBase
         $this->assertEquals('text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8, */*', $with_multiple->getHeaderLine('Accept'));
     }
 
+    public function testGetHeaderLineCaseInsensitive(): void
+    {
+        // Test that getHeaderLine works with different case variations
+        $expected = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8';
+        $this->assertEquals($expected, $this->getRequest->getHeaderLine('Accept'));
+        $this->assertEquals($expected, $this->getRequest->getHeaderLine('accept'));
+        $this->assertEquals($expected, $this->getRequest->getHeaderLine('ACCEPT'));
+        $this->assertEquals($expected, $this->getRequest->getHeaderLine('AcCePt'));
+    }
+
     public function testGetHeader(): void
     {
         $this->assertSame(
             ['1'],
             $this->getRequest->getHeader('Upgrade-Insecure-Requests')
         );
+    }
+
+    public function testGetHeaderCaseInsensitive(): void
+    {
+        // Test that getHeader works with different case variations
+        $expected = ['text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'];
+        $this->assertEquals($expected, $this->getRequest->getHeader('Accept'));
+        $this->assertEquals($expected, $this->getRequest->getHeader('accept'));
+        $this->assertEquals($expected, $this->getRequest->getHeader('ACCEPT'));
+        $this->assertEquals($expected, $this->getRequest->getHeader('AcCePt'));
     }
 
     public function testWithBody(): void
@@ -109,6 +129,15 @@ class RequestTest extends HarTestBase
     {
         $this->assertTrue($this->getRequest->hasHeader('Accept'));
         $this->assertFalse($this->getRequest->hasHeader('Kittens'));
+    }
+
+    public function testHasHeaderCaseInsensitive(): void
+    {
+        // Test that hasHeader works with different case variations
+        $this->assertTrue($this->getRequest->hasHeader('Accept'));
+        $this->assertTrue($this->getRequest->hasHeader('accept'));
+        $this->assertTrue($this->getRequest->hasHeader('ACCEPT'));
+        $this->assertTrue($this->getRequest->hasHeader('AcCePt'));
     }
 
     public function testGetHeaders(): void
@@ -157,6 +186,22 @@ class RequestTest extends HarTestBase
     {
         $without_header = $this->getRequest->withoutHeader('Accept');
         $this->assertFalse($without_header->hasHeader('Accept'));
+    }
+
+    public function testWithoutHeaderCaseInsensitive(): void
+    {
+        // Test that withoutHeader works with different case variations
+        $without_accept_lower = $this->getRequest->withoutHeader('accept');
+        $this->assertFalse($without_accept_lower->hasHeader('Accept'));
+        $this->assertFalse($without_accept_lower->hasHeader('accept'));
+
+        $without_accept_upper = $this->getRequest->withoutHeader('ACCEPT');
+        $this->assertFalse($without_accept_upper->hasHeader('Accept'));
+        $this->assertFalse($without_accept_upper->hasHeader('ACCEPT'));
+
+        $without_accept_mixed = $this->getRequest->withoutHeader('AcCePt');
+        $this->assertFalse($without_accept_mixed->hasHeader('Accept'));
+        $this->assertFalse($without_accept_mixed->hasHeader('AcCePt'));
     }
 
     public function testWithAddedHeader(): void
