@@ -141,13 +141,17 @@ final class ServerRequest extends Request implements ServerRequestInterface
     }
 
     /**
-     * @param array<string, mixed>|null $data
+     * @param array<string, mixed>|object|null $data
      */
     public function withParsedBody($data): ServerRequestInterface
     {
+        if (null !== $data && !\is_array($data) && !\is_object($data)) {
+            throw new \InvalidArgumentException('Parsed body must be an array, object, or null.');
+        }
+
         $request = clone $this->getHarRequest();
 
-        if (null !== $data) {
+        if (\is_array($data) || \is_object($data)) {
             $postData = new PostData();
             $harParams = [];
             foreach ($data as $name => $value) {
@@ -157,7 +161,7 @@ final class ServerRequest extends Request implements ServerRequestInterface
             }
             $postData->setParams($harParams);
             $request->setPostData($postData);
-        } else {
+        } elseif (null === $data) {
             // Clear post data
             $request->setPostData(new PostData());
         }
