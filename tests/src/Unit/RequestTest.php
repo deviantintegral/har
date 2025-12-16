@@ -159,4 +159,53 @@ class RequestTest extends HarTestBase
         $request = (new Request())->setMethod('POST');
         $this->assertEquals('POST', $request->getMethod());
     }
+
+    public function testSetHeadersCalculatesCorrectSize(): void
+    {
+        $request = new Request();
+
+        // Test with single header: "Host: www.example.com"
+        // Size calculation: strlen("Host") + 2 + strlen("www.example.com") + 2 = 4 + 2 + 15 + 2 = 23
+        // Plus final 2 for double CRLF: 23 + 2 = 25
+        $headers = [(new Header())->setName('Host')->setValue('www.example.com')];
+        $request->setHeaders($headers);
+        $this->assertSame(25, $request->getHeadersSize());
+    }
+
+    public function testSetHeadersWithMultipleHeaders(): void
+    {
+        $request = new Request();
+
+        // Test with multiple headers to ensure correct calculation
+        // "Host: example.com" = 4 + 2 + 11 + 2 = 19
+        // "Accept: */*" = 6 + 2 + 3 + 2 = 13
+        // Total = 19 + 13 + 2 (final CRLF) = 34
+        $headers = [
+            (new Header())->setName('Host')->setValue('example.com'),
+            (new Header())->setName('Accept')->setValue('*/*'),
+        ];
+        $request->setHeaders($headers);
+        $this->assertSame(34, $request->getHeadersSize());
+    }
+
+    public function testSetHeadersWithEmptyArray(): void
+    {
+        $request = new Request();
+
+        // Test with no headers
+        // Size should be just the final 2 bytes for double CRLF
+        $request->setHeaders([]);
+        $this->assertSame(2, $request->getHeadersSize());
+    }
+
+    public function testSetHeadersWithSingleCharacterValues(): void
+    {
+        $request = new Request();
+
+        // Test with minimal header to ensure each +2 is necessary
+        // "A: B" = 1 + 2 + 1 + 2 = 6, plus final 2 = 8
+        $headers = [(new Header())->setName('A')->setValue('B')];
+        $request->setHeaders($headers);
+        $this->assertSame(8, $request->getHeadersSize());
+    }
 }
