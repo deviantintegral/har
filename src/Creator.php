@@ -26,7 +26,7 @@ class Creator
         return $this->version;
     }
 
-    public function setVersion(string $version): self
+    public function setVersion(string $version): static
     {
         $this->version = $version;
 
