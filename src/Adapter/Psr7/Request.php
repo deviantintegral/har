@@ -11,6 +11,9 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
 
+/**
+ * @phpstan-consistent-constructor
+ */
 class Request extends MessageBase implements RequestInterface
 {
     private \Deviantintegral\Har\Request $request;

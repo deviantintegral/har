@@ -7,6 +7,9 @@ namespace Deviantintegral\Har\Adapter\Psr7;
 use Deviantintegral\Har\Header;
 use Psr\Http\Message\MessageInterface;
 
+/**
+ * @phpstan-consistent-constructor
+ */
 abstract class MessageBase implements MessageInterface
 {
     /**
