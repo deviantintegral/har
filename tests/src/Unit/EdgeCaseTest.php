@@ -6,6 +6,7 @@ namespace Deviantintegral\Har\Tests\Unit;
 
 use Deviantintegral\Har\Har;
 use Deviantintegral\Har\Serializer;
+use JMS\Serializer\Exception\RuntimeException as JMSRuntimeException;
 
 /**
  * Tests edge cases and error handling for HAR file parsing.
@@ -31,7 +32,7 @@ class EdgeCaseTest extends HarTestBase
         $repository = $this->getEdgeCaseRepository();
         $serializer = new Serializer();
 
-        $this->expectException(\Exception::class);
+        $this->expectException(JMSRuntimeException::class);
         $json = $repository->loadJson('invalid-json.har');
         $serializer->deserializeHar($json);
     }
@@ -44,7 +45,7 @@ class EdgeCaseTest extends HarTestBase
         $repository = $this->getEdgeCaseRepository();
         $serializer = new Serializer();
 
-        $this->expectException(\Exception::class);
+        $this->expectException(JMSRuntimeException::class);
         $json = $repository->loadJson('incomplete-json.har');
         $serializer->deserializeHar($json);
     }
@@ -77,7 +78,7 @@ class EdgeCaseTest extends HarTestBase
         $repository = $this->getEdgeCaseRepository();
         $serializer = new Serializer();
 
-        $this->expectException(\Exception::class);
+        $this->expectException(JMSRuntimeException::class);
         $json = $repository->loadJson('invalid-structure.har');
         $serializer->deserializeHar($json);
     }
@@ -90,20 +91,20 @@ class EdgeCaseTest extends HarTestBase
         $repository = $this->getEdgeCaseRepository();
         $serializer = new Serializer();
 
-        $this->expectException(\Exception::class);
+        $this->expectException(JMSRuntimeException::class);
         $json = $repository->loadJson('malformed-entry.har');
         $serializer->deserializeHar($json);
     }
 
     /**
-     * Tests that HAR files with null values where objects are expected throw an exception.
+     * Tests that HAR files with null values where objects are expected throw a TypeError.
      */
     public function testNullValuesThrowException(): void
     {
         $repository = $this->getEdgeCaseRepository();
         $serializer = new Serializer();
 
-        $this->expectException(\Throwable::class);
+        $this->expectException(\TypeError::class);
         $json = $repository->loadJson('null-values.har');
         $serializer->deserializeHar($json);
     }
@@ -194,7 +195,7 @@ class EdgeCaseTest extends HarTestBase
         $repository = new \Deviantintegral\Har\Repository\HarFileRepository($tempDir);
         $serializer = new Serializer();
 
-        $this->expectException(\Exception::class);
+        $this->expectException(JMSRuntimeException::class);
         try {
             $json = $repository->loadJson('binary.har');
             $serializer->deserializeHar($json);
@@ -291,7 +292,7 @@ class EdgeCaseTest extends HarTestBase
         $repository = new \Deviantintegral\Har\Repository\HarFileRepository($tempDir);
         $serializer = new Serializer();
 
-        $this->expectException(\Exception::class);
+        $this->expectException(JMSRuntimeException::class);
         try {
             $json = $repository->loadJson('whitespace.har');
             $serializer->deserializeHar($json);
