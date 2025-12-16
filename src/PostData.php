@@ -58,7 +58,7 @@ final class PostData
     {
         $this->traitSetText($text);
         // Text and params are mutually exclusive.
-        $this->params = [];
+        $this->params = null;
 
         return $this;
     }
