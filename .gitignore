@@ -7,3 +7,7 @@ vendor
 har.phar
 .box_dump/
 .box.cache/
+
+infection.phar
+*.har
+infection*.txt
