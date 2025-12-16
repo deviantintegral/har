@@ -106,7 +106,7 @@ final class ServerRequest extends Request implements ServerRequestInterface
     }
 
     /**
-     * @return array<string, string>|object|null
+     * @return array<string, string>|null
      */
     public function getParsedBody()
     {
