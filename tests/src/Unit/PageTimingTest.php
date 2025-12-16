@@ -16,8 +16,8 @@ class PageTimingTest extends HarTestBase
         $serializer = $this->getSerializer();
 
         $creator = (new PageTimings())
-          ->setOnLoad(rand())
-          ->setOnContentLoad(rand())
+          ->setOnLoad(1234.56)
+          ->setOnContentLoad(789.12)
           ->setComment('Test case');
 
         $serialized = $serializer->serialize($creator, 'json');

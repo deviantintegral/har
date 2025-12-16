@@ -32,7 +32,7 @@ final class PageTimings
         return $this->onContentLoad;
     }
 
-    public function setOnContentLoad(int $onContentLoad): self
+    public function setOnContentLoad(float $onContentLoad): self
     {
         $this->onContentLoad = $onContentLoad;
 
