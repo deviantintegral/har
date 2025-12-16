@@ -11,7 +11,7 @@ use Deviantintegral\Har\PageTimings;
  */
 class PageTimingTest extends HarTestBase
 {
-    public function testSerialize()
+    public function testSerialize(): void
     {
         $serializer = $this->getSerializer();
 

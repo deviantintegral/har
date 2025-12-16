@@ -56,13 +56,13 @@ class ServerRequestTest extends HarTestBase
             ->withParsedBody(['username' => 'john', 'password' => 'secret']);
     }
 
-    public function testGetServerParams()
+    public function testGetServerParams(): void
     {
         // Server params are not part of HAR spec, always returns empty array
         $this->assertEquals([], $this->serverRequest->getServerParams());
     }
 
-    public function testGetCookieParams()
+    public function testGetCookieParams(): void
     {
         $this->assertEquals(
             ['session' => 'abc123'],
@@ -70,7 +70,7 @@ class ServerRequestTest extends HarTestBase
         );
     }
 
-    public function testWithCookieParams()
+    public function testWithCookieParams(): void
     {
         $new = $this->serverRequest->withCookieParams(['new_cookie' => 'xyz789']);
         $this->assertEquals(['new_cookie' => 'xyz789'], $new->getCookieParams());
@@ -78,7 +78,7 @@ class ServerRequestTest extends HarTestBase
         $this->assertEquals(['session' => 'abc123'], $this->serverRequest->getCookieParams());
     }
 
-    public function testGetQueryParams()
+    public function testGetQueryParams(): void
     {
         $this->assertEquals(
             ['foo' => 'bar'],
@@ -86,7 +86,7 @@ class ServerRequestTest extends HarTestBase
         );
     }
 
-    public function testWithQueryParams()
+    public function testWithQueryParams(): void
     {
         $new = $this->serverRequest->withQueryParams(['baz' => 'qux']);
         $this->assertEquals(['baz' => 'qux'], $new->getQueryParams());
@@ -94,13 +94,13 @@ class ServerRequestTest extends HarTestBase
         $this->assertEquals(['foo' => 'bar'], $this->serverRequest->getQueryParams());
     }
 
-    public function testGetUploadedFiles()
+    public function testGetUploadedFiles(): void
     {
         // Uploaded files are not part of HAR spec, always returns empty array
         $this->assertEquals([], $this->serverRequest->getUploadedFiles());
     }
 
-    public function testWithUploadedFiles()
+    public function testWithUploadedFiles(): void
     {
         // Uploaded files are not part of HAR spec, this is a no-op
         $files = ['file' => 'mock_uploaded_file'];
@@ -108,7 +108,7 @@ class ServerRequestTest extends HarTestBase
         $new = $this->serverRequest->withUploadedFiles($files);
     }
 
-    public function testGetParsedBody()
+    public function testGetParsedBody(): void
     {
         $this->assertEquals(
             ['username' => 'john', 'password' => 'secret'],
@@ -116,7 +116,7 @@ class ServerRequestTest extends HarTestBase
         );
     }
 
-    public function testWithParsedBody()
+    public function testWithParsedBody(): void
     {
         $new = $this->serverRequest->withParsedBody(['key' => 'value']);
         $this->assertEquals(['key' => 'value'], $new->getParsedBody());
@@ -127,25 +127,25 @@ class ServerRequestTest extends HarTestBase
         );
     }
 
-    public function testWithParsedBodyNull()
+    public function testWithParsedBodyNull(): void
     {
         $new = $this->serverRequest->withParsedBody(null);
         $this->assertNull($new->getParsedBody());
     }
 
-    public function testWithParsedBodyInvalidType()
+    public function testWithParsedBodyInvalidType(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->serverRequest->withParsedBody('invalid');
     }
 
-    public function testGetAttributes()
+    public function testGetAttributes(): void
     {
         // Attributes are not part of HAR spec, always returns empty array
         $this->assertEquals([], $this->serverRequest->getAttributes());
     }
 
-    public function testGetAttribute()
+    public function testGetAttribute(): void
     {
         // Attributes are not part of HAR spec, always returns default
         $this->assertNull($this->serverRequest->getAttribute('custom_attr'));
@@ -153,13 +153,13 @@ class ServerRequestTest extends HarTestBase
         $this->assertEquals('default', $this->serverRequest->getAttribute('nonexistent', 'default'));
     }
 
-    public function testWithAttribute()
+    public function testWithAttribute(): void
     {
         $this->expectException(\LogicException::class);
         $this->serverRequest->withAttribute('new_attr', 'new_value');
     }
 
-    public function testWithoutAttribute()
+    public function testWithoutAttribute(): void
     {
         // Attributes are not part of HAR spec, this is a no-op
         $new = $this->serverRequest->withoutAttribute('custom_attr');
@@ -167,7 +167,7 @@ class ServerRequestTest extends HarTestBase
         $this->assertNull($this->serverRequest->getAttribute('custom_attr'));
     }
 
-    public function testInheritedMethodsPreserveServerRequestState()
+    public function testInheritedMethodsPreserveServerRequestState(): void
     {
         // Test that methods inherited from Request preserve ServerRequest-specific properties
         $new = $this->serverRequest->withMethod('GET');
@@ -176,7 +176,7 @@ class ServerRequestTest extends HarTestBase
         $this->assertEquals(['foo' => 'bar'], $new->getQueryParams());
     }
 
-    public function testWithBody()
+    public function testWithBody(): void
     {
         $new = $this->serverRequest->withBody(Utils::streamFor('new body'));
         $this->assertEquals('new body', $new->getBody()->getContents());
@@ -185,7 +185,7 @@ class ServerRequestTest extends HarTestBase
         $this->assertEquals(['foo' => 'bar'], $new->getQueryParams());
     }
 
-    public function testWithUri()
+    public function testWithUri(): void
     {
         $newUri = new Uri('https://www.newexample.com/newpath');
         $new = $this->serverRequest->withUri($newUri);
@@ -195,7 +195,7 @@ class ServerRequestTest extends HarTestBase
         $this->assertEquals(['foo' => 'bar'], $new->getQueryParams());
     }
 
-    public function testWithHeader()
+    public function testWithHeader(): void
     {
         $new = $this->serverRequest->withHeader('X-Custom', 'value');
         $this->assertEquals(['value'], $new->getHeader('X-Custom'));
@@ -204,7 +204,7 @@ class ServerRequestTest extends HarTestBase
         $this->assertEquals(['foo' => 'bar'], $new->getQueryParams());
     }
 
-    public function testInitializeFromHarRequest()
+    public function testInitializeFromHarRequest(): void
     {
         // Test that a ServerRequest can be created from a HAR request
         // and properly extract query params, cookies, and parsed body
@@ -226,7 +226,7 @@ class ServerRequestTest extends HarTestBase
         $this->assertEquals([], $serverRequest->getServerParams());
     }
 
-    public function testGetParsedBodyWithNoPostData()
+    public function testGetParsedBodyWithNoPostData(): void
     {
         // Test that getParsedBody returns null when there's no post data
         $harRequest = (new Request())
@@ -237,7 +237,7 @@ class ServerRequestTest extends HarTestBase
         $this->assertNull($serverRequest->getParsedBody());
     }
 
-    public function testGetParsedBodyWithFormUrlEncodedText()
+    public function testGetParsedBodyWithFormUrlEncodedText(): void
     {
         // Test parsing application/x-www-form-urlencoded text
         $harRequest = (new Request())
@@ -256,7 +256,7 @@ class ServerRequestTest extends HarTestBase
         );
     }
 
-    public function testGetParsedBodyWithNonFormEncodedText()
+    public function testGetParsedBodyWithNonFormEncodedText(): void
     {
         // Test that getParsedBody returns null for non-form-encoded text
         $harRequest = (new Request())
@@ -272,7 +272,7 @@ class ServerRequestTest extends HarTestBase
         $this->assertNull($serverRequest->getParsedBody());
     }
 
-    public function testWithParsedBodyObject()
+    public function testWithParsedBodyObject(): void
     {
         // Test that withParsedBody works with objects
         $data = new \stdClass();
@@ -287,7 +287,7 @@ class ServerRequestTest extends HarTestBase
         $this->assertEquals('secret', $parsedBody['password']);
     }
 
-    public function testWithRequestTarget()
+    public function testWithRequestTarget(): void
     {
         $new = $this->serverRequest->withRequestTarget('https://www.example.com/newpath');
         $this->assertEquals('https://www.example.com/newpath', $new->getRequestTarget());
@@ -296,7 +296,7 @@ class ServerRequestTest extends HarTestBase
         $this->assertEquals(['foo' => 'bar'], $new->getQueryParams());
     }
 
-    public function testWithAddedHeader()
+    public function testWithAddedHeader(): void
     {
         $new = $this->serverRequest->withAddedHeader('X-Custom', 'value1');
         $new = $new->withAddedHeader('X-Custom', 'value2');
@@ -306,7 +306,7 @@ class ServerRequestTest extends HarTestBase
         $this->assertEquals(['foo' => 'bar'], $new->getQueryParams());
     }
 
-    public function testWithoutHeader()
+    public function testWithoutHeader(): void
     {
         $new = $this->serverRequest->withoutHeader('Host');
         $this->assertFalse($new->hasHeader('Host'));
@@ -315,7 +315,7 @@ class ServerRequestTest extends HarTestBase
         $this->assertEquals(['foo' => 'bar'], $new->getQueryParams());
     }
 
-    public function testWithProtocolVersion()
+    public function testWithProtocolVersion(): void
     {
         $new = $this->serverRequest->withProtocolVersion('2.0');
         $this->assertEquals('2.0', $new->getProtocolVersion());

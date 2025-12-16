@@ -19,7 +19,7 @@ class TruncatingDateTimeHandlerTest extends TestCase
         $this->handler = new TruncatingDateTimeHandler();
     }
 
-    public function testGetSubscribingMethods()
+    public function testGetSubscribingMethods(): void
     {
         $methods = TruncatingDateTimeHandler::getSubscribingMethods();
         $this->assertIsArray($methods);
@@ -46,47 +46,47 @@ class TruncatingDateTimeHandlerTest extends TestCase
         $this->assertContains('xml', $formats);
     }
 
-    public function testConstructorWithDefaultParameters()
+    public function testConstructorWithDefaultParameters(): void
     {
         $handler = new TruncatingDateTimeHandler();
         $this->assertInstanceOf(TruncatingDateTimeHandler::class, $handler);
     }
 
-    public function testConstructorWithCustomParameters()
+    public function testConstructorWithCustomParameters(): void
     {
         $handler = new TruncatingDateTimeHandler('Y-m-d', 'America/New_York');
         $this->assertInstanceOf(TruncatingDateTimeHandler::class, $handler);
     }
 
-    public function testTruncateMicrosecondsWithPlus()
+    public function testTruncateMicrosecondsWithPlus(): void
     {
         $data = '2024-01-01T12:00:00.123456789+00:00';
         $result = $this->handler->truncateMicroseconds($data);
         $this->assertEquals('2024-01-01T12:00:00.123456+00:00', $result);
     }
 
-    public function testTruncateMicrosecondsWithZ()
+    public function testTruncateMicrosecondsWithZ(): void
     {
         $data = '2024-01-01T12:00:00.123456789Z';
         $result = $this->handler->truncateMicroseconds($data);
         $this->assertEquals('2024-01-01T12:00:00.123456Z', $result);
     }
 
-    public function testTruncateMicrosecondsWithUTC()
+    public function testTruncateMicrosecondsWithUTC(): void
     {
         $data = '2024-01-01T12:00:00.123456789UTC';
         $result = $this->handler->truncateMicroseconds($data);
         $this->assertEquals('2024-01-01T12:00:00.123456UTC', $result);
     }
 
-    public function testTruncateMicrosecondsWithShorterPrecision()
+    public function testTruncateMicrosecondsWithShorterPrecision(): void
     {
         $data = '2024-01-01T12:00:00.123+00:00';
         $result = $this->handler->truncateMicroseconds($data);
         $this->assertEquals('2024-01-01T12:00:00.123+00:00', $result);
     }
 
-    public function testTruncateMicrosecondsWithExactSixDigits()
+    public function testTruncateMicrosecondsWithExactSixDigits(): void
     {
         $data = '2024-01-01T12:00:00.123456+00:00';
         $result = $this->handler->truncateMicroseconds($data);

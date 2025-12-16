@@ -18,7 +18,7 @@ abstract class HarTestBase extends TestCase
     protected function assertDeserialize(
         string $serialized,
         string $class,
-        $expected,
+        mixed $expected,
     ): void {
         $serializer = $this->getSerializer();
         $deserialized = $serializer->deserialize(

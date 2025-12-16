@@ -15,7 +15,7 @@ use GuzzleHttp\Psr7\Uri;
  */
 class RequestTest extends HarTestBase
 {
-    public function testSerialize()
+    public function testSerialize(): void
     {
         $serializer = $this->getSerializer();
 
@@ -54,7 +54,7 @@ class RequestTest extends HarTestBase
         $this->assertDeserialize($serialized, Request::class, $request);
     }
 
-    public function testFromPsr7()
+    public function testFromPsr7(): void
     {
         $uri = new Uri('https://www.example.com');
         $psr7 = new \GuzzleHttp\Psr7\Request(
@@ -79,7 +79,7 @@ class RequestTest extends HarTestBase
         $this->assertEquals('HTTP/2.0', $har_request->getHttpVersion());
     }
 
-    public function testFromPsr7ServerRequest()
+    public function testFromPsr7ServerRequest(): void
     {
         $uri = new Uri('https://www.example.com/path?foo=bar');
         $psr7 = new \GuzzleHttp\Psr7\ServerRequest(
@@ -115,7 +115,7 @@ class RequestTest extends HarTestBase
         $this->assertEquals('name=value', $har_request->getPostData()->getText());
     }
 
-    public function testIsResponseCached()
+    public function testIsResponseCached(): void
     {
         $request = (new Request())
           ->setBodySize(0);
@@ -125,7 +125,7 @@ class RequestTest extends HarTestBase
         $this->assertFalse($request->isResponseCached());
     }
 
-    public function testHasPostData()
+    public function testHasPostData(): void
     {
         $request = new Request();
         $this->assertFalse($request->hasPostData());
@@ -134,14 +134,14 @@ class RequestTest extends HarTestBase
         $this->assertTrue($request->hasPostData());
     }
 
-    public function testGetSetUrl()
+    public function testGetSetUrl(): void
     {
         $uri = new Uri('https://www.example.com/path');
         $request = (new Request())->setUrl($uri);
         $this->assertSame($uri, $request->getUrl());
     }
 
-    public function testGetQueryString()
+    public function testGetQueryString(): void
     {
         $request = new Request();
         $this->assertEquals([], $request->getQueryString());
@@ -154,7 +154,7 @@ class RequestTest extends HarTestBase
         $this->assertEquals($queryParams, $request->getQueryString());
     }
 
-    public function testGetSetMethod()
+    public function testGetSetMethod(): void
     {
         $request = (new Request())->setMethod('POST');
         $this->assertEquals('POST', $request->getMethod());

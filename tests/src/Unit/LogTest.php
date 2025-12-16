@@ -13,7 +13,7 @@ use Deviantintegral\Har\Log;
  */
 class LogTest extends HarTestBase
 {
-    public function testSerialize()
+    public function testSerialize(): void
     {
         $serializer = $this->getSerializer();
 
@@ -49,7 +49,7 @@ class LogTest extends HarTestBase
         $this->assertEquals($log, $deserialized);
     }
 
-    public function testGettersAndSetters()
+    public function testGettersAndSetters(): void
     {
         $creator = (new Creator())
           ->setName('TestCreator')
@@ -78,7 +78,7 @@ class LogTest extends HarTestBase
         $this->assertEquals('Test comment', $log->getComment());
     }
 
-    public function testIso8601MicrosecondsConstant()
+    public function testIso8601MicrosecondsConstant(): void
     {
         $this->assertEquals('Y-m-d\TH:i:s.uT', Log::ISO_8601_MICROSECONDS);
     }

@@ -12,7 +12,7 @@ use Deviantintegral\Har\Content;
  */
 class ContentTest extends HarTestBase
 {
-    public function testSerialize()
+    public function testSerialize(): void
     {
         $serializer = $this->getSerializer();
         $text = base64_encode('testing');
@@ -43,7 +43,7 @@ class ContentTest extends HarTestBase
         $this->assertDeserialize($serialized, Content::class, $content);
     }
 
-    public function testSerializeWithoutOptionalAttributes()
+    public function testSerializeWithoutOptionalAttributes(): void
     {
         $serializer = $this->getSerializer();
         $text = 'testing not encoded';

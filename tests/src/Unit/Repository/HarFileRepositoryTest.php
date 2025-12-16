@@ -20,14 +20,14 @@ class HarFileRepositoryTest extends HarTestBase
         $this->repository = $this->getHarFileRepository();
     }
 
-    public function testLoad()
+    public function testLoad(): void
     {
         $har = $this->repository->load('www.softwareishard.com-single-entry.har');
         $this->assertInstanceOf(Har::class, $har);
         $this->assertNotNull($har->getLog());
     }
 
-    public function testLoadJson()
+    public function testLoadJson(): void
     {
         $json = $this->repository->loadJson('www.softwareishard.com-single-entry.har');
         $this->assertIsString($json);
@@ -37,7 +37,7 @@ class HarFileRepositoryTest extends HarTestBase
         $this->assertArrayHasKey('log', $decoded);
     }
 
-    public function testGetIds()
+    public function testGetIds(): void
     {
         $ids = $this->repository->getIds();
         $this->assertIsArray($ids);
@@ -46,7 +46,7 @@ class HarFileRepositoryTest extends HarTestBase
         $this->assertContains('www.softwareishard.com-multiple-entries.har', $ids);
     }
 
-    public function testGetIdsSorted()
+    public function testGetIdsSorted(): void
     {
         $ids = $this->repository->getIds();
         $sorted = $ids;
@@ -54,7 +54,7 @@ class HarFileRepositoryTest extends HarTestBase
         $this->assertEquals($sorted, $ids);
     }
 
-    public function testLoadMultipleWithIds()
+    public function testLoadMultipleWithIds(): void
     {
         $ids = ['www.softwareishard.com-single-entry.har', 'www.softwareishard.com-multiple-entries.har'];
         $generator = $this->repository->loadMultiple($ids);
@@ -66,7 +66,7 @@ class HarFileRepositoryTest extends HarTestBase
         $this->assertInstanceOf(Har::class, $hars['www.softwareishard.com-single-entry.har']);
     }
 
-    public function testLoadMultipleWithoutIds()
+    public function testLoadMultipleWithoutIds(): void
     {
         $generator = $this->repository->loadMultiple();
         $this->assertInstanceOf(\Generator::class, $generator);
@@ -78,13 +78,13 @@ class HarFileRepositoryTest extends HarTestBase
         }
     }
 
-    public function testLoadJsonThrowsExceptionForInvalidFile()
+    public function testLoadJsonThrowsExceptionForInvalidFile(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->repository->loadJson('non-existent-file.har');
     }
 
-    public function testGetIdsReturnsEmptyArrayForNonExistentDirectory()
+    public function testGetIdsReturnsEmptyArrayForNonExistentDirectory(): void
     {
         $repository = new HarFileRepository('/path/to/non-existent-directory');
         $ids = $repository->getIds();
@@ -92,7 +92,7 @@ class HarFileRepositoryTest extends HarTestBase
         $this->assertEmpty($ids);
     }
 
-    public function testLoadJsonHandlesEmptyFile()
+    public function testLoadJsonHandlesEmptyFile(): void
     {
         $tempDir = sys_get_temp_dir().'/har_test_'.uniqid();
         mkdir($tempDir);

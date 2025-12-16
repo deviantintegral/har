@@ -13,7 +13,7 @@ use Deviantintegral\Har\Params;
  */
 class ParamsTest extends HarTestBase
 {
-    public function testSerialize()
+    public function testSerialize(): void
     {
         $params = (new Params())
           ->setName('Host')
@@ -48,7 +48,7 @@ class ParamsTest extends HarTestBase
         $this->assertEquals($params, $deserialized);
     }
 
-    public function testSerializeWithoutOptionalAttributes()
+    public function testSerializeWithoutOptionalAttributes(): void
     {
         $params = (new Params())
             ->setName('Host')

@@ -12,7 +12,7 @@ use Deviantintegral\Har\PostData;
  */
 class PostDataTest extends HarTestBase
 {
-    public function testSerialize()
+    public function testSerialize(): void
     {
         $postData = (new PostData())
             ->setParams(

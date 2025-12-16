@@ -19,7 +19,7 @@ class HarTest extends HarTestBase
      * Tests deserializing and reserializing a complete HAR file.
      */
     #[DataProvider('fixtureDataProvider')]
-    public function testExportedFixture(string $id, Har $har)
+    public function testExportedFixture(string $id, Har $har): void
     {
         $repository = $this->getHarFileRepository();
         $file = $repository->loadJson($id);
@@ -40,14 +40,14 @@ class HarTest extends HarTestBase
         }
     }
 
-    public function testGetSetLog()
+    public function testGetSetLog(): void
     {
         $log = new Log();
         $har = (new Har())->setLog($log);
         $this->assertSame($log, $har->getLog());
     }
 
-    public function testSplitLogEntries()
+    public function testSplitLogEntries(): void
     {
         $repository = $this->getHarFileRepository();
         $har = $repository->load('www.softwareishard.com-multiple-entries.har');
@@ -70,7 +70,7 @@ class HarTest extends HarTestBase
         }
     }
 
-    public function testCloneIsDeep()
+    public function testCloneIsDeep(): void
     {
         $repository = $this->getHarFileRepository();
         $har = $repository->load('www.softwareishard.com-multiple-entries.har');
@@ -92,7 +92,7 @@ class HarTest extends HarTestBase
         $this->assertCount(0, $cloned->getLog()->getEntries());
     }
 
-    public function testCloneBrowserIsDeep()
+    public function testCloneBrowserIsDeep(): void
     {
         $repository = $this->getHarFileRepository();
         $har = $repository->load('www.softwareishard.com-multiple-entries.har');
@@ -118,7 +118,7 @@ class HarTest extends HarTestBase
         $this->assertSame('modified-version', $cloned->getLog()->getBrowser()->getVersion());
     }
 
-    private function removeCustomFields(array &$a)
+    private function removeCustomFields(array &$a): void
     {
         foreach ($a as &$value) {
             if (\is_array($value)) {
@@ -131,7 +131,7 @@ class HarTest extends HarTestBase
         }, \ARRAY_FILTER_USE_KEY);
     }
 
-    private function normalizeDateTime(array &$a)
+    private function normalizeDateTime(array &$a): void
     {
         foreach ($a as &$value) {
             if (\is_array($value)) {

@@ -37,7 +37,7 @@ class RequestTest extends HarTestBase
         );
     }
 
-    public function testWithRequestTarget()
+    public function testWithRequestTarget(): void
     {
         $absolute_form = $this->getRequest->withRequestTarget(
             'https://www.example.com/home'
@@ -48,14 +48,14 @@ class RequestTest extends HarTestBase
         );
     }
 
-    public function testGetBody()
+    public function testGetBody(): void
     {
         $stream = $this->postRequest->getBody();
         $this->assertInstanceOf(StreamInterface::class, $stream);
         $this->assertEquals('log=&pwd=&wp-submit=Log+In&redirect_to=http%3A%2F%2Fwww.softwareishard.com%2Fblog%2Fwp-admin%2F&testcookie=1', (string) $stream);
     }
 
-    public function testWithHeader()
+    public function testWithHeader(): void
     {
         $with_header = $this->getRequest->withHeader('X-Test', 'server');
         $this->assertEquals(['server'], $with_header->getHeader('X-Test'));
@@ -70,13 +70,13 @@ class RequestTest extends HarTestBase
         );
     }
 
-    public function testGetHeaderLine()
+    public function testGetHeaderLine(): void
     {
         $with_multiple = $this->getRequest->withAddedHeader('Accept', '*/*');
         $this->assertEquals('text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8, */*', $with_multiple->getHeaderLine('Accept'));
     }
 
-    public function testGetHeader()
+    public function testGetHeader(): void
     {
         $this->assertSame(
             ['1'],
@@ -84,13 +84,13 @@ class RequestTest extends HarTestBase
         );
     }
 
-    public function testWithBody()
+    public function testWithBody(): void
     {
         $with_body = $this->postRequest->withBody(Utils::streamFor('a=1&b=2'));
         $this->assertEquals('a=1&b=2', $with_body->getBody()->getContents());
     }
 
-    public function testGetRequestTarget()
+    public function testGetRequestTarget(): void
     {
         $this->assertEquals(
             'http://www.softwareishard.com/blog/har-12-spec/',
@@ -98,20 +98,20 @@ class RequestTest extends HarTestBase
         );
     }
 
-    public function testWithUri()
+    public function testWithUri(): void
     {
         $uri = new Uri('http://www.example.com/');
         $with_uri = $this->getRequest->withUri($uri);
         $this->assertSame($uri, $with_uri->getUri());
     }
 
-    public function testHasHeader()
+    public function testHasHeader(): void
     {
         $this->assertTrue($this->getRequest->hasHeader('Accept'));
         $this->assertFalse($this->getRequest->hasHeader('Kittens'));
     }
 
-    public function testGetHeaders()
+    public function testGetHeaders(): void
     {
         $headers = $this->getRequest->getHeaders();
         $this->assertEquals(
@@ -142,24 +142,24 @@ class RequestTest extends HarTestBase
         );
     }
 
-    public function testGetProtocolVersion()
+    public function testGetProtocolVersion(): void
     {
         $this->assertEquals('1.1', $this->getRequest->getProtocolVersion());
     }
 
-    public function testWithProtocolVersion()
+    public function testWithProtocolVersion(): void
     {
         $with_protocol_version = $this->getRequest->withProtocolVersion('2.0');
         $this->assertEquals('2.0', $with_protocol_version->getProtocolVersion());
     }
 
-    public function testWithoutHeader()
+    public function testWithoutHeader(): void
     {
         $without_header = $this->getRequest->withoutHeader('Accept');
         $this->assertFalse($without_header->hasHeader('Accept'));
     }
 
-    public function testWithAddedHeader()
+    public function testWithAddedHeader(): void
     {
         $with_added = $this->getRequest->withAddedHeader('Accept', '*/*');
         $this->assertEquals([
@@ -168,17 +168,17 @@ class RequestTest extends HarTestBase
         ], $with_added->getHeader('Accept'));
     }
 
-    public function testGetMethod()
+    public function testGetMethod(): void
     {
         $this->assertEquals('GET', $this->getRequest->getMethod());
     }
 
-    public function testWithMethod()
+    public function testWithMethod(): void
     {
         $this->assertEquals('OPTIONS', $this->getRequest->withMethod('OPTIONS')->getMethod());
     }
 
-    public function testGetUri()
+    public function testGetUri(): void
     {
         $this->assertEquals(new Uri('http://www.softwareishard.com/blog/har-12-spec/'), $this->getRequest->getUri());
     }

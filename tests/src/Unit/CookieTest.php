@@ -12,7 +12,7 @@ use Deviantintegral\NullDateTime\NullDateTime;
  */
 class CookieTest extends HarTestBase
 {
-    public function testSerialize()
+    public function testSerialize(): void
     {
         $serializer = $this->getSerializer();
 
@@ -49,7 +49,7 @@ class CookieTest extends HarTestBase
         $this->assertDeserialize($serialized, Cookie::class, $cookie);
     }
 
-    public function testSerializeWithoutOptionalAttributes()
+    public function testSerializeWithoutOptionalAttributes(): void
     {
         $serializer = $this->getSerializer();
 

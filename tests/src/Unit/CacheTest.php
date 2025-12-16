@@ -8,7 +8,7 @@ use Deviantintegral\Har\Cache;
 
 class CacheTest extends HarTestBase
 {
-    public function testSerializeWhenEmpty()
+    public function testSerializeWhenEmpty(): void
     {
         $cache = (new Cache());
         $this->assertFalse($cache->hasAfterRequest());

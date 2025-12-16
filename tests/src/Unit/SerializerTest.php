@@ -11,7 +11,7 @@ class SerializerTest extends HarTestBase
     /**
      * Test that files containing a byte order mark can be loaded.
      */
-    public function testByteOrderMark()
+    public function testByteOrderMark(): void
     {
         $repository = $this->getHarFileRepository();
         $fixture = $repository->load('18_bom.har');

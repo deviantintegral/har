@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 
 class ReadmeTest extends TestCase
 {
-    public function testExample()
+    public function testExample(): void
     {
         // Initialize a repository of HAR files, with IDs being the file names.
         $repository = new HarFileRepository(__DIR__.'/../../fixtures');

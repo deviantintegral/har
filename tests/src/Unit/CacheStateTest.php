@@ -12,7 +12,7 @@ use Deviantintegral\NullDateTime\ConcreteDateTime;
  */
 class CacheStateTest extends HarTestBase
 {
-    public function testSerialize()
+    public function testSerialize(): void
     {
         $serializer = $this->getSerializer();
         $expires = new ConcreteDateTime(
@@ -41,7 +41,7 @@ class CacheStateTest extends HarTestBase
         $this->assertEquals($cacheState, $deserialized);
     }
 
-    public function testGet()
+    public function testGet(): void
     {
         $cacheState = (new CacheState())
           ->setLastAccess('2024-01-01T12:00:00Z')
@@ -53,7 +53,7 @@ class CacheStateTest extends HarTestBase
         $this->assertEquals(10, $cacheState->getHitCount());
     }
 
-    public function testDefaultHitCount()
+    public function testDefaultHitCount(): void
     {
         $cacheState = new CacheState();
         $this->assertEquals(0, $cacheState->getHitCount());

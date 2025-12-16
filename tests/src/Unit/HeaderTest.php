@@ -13,7 +13,7 @@ use Deviantintegral\Har\Header;
  */
 class HeaderTest extends HarTestBase
 {
-    public function testSerialize()
+    public function testSerialize(): void
     {
         $header = (new Header())
           ->setName('Host')
