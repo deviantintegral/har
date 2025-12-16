@@ -386,4 +386,48 @@ class ServerRequestTest extends HarTestBase
         // Verify modified has the new parsed body
         $this->assertEquals(['new_key' => 'new_value'], $modified->getParsedBody());
     }
+
+    public function testGetCookieParamsWithMultipleCookies(): void
+    {
+        // Create a HAR request with multiple cookies
+        $harRequest = (new Request())
+            ->setMethod('GET')
+            ->setUrl(new Uri('https://www.example.com/'))
+            ->setCookies([
+                (new Cookie())->setName('cookie1')->setValue('value1'),
+                (new Cookie())->setName('cookie2')->setValue('value2'),
+                (new Cookie())->setName('cookie3')->setValue('value3'),
+            ]);
+
+        $serverRequest = new ServerRequest($harRequest);
+        $cookies = $serverRequest->getCookieParams();
+
+        // Verify all cookies are returned, not just one
+        $this->assertCount(3, $cookies);
+        $this->assertEquals('value1', $cookies['cookie1']);
+        $this->assertEquals('value2', $cookies['cookie2']);
+        $this->assertEquals('value3', $cookies['cookie3']);
+    }
+
+    public function testGetQueryParamsWithMultipleParams(): void
+    {
+        // Create a HAR request with multiple query parameters
+        $harRequest = (new Request())
+            ->setMethod('GET')
+            ->setUrl(new Uri('https://www.example.com/'))
+            ->setQueryString([
+                (new Params())->setName('param1')->setValue('value1'),
+                (new Params())->setName('param2')->setValue('value2'),
+                (new Params())->setName('param3')->setValue('value3'),
+            ]);
+
+        $serverRequest = new ServerRequest($harRequest);
+        $queryParams = $serverRequest->getQueryParams();
+
+        // Verify all query parameters are returned, not just one
+        $this->assertCount(3, $queryParams);
+        $this->assertEquals('value1', $queryParams['param1']);
+        $this->assertEquals('value2', $queryParams['param2']);
+        $this->assertEquals('value3', $queryParams['param3']);
+    }
 }
