@@ -105,4 +105,45 @@ class HarFileRepositoryTest extends HarTestBase
             throw $e;
         }
     }
+
+    public function testGetIdsFiltersFilesWithLessThanFourCharacters(): void
+    {
+        $tempDir = sys_get_temp_dir().'/har_test_'.uniqid();
+        mkdir($tempDir);
+
+        // Create files with various lengths
+        $files = [
+            'a' => '',           // 1 character - should be filtered
+            'ab' => '',          // 2 characters - should be filtered
+            'abc' => '',         // 3 characters - should be filtered
+            'test' => '',        // 4 characters but no .har extension - should be filtered
+            'a.bc' => '',        // 4 characters but no .har extension - should be filtered
+            'a.har' => '{}',     // 5 characters with .har extension - should be included
+            'ab.har' => '{}',    // 6 characters with .har extension - should be included
+        ];
+
+        foreach ($files as $filename => $content) {
+            file_put_contents($tempDir.'/'.$filename, $content);
+        }
+
+        $repository = new HarFileRepository($tempDir);
+        $ids = $repository->getIds();
+
+        // Only files with .har extension and length >= 4 should be included
+        $this->assertContains('a.har', $ids);
+        $this->assertContains('ab.har', $ids);
+
+        // All other files should be filtered out
+        $this->assertNotContains('a', $ids);
+        $this->assertNotContains('ab', $ids);
+        $this->assertNotContains('abc', $ids);
+        $this->assertNotContains('test', $ids);
+        $this->assertNotContains('a.bc', $ids);
+
+        // Clean up
+        foreach (array_keys($files) as $filename) {
+            unlink($tempDir.'/'.$filename);
+        }
+        rmdir($tempDir);
+    }
 }
