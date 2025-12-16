@@ -34,7 +34,7 @@ final class Har
     /**
      * Return a generator that returns cloned HARs with one per HAR entry.
      *
-     * @return Har[]
+     * @return \Generator<int, Har>
      */
     public function splitLogEntries(): \Generator
     {
