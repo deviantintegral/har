@@ -60,7 +60,7 @@ class SplitCommandTest extends HarTestBase
             $expectedFiles[] = $this->tempDir.'/'.$i.'.har';
         }
         natsort($files);
-        $files = array_values($files); // Re-index array after sorting
+        $files = array_values($files); // Re-index array after sorting // @phpstan-ignore argument.templateType
         $this->assertEquals($expectedFiles, $files);
 
         // Verify each file is valid HAR with single entry
