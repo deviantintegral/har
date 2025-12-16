@@ -71,4 +71,32 @@ class TimingsTest extends HarTestBase
         $this->assertTrue($timings->hasDns());
         $this->assertEquals(50.3, $timings->getDns());
     }
+
+    public function testHasConnect(): void
+    {
+        $timings = new Timings();
+
+        // Default value is -1, so hasConnect() should return false
+        $this->assertFalse($timings->hasConnect());
+        $this->assertEquals(-1, $timings->getConnect());
+
+        // After setting a value, hasConnect() should return true
+        $timings->setConnect(75.2);
+        $this->assertTrue($timings->hasConnect());
+        $this->assertEquals(75.2, $timings->getConnect());
+    }
+
+    public function testHasSsl(): void
+    {
+        $timings = new Timings();
+
+        // Default value is -1, so hasSsl() should return false
+        $this->assertFalse($timings->hasSsl());
+        $this->assertEquals(-1, $timings->getSsl());
+
+        // After setting a value, hasSsl() should return true
+        $timings->setSsl(25.7);
+        $this->assertTrue($timings->hasSsl());
+        $this->assertEquals(25.7, $timings->getSsl());
+    }
 }
