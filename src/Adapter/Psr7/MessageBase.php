@@ -82,9 +82,8 @@ abstract class MessageBase implements MessageInterface
 
         $headers = $message->getHeaders();
         foreach ($headers as $index => $header) {
-            if ($header->getName() === $name) {
+            if (strtolower($header->getName()) === strtolower($name)) {
                 unset($headers[$index]);
-                break;
             }
         }
 
