@@ -11,7 +11,7 @@ use Deviantintegral\Har\Creator;
  */
 class CreatorTest extends HarTestBase
 {
-    public function testSerialize()
+    public function testSerialize(): void
     {
         $serializer = $this->getSerializer();
         $creator = (new Creator())
@@ -36,7 +36,7 @@ class CreatorTest extends HarTestBase
         $this->assertEquals($creator, $deserialized);
     }
 
-    public function testGet()
+    public function testGet(): void
     {
         $creator = (new Creator())
           ->setName('CreatorTest')

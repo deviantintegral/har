@@ -11,7 +11,7 @@ use Deviantintegral\Har\Browser;
  */
 class BrowserTest extends HarTestBase
 {
-    public function testSerialize()
+    public function testSerialize(): void
     {
         $serializer = $this->getSerializer();
         $browser = (new Browser())
@@ -36,7 +36,7 @@ class BrowserTest extends HarTestBase
         $this->assertEquals($browser, $deserialized);
     }
 
-    public function testGet()
+    public function testGet(): void
     {
         $browser = (new Browser())
           ->setName('BrowserTest')
@@ -48,7 +48,7 @@ class BrowserTest extends HarTestBase
         $this->assertEquals('Test case', $browser->getComment());
     }
 
-    public function testClone()
+    public function testClone(): void
     {
         $browser = (new Browser())
           ->setName('BrowserTest')

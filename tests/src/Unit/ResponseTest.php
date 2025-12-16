@@ -14,7 +14,7 @@ use GuzzleHttp\Psr7\Uri;
  */
 class ResponseTest extends HarTestBase
 {
-    public function testFromPsr7()
+    public function testFromPsr7(): void
     {
         $psr7 = new Response(200, ['Content-Type' => 'text/plain'], 'testing', '2.0', 'Who needs reasons?');
         $response = \Deviantintegral\Har\Response::fromPsr7Response($psr7);
@@ -27,33 +27,33 @@ class ResponseTest extends HarTestBase
         $this->assertEquals('Who needs reasons?', $response->getStatusText());
     }
 
-    public function testGetSetStatus()
+    public function testGetSetStatus(): void
     {
         $response = (new \Deviantintegral\Har\Response())->setStatus(404);
         $this->assertEquals(404, $response->getStatus());
     }
 
-    public function testGetSetStatusText()
+    public function testGetSetStatusText(): void
     {
         $response = (new \Deviantintegral\Har\Response())->setStatusText('Not Found');
         $this->assertEquals('Not Found', $response->getStatusText());
     }
 
-    public function testGetSetContent()
+    public function testGetSetContent(): void
     {
         $content = (new Content())->setText('test content');
         $response = (new \Deviantintegral\Har\Response())->setContent($content);
         $this->assertSame($content, $response->getContent());
     }
 
-    public function testGetSetRedirectURL()
+    public function testGetSetRedirectURL(): void
     {
         $uri = new Uri('https://www.example.com/redirect');
         $response = (new \Deviantintegral\Har\Response())->setRedirectURL($uri);
         $this->assertSame($uri, $response->getRedirectURL());
     }
 
-    public function testSerialize()
+    public function testSerialize(): void
     {
         $serializer = $this->getSerializer();
         $content = (new Content())->setText('test');

@@ -21,7 +21,7 @@ class DateFormatInterfaceHandlerTest extends TestCase
         $this->handler = new DateFormatInterfaceHandler();
     }
 
-    public function testGetSubscribingMethods()
+    public function testGetSubscribingMethods(): void
     {
         $methods = DateFormatInterfaceHandler::getSubscribingMethods();
         $this->assertIsArray($methods);
@@ -47,19 +47,19 @@ class DateFormatInterfaceHandlerTest extends TestCase
         $this->assertContains(GraphNavigatorInterface::DIRECTION_DESERIALIZATION, $directions);
     }
 
-    public function testConstructorWithDefaultParameters()
+    public function testConstructorWithDefaultParameters(): void
     {
         $handler = new DateFormatInterfaceHandler();
         $this->assertInstanceOf(DateFormatInterfaceHandler::class, $handler);
     }
 
-    public function testConstructorWithCustomParameters()
+    public function testConstructorWithCustomParameters(): void
     {
         $handler = new DateFormatInterfaceHandler('Y-m-d', 'America/New_York');
         $this->assertInstanceOf(DateFormatInterfaceHandler::class, $handler);
     }
 
-    public function testSerializeNullDateTime()
+    public function testSerializeNullDateTime(): void
     {
         $nullDateTime = new NullDateTime();
 

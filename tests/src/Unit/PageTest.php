@@ -13,7 +13,7 @@ use Deviantintegral\Har\PageTimings;
  */
 class PageTest extends HarTestBase
 {
-    public function testSerialize()
+    public function testSerialize(): void
     {
         $page = (new Page())
           ->setComment('Test comment')
@@ -43,19 +43,19 @@ class PageTest extends HarTestBase
         $this->assertEquals($page, $deserialized);
     }
 
-    public function testGetSetId()
+    public function testGetSetId(): void
     {
         $page = (new Page())->setId('page_123');
         $this->assertEquals('page_123', $page->getId());
     }
 
-    public function testGetSetTitle()
+    public function testGetSetTitle(): void
     {
         $page = (new Page())->setTitle('Test Page Title');
         $this->assertEquals('Test Page Title', $page->getTitle());
     }
 
-    public function testGetSetPageTimings()
+    public function testGetSetPageTimings(): void
     {
         $pageTimings = new PageTimings();
         $page = (new Page())->setPageTimings($pageTimings);

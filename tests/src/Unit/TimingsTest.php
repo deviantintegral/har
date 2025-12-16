@@ -11,7 +11,7 @@ use Deviantintegral\Har\Timings;
  */
 class TimingsTest extends HarTestBase
 {
-    public function testSerialize()
+    public function testSerialize(): void
     {
         $serializer = $this->getSerializer();
 
@@ -44,7 +44,7 @@ class TimingsTest extends HarTestBase
         $this->assertEquals($timings, $deserialized);
     }
 
-    public function testHasBlocked()
+    public function testHasBlocked(): void
     {
         $timings = new Timings();
 
@@ -58,7 +58,7 @@ class TimingsTest extends HarTestBase
         $this->assertEquals(100.5, $timings->getBlocked());
     }
 
-    public function testHasDns()
+    public function testHasDns(): void
     {
         $timings = new Timings();
 

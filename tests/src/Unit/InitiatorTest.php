@@ -12,7 +12,7 @@ use GuzzleHttp\Psr7\Uri;
  */
 class InitiatorTest extends HarTestBase
 {
-    public function testInitiatorWithTypeOther()
+    public function testInitiatorWithTypeOther(): void
     {
         $serializer = $this->getSerializer();
 
@@ -32,7 +32,7 @@ class InitiatorTest extends HarTestBase
         $this->assertNull($initiator->getLineNumber());
     }
 
-    public function testInitiatorWithTypeParser()
+    public function testInitiatorWithTypeParser(): void
     {
         $serializer = $this->getSerializer();
 

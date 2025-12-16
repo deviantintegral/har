@@ -11,7 +11,7 @@ use Deviantintegral\Har\QueryString;
  */
 class QueryStringTest extends HarTestBase
 {
-    public function testSerialize()
+    public function testSerialize(): void
     {
         $query = (new QueryString())
           ->setName('Host')

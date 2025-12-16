@@ -27,31 +27,31 @@ class ResponseTest extends HarTestBase
         );
     }
 
-    public function testGetStatusCode()
+    public function testGetStatusCode(): void
     {
         $this->assertEquals(200, $this->response->getStatusCode());
     }
 
-    public function testWithStatus()
+    public function testWithStatus(): void
     {
         $withStatus = $this->response->withStatus(404, 'Not Found');
         $this->assertEquals(404, $withStatus->getStatusCode());
         $this->assertEquals('Not Found', $withStatus->getReasonPhrase());
     }
 
-    public function testGetReasonPhrase()
+    public function testGetReasonPhrase(): void
     {
         $this->assertEquals('OK', $this->response->getReasonPhrase());
     }
 
-    public function testGetHarResponse()
+    public function testGetHarResponse(): void
     {
         $harResponse = $this->response->getHarResponse();
         $this->assertInstanceOf(\Deviantintegral\Har\Response::class, $harResponse);
         $this->assertEquals(200, $harResponse->getStatus());
     }
 
-    public function testWithHeader()
+    public function testWithHeader(): void
     {
         $withHeader = $this->response->withHeader('X-Test', 'value');
         $this->assertEquals(['value'], $withHeader->getHeader('X-Test'));
@@ -66,55 +66,55 @@ class ResponseTest extends HarTestBase
         );
     }
 
-    public function testGetHeaderLine()
+    public function testGetHeaderLine(): void
     {
         $withMultiple = $this->response->withAddedHeader('X-Custom', 'value1')
           ->withAddedHeader('X-Custom', 'value2');
         $this->assertEquals('value1, value2', $withMultiple->getHeaderLine('X-Custom'));
     }
 
-    public function testGetHeaderLineWhenHeaderNotPresent()
+    public function testGetHeaderLineWhenHeaderNotPresent(): void
     {
         $this->assertEquals('', $this->response->getHeaderLine('X-NonExistent'));
     }
 
-    public function testGetHeader()
+    public function testGetHeader(): void
     {
         $headers = $this->response->getHeader('Content-Type');
         $this->assertIsArray($headers);
     }
 
-    public function testHasHeader()
+    public function testHasHeader(): void
     {
         $this->assertTrue($this->response->hasHeader('Content-Type'));
         $this->assertFalse($this->response->hasHeader('X-NonExistent'));
     }
 
-    public function testGetHeaders()
+    public function testGetHeaders(): void
     {
         $headers = $this->response->getHeaders();
         $this->assertIsArray($headers);
         $this->assertArrayHasKey('Content-Type', $headers);
     }
 
-    public function testGetProtocolVersion()
+    public function testGetProtocolVersion(): void
     {
         $this->assertEquals('1.1', $this->response->getProtocolVersion());
     }
 
-    public function testWithProtocolVersion()
+    public function testWithProtocolVersion(): void
     {
         $withProtocol = $this->response->withProtocolVersion('2.0');
         $this->assertEquals('2.0', $withProtocol->getProtocolVersion());
     }
 
-    public function testWithoutHeader()
+    public function testWithoutHeader(): void
     {
         $withoutHeader = $this->response->withoutHeader('Content-Type');
         $this->assertFalse($withoutHeader->hasHeader('Content-Type'));
     }
 
-    public function testWithAddedHeader()
+    public function testWithAddedHeader(): void
     {
         $withAdded = $this->response->withAddedHeader('X-Custom', 'value1');
         $this->assertEquals(['value1'], $withAdded->getHeader('X-Custom'));
@@ -123,13 +123,13 @@ class ResponseTest extends HarTestBase
         $this->assertEquals(['value1', 'value2'], $withMultiple->getHeader('X-Custom'));
     }
 
-    public function testWithAddedHeaderArrayValue()
+    public function testWithAddedHeaderArrayValue(): void
     {
         $withAdded = $this->response->withAddedHeader('X-Custom', ['value1', 'value2']);
         $this->assertEquals(['value1', 'value2'], $withAdded->getHeader('X-Custom'));
     }
 
-    public function testGetBody()
+    public function testGetBody(): void
     {
         $body = $this->response->getBody();
         $this->assertInstanceOf(\Psr\Http\Message\StreamInterface::class, $body);
@@ -140,7 +140,7 @@ class ResponseTest extends HarTestBase
         $this->assertNotEmpty($bodyContent);
     }
 
-    public function testWithBody()
+    public function testWithBody(): void
     {
         $newBodyContent = 'Test body content';
         $newBody = \GuzzleHttp\Psr7\Utils::streamFor($newBodyContent);
