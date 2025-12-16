@@ -81,7 +81,7 @@ class ResponseTest extends HarTestBase
     public function testGetHeader(): void
     {
         $headers = $this->response->getHeader('Content-Type');
-        $this->assertIsArray($headers); // @phpstan-ignore method.alreadyNarrowedType
+        $this->assertEquals(['text/html; charset=UTF-8'], $headers);
     }
 
     public function testHasHeader(): void
@@ -93,7 +93,6 @@ class ResponseTest extends HarTestBase
     public function testGetHeaders(): void
     {
         $headers = $this->response->getHeaders();
-        $this->assertIsArray($headers); // @phpstan-ignore method.alreadyNarrowedType
         $this->assertArrayHasKey('Content-Type', $headers);
     }
 
@@ -136,7 +135,6 @@ class ResponseTest extends HarTestBase
 
         // Verify the body content matches the response content
         $bodyContent = $body->getContents();
-        $this->assertIsString($bodyContent); // @phpstan-ignore method.alreadyNarrowedType
         $this->assertNotEmpty($bodyContent);
     }
 
