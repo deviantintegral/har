@@ -145,6 +145,7 @@ final class ServerRequest extends Request implements ServerRequestInterface
      */
     public function withParsedBody($data): ServerRequestInterface
     {
+        // @phpstan-ignore function.alreadyNarrowedType, booleanAnd.alwaysFalse
         if (null !== $data && !\is_array($data) && !\is_object($data)) {
             throw new \InvalidArgumentException('Parsed body must be an array, object, or null.');
         }
