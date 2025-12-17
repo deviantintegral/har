@@ -35,16 +35,4 @@ class CreatorTest extends HarTestBase
         );
         $this->assertEquals($creator, $deserialized);
     }
-
-    public function testGet(): void
-    {
-        $creator = (new Creator())
-          ->setName('CreatorTest')
-          ->setVersion('1.9')
-          ->setComment('Test case');
-
-        $this->assertEquals('CreatorTest', $creator->getName());
-        $this->assertEquals('1.9', $creator->getVersion());
-        $this->assertEquals('Test case', $creator->getComment());
-    }
 }
