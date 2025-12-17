@@ -164,6 +164,23 @@ class RequestTest extends HarTestBase
 
         // The Host header should remain unchanged
         $this->assertEquals($originalHost, $modified->getHeader('Host'));
+
+        // Verify it's NOT set to the new URI's host
+        $this->assertNotEquals(['newhost.example.com'], $modified->getHeader('Host'));
+    }
+
+    public function testWithUriWithEmptyHostDoesNotSetHeader(): void
+    {
+        $originalHeaders = $this->getRequest->getHeaders();
+
+        // Create a URI without a host (file:// scheme)
+        $uriWithoutHost = new Uri('file:///path/to/file');
+
+        // Call withUri with preserveHost = false (default)
+        $modified = $this->getRequest->withUri($uriWithoutHost, false);
+
+        // The headers should remain the same since there's no host to set
+        $this->assertEquals($originalHeaders, $modified->getHeaders());
     }
 
     public function testHasHeader(): void
