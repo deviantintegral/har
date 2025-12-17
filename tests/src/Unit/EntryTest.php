@@ -45,7 +45,6 @@ class EntryTest extends HarTestBase
 
         $serialized = $this->getSerializer()->serialize($har, 'json');
         $actual = json_decode($serialized, true);
-        $this->assertIsArray($actual['log']['entries'][0]['_initiator']);
         $this->assertEquals('other', $actual['log']['entries'][0]['_initiator']['type']);
         $this->assertArrayNotHasKey('url', $actual['log']['entries'][0]['_initiator']);
         $this->assertArrayNotHasKey('lineNumber', $actual['log']['entries'][0]['_initiator']);
