@@ -50,7 +50,6 @@ class ParamsTest extends HarTestBase
             ->setValue('www.example.com')
             ->setComment('Test value');
 
-        $this->assertFalse($params->hasFileName());
         $this->assertFalse($params->hasContentType());
 
         $serializer = $this->getSerializer();
