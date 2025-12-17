@@ -324,4 +324,17 @@ class PostDataTest extends HarTestBase
         // This test kills the MethodCallRemoval mutant at PostData.php:37
         // If traitSetText() is not called, text wouldn't be properly cleared
     }
+
+    public function testHasParamsWithNonEmptyParams(): void
+    {
+        // This test kills the LogicalNot mutation at PostData.php:68
+        // Mutation: `return !empty($this->params)` -> `return empty($this->params)`
+        $postData = (new PostData())->setParams([
+            (new Params())->setName('key')->setValue('value'),
+        ]);
+
+        // With non-empty params, hasParams() must return true
+        // If mutated to `return empty($this->params)`, this would return false
+        $this->assertTrue($postData->hasParams());
+    }
 }
