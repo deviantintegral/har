@@ -27,12 +27,6 @@ class ResponseTest extends HarTestBase
         $this->assertEquals('Who needs reasons?', $response->getStatusText());
     }
 
-    public function testGetSetStatusText(): void
-    {
-        $response = (new \Deviantintegral\Har\Response())->setStatusText('Not Found');
-        $this->assertEquals('Not Found', $response->getStatusText());
-    }
-
     public function testGetSetContent(): void
     {
         $content = (new Content())->setText('test content');
