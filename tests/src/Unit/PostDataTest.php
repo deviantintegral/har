@@ -205,6 +205,67 @@ class PostDataTest extends HarTestBase
         // and NOT happen when there are params (returning 0 incorrectly)
     }
 
+    public function testGetBodySizeWithParamsReturnsCorrectSize(): void
+    {
+        // This test kills IfNegation by verifying the exact size returned when params exist
+        // If the condition is negated, this would return 0 instead of the correct size
+        $postData = new PostData();
+        $postData->setParams([
+            (new Params())->setName('key')->setValue('value'),
+            (new Params())->setName('another')->setValue('test'),
+        ]);
+
+        // key=value&another=test = 22 characters
+        $expectedSize = \strlen('key=value&another=test');
+        $actualSize = $postData->getBodySize();
+
+        // The IfNegation mutant would skip the params calculation and return 0 or text size
+        $this->assertSame($expectedSize, $actualSize, 'getBodySize must calculate from params when params exist');
+        $this->assertNotSame(0, $actualSize, 'getBodySize must not return 0 when params exist');
+    }
+
+    public function testGetBodySizeWithoutParamsDoesNotError(): void
+    {
+        // This test kills IfNegation by verifying no error occurs when hasParams is false
+        // If the condition is negated, foreach would be called on null params, causing an error
+        $postData = new PostData();
+
+        // Set up error handler to catch any warnings
+        $warningTriggered = false;
+        $previousHandler = set_error_handler(function ($errno, $errstr) use (&$warningTriggered) {
+            if (str_contains($errstr, 'foreach') || str_contains($errstr, 'null')) {
+                $warningTriggered = true;
+            }
+
+            return false;
+        });
+
+        try {
+            // This should NOT trigger a foreach warning
+            $result = $postData->getBodySize();
+
+            $this->assertFalse($warningTriggered, 'getBodySize() should not attempt foreach on null params');
+            $this->assertSame(0, $result, 'getBodySize() should return 0 when no params and no text');
+        } finally {
+            restore_error_handler();
+        }
+    }
+
+    public function testGetBodySizeWithTextButNoParams(): void
+    {
+        // This tests that when we have text but no params, we get text size
+        // If IfNegation is applied, it would try foreach on null (error) or skip to wrong branch
+        $postData = new PostData();
+        $postData->setText('hello world');
+
+        $this->assertFalse($postData->hasParams());
+        $this->assertTrue($postData->hasText());
+
+        // Should return text size, not 0 and not cause an error
+        $expectedSize = \strlen('hello world');
+        $this->assertSame($expectedSize, $postData->getBodySize());
+    }
+
     public function testSetTextIsPublic(): void
     {
         // This test kills the PublicVisibility mutant by explicitly verifying
