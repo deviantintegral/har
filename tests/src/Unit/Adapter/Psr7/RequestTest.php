@@ -407,6 +407,56 @@ class RequestTest extends HarTestBase
         }
     }
 
+    public function testWithBodyPreservesExistingPostData(): void
+    {
+        // Start with a request that has post data with params
+        $harRequest = $this->getHarFileRepository()->load(
+            'www.softwareishard.com-empty-login.har'
+        )->getLog()->getEntries()[0]->getRequest();
+
+        $original = new Request($harRequest);
+
+        // Verify it has post data
+        $this->assertTrue($original->getHarRequest()->hasPostData());
+
+        // Call withBody with new content
+        $newBody = Utils::streamFor('new=content');
+        $modified = $original->withBody($newBody);
+
+        // Modified should have the new body text
+        $this->assertEquals('new=content', (string) $modified->getBody());
+
+        // Verify the modified request has post data set
+        $modifiedHar = $modified->getHarRequest();
+        $this->assertTrue($modifiedHar->hasPostData());
+        $this->assertEquals('new=content', $modifiedHar->getPostData()->getText());
+    }
+
+    public function testWithBodyCreatesPostDataWhenMissing(): void
+    {
+        // Start with a GET request that has no post data
+        $harRequest = $this->getHarFileRepository()->load(
+            'www.softwareishard.com-single-entry.har'
+        )->getLog()->getEntries()[0]->getRequest();
+
+        $original = new Request($harRequest);
+
+        // Verify it has no post data initially
+        $this->assertFalse($original->getHarRequest()->hasPostData());
+
+        // Call withBody with new content
+        $newBody = Utils::streamFor('new=content');
+        $modified = $original->withBody($newBody);
+
+        // Modified should have the new body text
+        $this->assertEquals('new=content', (string) $modified->getBody());
+
+        // Verify the modified request has post data set
+        $modifiedHar = $modified->getHarRequest();
+        $this->assertTrue($modifiedHar->hasPostData());
+        $this->assertEquals('new=content', $modifiedHar->getPostData()->getText());
+    }
+
     public function testGetHarRequestReturnsClone(): void
     {
         $harRequest1 = $this->getRequest->getHarRequest();
