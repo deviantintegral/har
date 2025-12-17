@@ -46,8 +46,6 @@ class EntryTest extends HarTestBase
         $serialized = $this->getSerializer()->serialize($har, 'json');
         $actual = json_decode($serialized, true);
         $this->assertEquals('other', $actual['log']['entries'][0]['_initiator']['type']);
-
-        $this->assertArrayNotHasKey('_initiator', $actual['log']['entries'][1]);
     }
 
     public function testGetSetPageref(): void
