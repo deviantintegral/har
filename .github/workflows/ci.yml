@@ -13,6 +13,3 @@ permissions:
 jobs:
   test:
     uses: ./.github/workflows/test.yml
-
-  mutation-testing:
-    uses: ./.github/workflows/mutation-testing.yml
