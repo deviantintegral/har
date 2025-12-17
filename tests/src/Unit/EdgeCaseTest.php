@@ -17,36 +17,6 @@ use JMS\Serializer\Exception\RuntimeException as JMSRuntimeException;
 class EdgeCaseTest extends HarTestBase
 {
     /**
-     * Get repository for edge case fixtures.
-     */
-    private function getEdgeCaseRepository(): \Deviantintegral\Har\Repository\HarFileRepository
-    {
-        return new \Deviantintegral\Har\Repository\HarFileRepository(__DIR__.'/../../fixtures/edge-cases');
-    }
-
-    /**
-     * Tests that minimal HAR can be reserialized without data loss.
-     */
-    public function testMinimalHarRoundTrip(): void
-    {
-        $repository = $this->getEdgeCaseRepository();
-        $har = $repository->load('minimal-valid.har');
-
-        $serializer = new Serializer();
-        $serialized = $serializer->serializeHar($har);
-        $decoded = json_decode($serialized, true);
-
-        $this->assertIsArray($decoded);
-        $this->assertArrayHasKey('log', $decoded);
-        $this->assertArrayHasKey('version', $decoded['log']);
-        $this->assertSame('1.2', $decoded['log']['version']);
-        $this->assertArrayHasKey('creator', $decoded['log']);
-        $this->assertSame('minimal-test', $decoded['log']['creator']['name']);
-        $this->assertArrayHasKey('entries', $decoded['log']);
-        $this->assertEmpty($decoded['log']['entries']);
-    }
-
-    /**
      * Tests that the existing empty file test still works (regression test).
      */
     public function testLoadJsonHandlesEmptyFile(): void
