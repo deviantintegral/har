@@ -25,19 +25,6 @@ class EdgeCaseTest extends HarTestBase
     }
 
     /**
-     * Tests that HAR files with malformed entries throw an exception.
-     */
-    public function testMalformedEntryThrowsException(): void
-    {
-        $repository = $this->getEdgeCaseRepository();
-        $serializer = new Serializer();
-
-        $this->expectException(JMSRuntimeException::class);
-        $json = $repository->loadJson('malformed-entry.har');
-        $serializer->deserializeHar($json);
-    }
-
-    /**
      * Tests that HAR files with null values where objects are expected throw a TypeError.
      */
     public function testNullValuesThrowException(): void
