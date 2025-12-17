@@ -131,6 +131,26 @@ class ServerRequestTest extends HarTestBase
     {
         $new = $this->serverRequest->withParsedBody(null);
         $this->assertNull($new->getParsedBody());
+
+        // Verify the HAR request has empty post data params
+        $harRequest = $new->getHarRequest();
+        $this->assertTrue($harRequest->hasPostData());
+        $this->assertFalse($harRequest->getPostData()->hasParams());
+    }
+
+    public function testWithParsedBodyArraySetsHarParams(): void
+    {
+        $new = $this->serverRequest->withParsedBody(['key1' => 'value1', 'key2' => 'value2']);
+
+        // Verify the HAR request has the correct params
+        $harRequest = $new->getHarRequest();
+        $this->assertTrue($harRequest->hasPostData());
+        $params = $harRequest->getPostData()->getParams();
+        $this->assertCount(2, $params);
+        $this->assertEquals('key1', $params[0]->getName());
+        $this->assertEquals('value1', $params[0]->getValue());
+        $this->assertEquals('key2', $params[1]->getName());
+        $this->assertEquals('value2', $params[1]->getValue());
     }
 
     public function testWithParsedBodyInvalidType(): void
