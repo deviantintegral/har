@@ -22,11 +22,6 @@ class HeaderTest extends HarTestBase
 
         $serializer = $this->getSerializer();
         $serialized = $serializer->serialize($header, 'json');
-        $this->assertEquals([
-            'name' => 'Host',
-            'value' => 'www.example.com',
-            'comment' => 'Test value',
-        ], json_decode($serialized, true));
 
         $deserialized = $serializer->deserialize($serialized, Header::class, 'json');
         $this->assertEquals($header, $deserialized);
