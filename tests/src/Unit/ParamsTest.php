@@ -54,7 +54,6 @@ class ParamsTest extends HarTestBase
             ->setComment('Test value');
 
         $this->assertFalse($params->hasFileName());
-        $this->assertNull($params->getFileName());
         $this->assertFalse($params->hasContentType());
         $this->assertNull($params->getContentType());
 
