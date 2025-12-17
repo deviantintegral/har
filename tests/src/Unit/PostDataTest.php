@@ -207,9 +207,11 @@ class PostDataTest extends HarTestBase
 
     public function testSetTextIsPublic(): void
     {
+        // This test kills the PublicVisibility mutant by explicitly verifying
+        // that setText() is publicly accessible from outside the class
         $postData = new PostData();
 
-        // Verify setText is publicly accessible
+        // Calling setText from outside the class - this would fail if visibility is protected
         $result = $postData->setText('test content');
 
         // Verify it returns the PostData instance for method chaining
@@ -217,6 +219,11 @@ class PostDataTest extends HarTestBase
 
         // Verify the text was set
         $this->assertEquals('test content', $postData->getText());
+
+        // This test specifically kills the PublicVisibility mutant at TextTrait.php:20
+        // If `public function setText` is changed to `protected function setText`,
+        // this test will fail with a fatal error because protected methods
+        // cannot be called from outside the class
     }
 
     public function testGetParamsCallsTraitSetText(): void
