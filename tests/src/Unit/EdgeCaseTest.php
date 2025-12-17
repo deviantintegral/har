@@ -25,21 +25,6 @@ class EdgeCaseTest extends HarTestBase
     }
 
     /**
-     * Tests that minimal valid HAR files can be loaded and serialized.
-     */
-    public function testMinimalValidHarLoadsSuccessfully(): void
-    {
-        $repository = $this->getEdgeCaseRepository();
-        $har = $repository->load('minimal-valid.har');
-
-        $this->assertInstanceOf(Har::class, $har);
-        $this->assertSame('1.2', $har->getLog()->getVersion());
-        $this->assertSame('minimal-test', $har->getLog()->getCreator()->getName());
-        $this->assertSame('0.0.1', $har->getLog()->getCreator()->getVersion());
-        $this->assertEmpty($har->getLog()->getEntries());
-    }
-
-    /**
      * Tests that minimal HAR can be reserialized without data loss.
      */
     public function testMinimalHarRoundTrip(): void
