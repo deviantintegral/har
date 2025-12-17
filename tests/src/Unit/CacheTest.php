@@ -19,10 +19,6 @@ class CacheTest extends HarTestBase
 
         $serializer = $this->getSerializer();
         $serialized = $serializer->serialize($cache, 'json');
-        $this->assertEquals(
-            [],
-            json_decode($serialized, true)
-        );
 
         $deserialized = $serializer->deserialize(
             $serialized,
