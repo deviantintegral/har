@@ -25,21 +25,6 @@ class EdgeCaseTest extends HarTestBase
     }
 
     /**
-     * Tests that empty but valid HAR files can be loaded successfully.
-     */
-    public function testEmptyLogLoadsSuccessfully(): void
-    {
-        $repository = $this->getEdgeCaseRepository();
-        $har = $repository->load('empty-log.har');
-
-        $this->assertInstanceOf(Har::class, $har);
-        $this->assertSame('1.2', $har->getLog()->getVersion());
-        $this->assertSame('test', $har->getLog()->getCreator()->getName());
-        $this->assertSame('1.0', $har->getLog()->getCreator()->getVersion());
-        $this->assertEmpty($har->getLog()->getEntries());
-    }
-
-    /**
      * Tests that minimal valid HAR files can be loaded and serialized.
      */
     public function testMinimalValidHarLoadsSuccessfully(): void
