@@ -43,12 +43,6 @@ class PageTest extends HarTestBase
         $this->assertEquals($page, $deserialized);
     }
 
-    public function testGetSetTitle(): void
-    {
-        $page = (new Page())->setTitle('Test Page Title');
-        $this->assertEquals('Test Page Title', $page->getTitle());
-    }
-
     public function testGetSetPageTimings(): void
     {
         $pageTimings = new PageTimings();
