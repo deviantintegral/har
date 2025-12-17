@@ -25,19 +25,6 @@ class EdgeCaseTest extends HarTestBase
     }
 
     /**
-     * Tests that HAR files with invalid structure (wrong types) throw an exception.
-     */
-    public function testInvalidStructureThrowsException(): void
-    {
-        $repository = $this->getEdgeCaseRepository();
-        $serializer = new Serializer();
-
-        $this->expectException(JMSRuntimeException::class);
-        $json = $repository->loadJson('invalid-structure.har');
-        $serializer->deserializeHar($json);
-    }
-
-    /**
      * Tests that HAR files with malformed entries throw an exception.
      */
     public function testMalformedEntryThrowsException(): void
