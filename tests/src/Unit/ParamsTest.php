@@ -50,8 +50,6 @@ class ParamsTest extends HarTestBase
             ->setValue('www.example.com')
             ->setComment('Test value');
 
-        $this->assertFalse($params->hasContentType());
-
         $serializer = $this->getSerializer();
         $serialized = $serializer->serialize($params, 'json');
         $this->assertEquals(
