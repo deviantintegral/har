@@ -388,7 +388,7 @@ class SplitCommandTest extends HarTestBase
     public function testProgressFinishShowsCompletion(): void
     {
         // This test kills the MethodCallRemoval mutation for progressFinish()
-        // by verifying the final completion state is displayed
+        // by verifying the final completion state is displayed with a newline
         $harFile = __DIR__.'/../../fixtures/www.softwareishard.com-multiple-entries.har';
 
         $this->commandTester->execute([
@@ -399,7 +399,8 @@ class SplitCommandTest extends HarTestBase
         $output = $this->commandTester->getDisplay();
 
         // progressFinish() ensures the progress bar shows the final 100% state
-        // Without it, the bar might not show 100% or the final count
+        // and outputs a newline after completion. Without progressFinish(),
+        // the output ends with "100%" but no newline.
 
         // Check for 100% completion marker
         $this->assertStringContainsString('100%', $output,
@@ -409,11 +410,11 @@ class SplitCommandTest extends HarTestBase
         $this->assertMatchesRegularExpression('/11\/11/', $output,
             'Progress bar must show final 11/11 state - this requires progressFinish() to be called');
 
-        // Verify there's visual progress bar completion (filled bar)
-        // The progress bar uses unicode block characters to show progress
-        // At 100%, the entire bar should be filled
-        $this->assertMatchesRegularExpression('/[▓█=]+/', $output,
-            'Progress bar must show filled progress indicator at completion');
+        // CRITICAL: Verify that progressFinish() was called by checking for newline after 100%
+        // Without progressFinish(), the progress bar output ends with "100%" (no newline)
+        // With progressFinish(), there is a newline after "100%"
+        $this->assertMatchesRegularExpression('/100%\s*\n/', $output,
+            'Progress bar must output a newline after 100% completion - this requires progressFinish() to be called');
     }
 
     private function recursiveRemoveDirectory(string $directory): void
