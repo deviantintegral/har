@@ -355,6 +355,44 @@ class ServerRequestTest extends HarTestBase
         $this->assertFalse($nullRequest->getHarRequest()->getPostData()->hasParams());
     }
 
+    public function testWithParsedBodyLogicalOrCondition(): void
+    {
+        // This test kills LogicalOr mutations by verifying the exact behavior
+        // of the condition: if (is_array($data) || is_object($data))
+
+        // When data is an array, params should be set
+        $arrayData = ['username' => 'test', 'password' => 'pass'];
+        $arrayRequest = $this->serverRequest->withParsedBody($arrayData);
+        $harRequest = $arrayRequest->getHarRequest();
+        $this->assertTrue($harRequest->hasPostData(), 'Array data should create post data');
+        $this->assertTrue($harRequest->getPostData()->hasParams(), 'Array data should set params');
+        $params = $harRequest->getPostData()->getParams();
+        $this->assertCount(2, $params, 'Array should result in 2 params');
+
+        // When data is an object, params should be set
+        $objectData = new \stdClass();
+        $objectData->key1 = 'value1';
+        $objectData->key2 = 'value2';
+        $objectRequest = $this->serverRequest->withParsedBody($objectData);
+        $harRequest = $objectRequest->getHarRequest();
+        $this->assertTrue($harRequest->hasPostData(), 'Object data should create post data');
+        $this->assertTrue($harRequest->getPostData()->hasParams(), 'Object data should set params');
+        $params = $harRequest->getPostData()->getParams();
+        $this->assertCount(2, $params, 'Object should result in 2 params');
+
+        // When data is null, params should NOT be set (should create empty PostData)
+        $nullRequest = $this->serverRequest->withParsedBody(null);
+        $harRequest = $nullRequest->getHarRequest();
+        $this->assertTrue($harRequest->hasPostData(), 'Null should create post data');
+        $this->assertFalse($harRequest->getPostData()->hasParams(), 'Null should NOT set params');
+
+        // This test specifically kills these mutants:
+        // 1. LogicalOrAllSubExprNegation: if (!is_array($data) || !is_object($data))
+        //    Would be true for null, causing it to try setting params from null
+        // 2. LogicalOrSingleSubExprNegation: if (is_array($data) || !is_object($data))
+        //    Would be true for null and false for objects, both incorrect
+    }
+
     public function testWithRequestTarget(): void
     {
         $new = $this->serverRequest->withRequestTarget('https://www.example.com/newpath');
