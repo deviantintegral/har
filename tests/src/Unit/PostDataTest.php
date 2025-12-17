@@ -117,4 +117,29 @@ class PostDataTest extends HarTestBase
         // Should return 0 when hasParams() is false
         $this->assertSame(0, $postData->getBodySize());
     }
+
+    public function testGetBodySizeCalculatesFromParamsWhenPresent(): void
+    {
+        $postData = new PostData();
+        $postData->setParams([
+            (new Params())->setName('foo')->setValue('bar'),
+        ]);
+
+        // Verify hasParams returns true
+        $this->assertTrue($postData->hasParams());
+
+        // Verify getBodySize calculates from params (foo=bar = 7 chars)
+        $this->assertSame(7, $postData->getBodySize());
+    }
+
+    public function testGetBodySizeDoesNotCalculateFromParamsWhenAbsent(): void
+    {
+        $postData = new PostData();
+
+        // Verify hasParams returns false
+        $this->assertFalse($postData->hasParams());
+
+        // Verify getBodySize returns 0 (doesn't try to calculate from params)
+        $this->assertSame(0, $postData->getBodySize());
+    }
 }
