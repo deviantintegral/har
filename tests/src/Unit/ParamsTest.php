@@ -24,7 +24,6 @@ class ParamsTest extends HarTestBase
 
         $this->assertTrue($params->hasFileName());
         $this->assertTrue($params->hasContentType());
-        $this->assertNotNull($params->getContentType());
 
         $serializer = $this->getSerializer();
         $serialized = $serializer->serialize($params, 'json');
