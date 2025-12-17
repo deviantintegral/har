@@ -64,3 +64,29 @@ else
 fi
 
 composer install
+
+# Install infection for mutation testing
+echo "Checking for infection..."
+if [ ! -f "infection.phar" ]; then
+    echo "infection is not installed. Downloading infection..."
+
+    # Download Infection PHAR and signature
+    wget https://github.com/infection/infection/releases/download/0.31.9/infection.phar
+    wget https://github.com/infection/infection/releases/download/0.31.9/infection.phar.asc
+
+    # Validate Infection PHAR with GPG
+    echo "Validating infection signature..."
+    gpg --keyserver hkps://keys.openpgp.org --recv-keys C6D76C329EBADE2FB9C458CFC5095986493B4AA0
+    gpg --with-fingerprint --verify infection.phar.asc infection.phar
+
+    if [ $? -ne 0 ]; then
+        echo "Error: Failed to validate infection.phar signature."
+        rm -f infection.phar infection.phar.asc
+        exit 1
+    fi
+
+    chmod +x infection.phar
+    echo "infection installed successfully!"
+else
+    echo "infection is already available."
+fi
