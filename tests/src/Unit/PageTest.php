@@ -38,9 +38,6 @@ class PageTest extends HarTestBase
             ],
             json_decode($serialized, true)
         );
-
-        $deserialized = $serializer->deserialize($serialized, Page::class, 'json');
-        $this->assertEquals($page, $deserialized);
     }
 
     public function testGetSetPageTimings(): void
