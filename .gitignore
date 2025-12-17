@@ -10,6 +10,7 @@ har.phar
 .box.cache/
 
 infection.phar
+infection.phar.asc
 *.har
 infection*.txt
 infection-report.html
