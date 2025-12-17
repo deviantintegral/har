@@ -50,27 +50,7 @@ jobs:
         run: vendor/bin/phpunit --testdox --display-all-issues --coverage-clover build/logs/clover.xml
 
       - name: Check coverage threshold
-        run: |
-          # Extract project metrics from clover.xml
-          METRICS=$(grep -o '<metrics[^>]*statements="[^"]*"[^>]*coveredstatements="[^"]*"' build/logs/clover.xml | tail -1)
-          STATEMENTS=$(echo "$METRICS" | grep -o 'statements="[0-9]*"' | grep -o '[0-9]*')
-          COVERED=$(echo "$METRICS" | grep -o 'coveredstatements="[0-9]*"' | grep -o '[0-9]*')
-
-          # Calculate coverage percentage (multiply by 1000 for 3 decimal precision with integer math)
-          COVERAGE_SCALED=$((COVERED * 100000 / STATEMENTS))
-          COVERAGE_INT=$((COVERAGE_SCALED / 1000))
-          COVERAGE_DEC=$((COVERAGE_SCALED % 1000))
-
-          # Format for display
-          printf "Coverage: %d.%03d%% (%d/%d statements)\n" "$COVERAGE_INT" "$COVERAGE_DEC" "$COVERED" "$STATEMENTS"
-
-          # Check threshold (97.7% = 97700 when scaled by 1000)
-          THRESHOLD=97700
-          if [ "$COVERAGE_SCALED" -lt "$THRESHOLD" ]; then
-            echo "::error::Coverage ${COVERAGE_INT}.${COVERAGE_DEC}% is below the required threshold of 97.7%"
-            exit 1
-          fi
-          echo "Coverage meets the required threshold of 97.7%"
+        run: php scripts/check-coverage-threshold.php build/logs/clover.xml
 
       - name: Code Coverage Annotation
         uses: ggilder/codecoverage@47c83daaf1d5a3190cad56363baf459c59114170 # v1
