@@ -97,6 +97,10 @@ class PostDataTest extends HarTestBase
         ]);
 
         $this->assertTrue($postData->hasParams());
+
+        // Verify hasParams affects getBodySize behavior
+        // With params, getBodySize should calculate from params
+        $this->assertGreaterThan(0, $postData->getBodySize());
     }
 
     public function testHasParamsReturnsFalseWhenParamsEmpty(): void
@@ -105,6 +109,10 @@ class PostDataTest extends HarTestBase
         $postData->setParams([]);
 
         $this->assertFalse($postData->hasParams());
+
+        // Verify hasParams affects getBodySize behavior
+        // Without params, getBodySize should return 0 (not calculate)
+        $this->assertSame(0, $postData->getBodySize());
     }
 
     public function testGetBodySizeReturnsZeroWhenNoParams(): void
