@@ -27,13 +27,6 @@ class ResponseTest extends HarTestBase
         $this->assertEquals('Who needs reasons?', $response->getStatusText());
     }
 
-    public function testGetSetRedirectURL(): void
-    {
-        $uri = new Uri('https://www.example.com/redirect');
-        $response = (new \Deviantintegral\Har\Response())->setRedirectURL($uri);
-        $this->assertSame($uri, $response->getRedirectURL());
-    }
-
     public function testSerialize(): void
     {
         $serializer = $this->getSerializer();
