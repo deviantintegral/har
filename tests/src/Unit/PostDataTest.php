@@ -142,4 +142,18 @@ class PostDataTest extends HarTestBase
         // Verify getBodySize returns 0 (doesn't try to calculate from params)
         $this->assertSame(0, $postData->getBodySize());
     }
+
+    public function testSetTextIsPublic(): void
+    {
+        $postData = new PostData();
+
+        // Verify setText is publicly accessible
+        $result = $postData->setText('test content');
+
+        // Verify it returns the PostData instance for method chaining
+        $this->assertSame($postData, $result);
+
+        // Verify the text was set
+        $this->assertEquals('test content', $postData->getText());
+    }
 }
