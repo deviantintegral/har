@@ -208,4 +208,62 @@ class RequestTest extends HarTestBase
         $request->setHeaders($headers);
         $this->assertSame(8, $request->getHeadersSize());
     }
+
+    public function testFromPsr7ServerRequestWithEmptyCookies(): void
+    {
+        $uri = new Uri('https://www.example.com/path');
+        $psr7 = new \GuzzleHttp\Psr7\ServerRequest('GET', $uri);
+        $psr7 = $psr7->withCookieParams([]); // Empty cookies
+
+        $har_request = Request::fromPsr7ServerRequest($psr7);
+
+        // Verify no cookies are set on the HAR request
+        $this->assertEquals([], $har_request->getCookies());
+    }
+
+    public function testFromPsr7ServerRequestWithCookies(): void
+    {
+        $uri = new Uri('https://www.example.com/path');
+        $psr7 = new \GuzzleHttp\Psr7\ServerRequest('GET', $uri);
+        $psr7 = $psr7->withCookieParams(['session' => 'abc123', 'user' => 'john']);
+
+        $har_request = Request::fromPsr7ServerRequest($psr7);
+
+        // Verify cookies are set correctly
+        $cookies = $har_request->getCookies();
+        $this->assertCount(2, $cookies);
+        $this->assertEquals('session', $cookies[0]->getName());
+        $this->assertEquals('abc123', $cookies[0]->getValue());
+        $this->assertEquals('user', $cookies[1]->getName());
+        $this->assertEquals('john', $cookies[1]->getValue());
+    }
+
+    public function testFromPsr7ServerRequestWithEmptyQueryParams(): void
+    {
+        $uri = new Uri('https://www.example.com/path');
+        $psr7 = new \GuzzleHttp\Psr7\ServerRequest('GET', $uri);
+        $psr7 = $psr7->withQueryParams([]); // Empty query params
+
+        $har_request = Request::fromPsr7ServerRequest($psr7);
+
+        // Verify no query params are set on the HAR request
+        $this->assertEquals([], $har_request->getQueryString());
+    }
+
+    public function testFromPsr7ServerRequestWithQueryParams(): void
+    {
+        $uri = new Uri('https://www.example.com/path');
+        $psr7 = new \GuzzleHttp\Psr7\ServerRequest('GET', $uri);
+        $psr7 = $psr7->withQueryParams(['foo' => 'bar', 'baz' => 'qux']);
+
+        $har_request = Request::fromPsr7ServerRequest($psr7);
+
+        // Verify query params are set correctly
+        $queryParams = $har_request->getQueryString();
+        $this->assertCount(2, $queryParams);
+        $this->assertEquals('foo', $queryParams[0]->getName());
+        $this->assertEquals('bar', $queryParams[0]->getValue());
+        $this->assertEquals('baz', $queryParams[1]->getName());
+        $this->assertEquals('qux', $queryParams[1]->getValue());
+    }
 }
