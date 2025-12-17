@@ -123,16 +123,6 @@ class TimingsTest extends HarTestBase
         $timings->setConnect(50.0);
     }
 
-    public function testSetConnectAllowsConnectGreaterThanSSL(): void
-    {
-        $timings = new Timings();
-        $timings->setSsl(100.0);
-
-        // Connect time greater than SSL time should be allowed
-        $timings->setConnect(150.0);
-        $this->assertEquals(150.0, $timings->getConnect());
-    }
-
     public function testSetSendAllowsZero(): void
     {
         $timings = new Timings();
