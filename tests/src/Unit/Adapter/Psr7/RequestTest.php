@@ -143,6 +143,29 @@ class RequestTest extends HarTestBase
         $this->assertSame($uri, $with_uri->getUri());
     }
 
+    public function testWithUriSetsHostHeaderByDefault(): void
+    {
+        $newUri = new Uri('http://newhost.example.com/path');
+
+        // Call withUri without $preserveHost parameter (defaults to false)
+        $modified = $this->getRequest->withUri($newUri);
+
+        // The Host header should be updated to the new URI's host
+        $this->assertEquals(['newhost.example.com'], $modified->getHeader('Host'));
+    }
+
+    public function testWithUriPreservesHostWhenRequested(): void
+    {
+        $originalHost = $this->getRequest->getHeader('Host');
+        $newUri = new Uri('http://newhost.example.com/path');
+
+        // Call withUri with $preserveHost = true
+        $modified = $this->getRequest->withUri($newUri, true);
+
+        // The Host header should remain unchanged
+        $this->assertEquals($originalHost, $modified->getHeader('Host'));
+    }
+
     public function testHasHeader(): void
     {
         $this->assertTrue($this->getRequest->hasHeader('Accept'));

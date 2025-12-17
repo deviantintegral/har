@@ -195,6 +195,29 @@ class ServerRequestTest extends HarTestBase
         $this->assertEquals(['foo' => 'bar'], $new->getQueryParams());
     }
 
+    public function testWithUriSetsHostHeaderByDefault(): void
+    {
+        $newUri = new Uri('http://newhost.example.com/path');
+
+        // Call withUri without $preserveHost parameter (defaults to false)
+        $modified = $this->serverRequest->withUri($newUri);
+
+        // The Host header should be updated to the new URI's host
+        $this->assertEquals(['newhost.example.com'], $modified->getHeader('Host'));
+    }
+
+    public function testWithUriPreservesHostWhenRequested(): void
+    {
+        $originalHost = $this->serverRequest->getHeader('Host');
+        $newUri = new Uri('http://newhost.example.com/path');
+
+        // Call withUri with $preserveHost = true
+        $modified = $this->serverRequest->withUri($newUri, true);
+
+        // The Host header should remain unchanged
+        $this->assertEquals($originalHost, $modified->getHeader('Host'));
+    }
+
     public function testWithHeader(): void
     {
         $new = $this->serverRequest->withHeader('X-Custom', 'value');
