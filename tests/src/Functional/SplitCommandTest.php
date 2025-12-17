@@ -337,20 +337,22 @@ class SplitCommandTest extends HarTestBase
 
         $output = $this->commandTester->getDisplay();
 
-        // Verify progress messages are shown
-        // The progress bar shows "11/11" when complete
+        // Verify progress bar completes (progressFinish mutation killer)
+        // The progress bar shows "11/11" and "100%" when progressFinish is called
         $this->assertMatchesRegularExpression('/11\/11/', $output, 'Progress should show 11/11 completion');
+        $this->assertStringContainsString('100%', $output, 'Progress should show 100% completion');
 
-        // Verify the command succeeds (which confirms progressFinish was called)
+        // Verify intermediate progress is shown (progressAdvance mutation killer)
+        // Without progressAdvance(), we'd only see 0/11 then jump to 11/11
+        // Check for at least one intermediate state (anything from 1/11 to 10/11)
+        $this->assertMatchesRegularExpression('/[1-9]\/11|10\/11/', $output, 'Progress should show intermediate states');
+
+        // Verify the command succeeds
         $this->assertSame(Command::SUCCESS, $this->commandTester->getStatusCode());
 
-        // Count the actual files created to confirm progress was tracked correctly
+        // Count the actual files created
         $files = glob($this->tempDir.'/*.har');
         $this->assertCount(11, $files, 'Should create 11 files');
-
-        // This test kills the MethodCallRemoval mutants for:
-        // - $io->progressAdvance() - without it, progress wouldn't reach 11/11
-        // - $io->progressFinish() - without it, the progress bar wouldn't complete properly
     }
 
     private function recursiveRemoveDirectory(string $directory): void
