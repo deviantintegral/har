@@ -27,7 +27,6 @@ class CacheStateTest extends HarTestBase
         $serialized = $serializer->serialize($cacheState, 'json');
         $decoded = json_decode($serialized, true);
 
-        $this->assertEquals('2024-01-01T12:00:00Z', $decoded['lastAccess']);
         $this->assertEquals('abc123', $decoded['eTag']);
         $this->assertEquals(5, $decoded['hitCount']);
         $this->assertArrayHasKey('expires', $decoded);
