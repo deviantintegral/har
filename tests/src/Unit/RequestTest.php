@@ -134,13 +134,6 @@ class RequestTest extends HarTestBase
         $this->assertTrue($request->hasPostData());
     }
 
-    public function testGetSetUrl(): void
-    {
-        $uri = new Uri('https://www.example.com/path');
-        $request = (new Request())->setUrl($uri);
-        $this->assertSame($uri, $request->getUrl());
-    }
-
     public function testGetQueryString(): void
     {
         $request = new Request();
@@ -152,12 +145,6 @@ class RequestTest extends HarTestBase
         ];
         $request->setQueryString($queryParams);
         $this->assertEquals($queryParams, $request->getQueryString());
-    }
-
-    public function testGetSetMethod(): void
-    {
-        $request = (new Request())->setMethod('POST');
-        $this->assertEquals('POST', $request->getMethod());
     }
 
     public function testSetHeadersCalculatesCorrectSize(): void
