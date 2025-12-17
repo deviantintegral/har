@@ -404,6 +404,78 @@ class ServerRequestTest extends HarTestBase
         //    Would be false for objects, so they wouldn't set params (param names would be old)
     }
 
+    public function testWithParsedBodyObjectFromCleanRequest(): void
+    {
+        // This test specifically kills LogicalOrSingleSubExprNegation by starting
+        // from a request with NO existing params, so we can verify object data sets params
+        $cleanRequest = (new Request())
+            ->setMethod('GET')
+            ->setUrl(new Uri('https://www.example.com/'));
+
+        $serverRequest = new ServerRequest($cleanRequest);
+
+        // Verify no existing parsed body
+        $this->assertNull($serverRequest->getParsedBody());
+
+        // Call withParsedBody with an object
+        $objectData = new \stdClass();
+        $objectData->key1 = 'value1';
+        $objectData->key2 = 'value2';
+
+        $newRequest = $serverRequest->withParsedBody($objectData);
+
+        // Verify params were set from the object
+        // If LogicalOrSingleSubExprNegation mutation is applied (is_array || !is_object),
+        // then for objects: false || !true = false, and the block would be skipped,
+        // resulting in NO params being set
+        $harRequest = $newRequest->getHarRequest();
+        $this->assertTrue($harRequest->hasPostData(), 'Object data must create post data');
+        $this->assertTrue($harRequest->getPostData()->hasParams(), 'Object data must set params');
+
+        $params = $harRequest->getPostData()->getParams();
+        $this->assertCount(2, $params, 'Must have exactly 2 params from object');
+        $this->assertEquals('key1', $params[0]->getName());
+        $this->assertEquals('value1', $params[0]->getValue());
+        $this->assertEquals('key2', $params[1]->getName());
+        $this->assertEquals('value2', $params[1]->getValue());
+    }
+
+    public function testWithParsedBodyNullFromCleanRequest(): void
+    {
+        // This test kills LogicalOrAllSubExprNegation by verifying null doesn't enter
+        // the params-setting block. Start from a clean request to isolate behavior.
+        $cleanRequest = (new Request())
+            ->setMethod('GET')
+            ->setUrl(new Uri('https://www.example.com/'));
+
+        $serverRequest = new ServerRequest($cleanRequest);
+
+        // Set error handler to detect if foreach on null is attempted
+        // If LogicalOrAllSubExprNegation is applied (!is_array || !is_object),
+        // then for null: !false || !false = true, entering the block and
+        // attempting foreach on null
+        $warningTriggered = false;
+        $previousHandler = set_error_handler(function ($errno, $errstr) use (&$warningTriggered) {
+            if (str_contains($errstr, 'foreach')) {
+                $warningTriggered = true;
+            }
+
+            return false; // Allow normal error handling to continue
+        });
+
+        try {
+            $newRequest = $serverRequest->withParsedBody(null);
+
+            // Should NOT have triggered a foreach warning
+            $this->assertFalse($warningTriggered, 'withParsedBody(null) should not attempt foreach');
+
+            // Verify the result is correct
+            $this->assertNull($newRequest->getParsedBody());
+        } finally {
+            restore_error_handler();
+        }
+    }
+
     public function testWithRequestTarget(): void
     {
         $new = $this->serverRequest->withRequestTarget('https://www.example.com/newpath');

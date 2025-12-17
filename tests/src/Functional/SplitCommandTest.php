@@ -355,6 +355,67 @@ class SplitCommandTest extends HarTestBase
         $this->assertCount(11, $files, 'Should create 11 files');
     }
 
+    public function testProgressAdvanceIsCalledForEachEntry(): void
+    {
+        // This test kills the MethodCallRemoval mutation for progressAdvance()
+        // by verifying that multiple distinct progress states are shown
+        $harFile = __DIR__.'/../../fixtures/www.softwareishard.com-multiple-entries.har';
+
+        $this->commandTester->execute([
+            'har' => $harFile,
+            'destination' => $this->tempDir,
+        ]);
+
+        $output = $this->commandTester->getDisplay();
+
+        // Count how many distinct progress states are shown (e.g., "2/11", "5/11")
+        // The progress bar updates on each advance, showing different counts
+        preg_match_all('/(\d+)\/11/', $output, $matches);
+        $progressStates = array_unique($matches[1]);
+
+        // Without progressAdvance(), we'd only see 0/11 and 11/11 (2 states)
+        // With progressAdvance(), we should see multiple intermediate states
+        // Note: The exact number depends on terminal refresh rate, but should be > 2
+        $this->assertGreaterThan(2, \count($progressStates),
+            'Progress bar should show multiple intermediate states when progressAdvance() is called. '.
+            'Found states: '.implode(', ', $progressStates));
+
+        // Verify we start at 0 and end at 11
+        $this->assertContains('0', $progressStates, 'Progress should start at 0');
+        $this->assertContains('11', $progressStates, 'Progress should end at 11');
+    }
+
+    public function testProgressFinishShowsCompletion(): void
+    {
+        // This test kills the MethodCallRemoval mutation for progressFinish()
+        // by verifying the final completion state is displayed
+        $harFile = __DIR__.'/../../fixtures/www.softwareishard.com-multiple-entries.har';
+
+        $this->commandTester->execute([
+            'har' => $harFile,
+            'destination' => $this->tempDir,
+        ]);
+
+        $output = $this->commandTester->getDisplay();
+
+        // progressFinish() ensures the progress bar shows the final 100% state
+        // Without it, the bar might not show 100% or the final count
+
+        // Check for 100% completion marker
+        $this->assertStringContainsString('100%', $output,
+            'Progress bar must show 100% completion - this requires progressFinish() to be called');
+
+        // Check that 11/11 appears (the final state)
+        $this->assertMatchesRegularExpression('/11\/11/', $output,
+            'Progress bar must show final 11/11 state - this requires progressFinish() to be called');
+
+        // Verify there's visual progress bar completion (filled bar)
+        // The progress bar uses unicode block characters to show progress
+        // At 100%, the entire bar should be filled
+        $this->assertMatchesRegularExpression('/[▓█=]+/', $output,
+            'Progress bar must show filled progress indicator at completion');
+    }
+
     private function recursiveRemoveDirectory(string $directory): void
     {
         if (!is_dir($directory)) {
