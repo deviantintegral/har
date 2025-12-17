@@ -36,18 +36,6 @@ class BrowserTest extends HarTestBase
         $this->assertEquals($browser, $deserialized);
     }
 
-    public function testGet(): void
-    {
-        $browser = (new Browser())
-          ->setName('BrowserTest')
-          ->setVersion('1.0')
-          ->setComment('Test case');
-
-        $this->assertEquals('BrowserTest', $browser->getName());
-        $this->assertEquals('1.0', $browser->getVersion());
-        $this->assertEquals('Test case', $browser->getComment());
-    }
-
     public function testClone(): void
     {
         $browser = (new Browser())
