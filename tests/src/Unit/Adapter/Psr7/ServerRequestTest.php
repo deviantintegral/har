@@ -619,4 +619,51 @@ class ServerRequestTest extends HarTestBase
         $this->assertEquals('value2', $queryParams['param2']);
         $this->assertEquals('value3', $queryParams['param3']);
     }
+
+    /**
+     * Test that withParsedBody correctly processes objects (not just arrays).
+     *
+     * This test kills the LogicalOrSingleSubExprNegation mutation that changes:
+     * `if (is_array($data) || is_object($data))` to
+     * `if (is_array($data) || !is_object($data))`
+     *
+     * With the mutation, objects would skip the params-setting block entirely,
+     * resulting in getParsedBody() returning null instead of the object's properties.
+     */
+    public function testWithParsedBodyObjectSetsParams(): void
+    {
+        // Start with a completely fresh request - no existing post data
+        $harRequest = (new Request())
+            ->setMethod('POST')
+            ->setUrl(new Uri('https://www.example.com/form'));
+
+        $serverRequest = new ServerRequest($harRequest);
+
+        // Verify starting state - no parsed body
+        $this->assertNull($serverRequest->getParsedBody(), 'Fresh request should have null parsed body');
+
+        // Create an object (NOT an array) with properties
+        $objectData = new \stdClass();
+        $objectData->field1 = 'value1';
+        $objectData->field2 = 'value2';
+
+        // Call withParsedBody with the object
+        $modifiedRequest = $serverRequest->withParsedBody($objectData);
+
+        // Get the parsed body - with the mutation this would be null
+        $parsedBody = $modifiedRequest->getParsedBody();
+
+        // Assert that the parsed body is NOT null (mutation would cause null)
+        $this->assertNotNull($parsedBody, 'Object data must result in non-null parsed body');
+
+        // Assert that it's an array (converted from object)
+        // @phpstan-ignore method.alreadyNarrowedType
+        $this->assertIsArray($parsedBody, 'Parsed body must be an array');
+
+        // Assert specific values from the object were captured
+        $this->assertArrayHasKey('field1', $parsedBody, 'field1 must exist in parsed body');
+        $this->assertArrayHasKey('field2', $parsedBody, 'field2 must exist in parsed body');
+        $this->assertEquals('value1', $parsedBody['field1'], 'field1 value must match');
+        $this->assertEquals('value2', $parsedBody['field2'], 'field2 value must match');
+    }
 }
