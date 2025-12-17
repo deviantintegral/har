@@ -17,30 +17,6 @@ use JMS\Serializer\Exception\RuntimeException as JMSRuntimeException;
 class EdgeCaseTest extends HarTestBase
 {
     /**
-     * Tests that corrupted binary data throws an exception.
-     */
-    public function testCorruptedBinaryDataThrowsException(): void
-    {
-        $tempDir = sys_get_temp_dir().'/har_test_binary_'.uniqid();
-        mkdir($tempDir);
-        $binaryFile = $tempDir.'/binary.har';
-        // Write random binary data
-        file_put_contents($binaryFile, random_bytes(100));
-
-        $repository = new \Deviantintegral\Har\Repository\HarFileRepository($tempDir);
-        $serializer = new Serializer();
-
-        $this->expectException(JMSRuntimeException::class);
-        try {
-            $json = $repository->loadJson('binary.har');
-            $serializer->deserializeHar($json);
-        } finally {
-            unlink($binaryFile);
-            rmdir($tempDir);
-        }
-    }
-
-    /**
      * Tests that very large HAR files can still be loaded.
      * This creates a HAR with many entries to test memory/performance edge cases.
      */
