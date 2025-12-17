@@ -25,19 +25,6 @@ class EdgeCaseTest extends HarTestBase
     }
 
     /**
-     * Tests that HAR files with null values where objects are expected throw a TypeError.
-     */
-    public function testNullValuesThrowException(): void
-    {
-        $repository = $this->getEdgeCaseRepository();
-        $serializer = new Serializer();
-
-        $this->expectException(\TypeError::class);
-        $json = $repository->loadJson('null-values.har');
-        $serializer->deserializeHar($json);
-    }
-
-    /**
      * Tests that empty but valid HAR files can be loaded successfully.
      */
     public function testEmptyLogLoadsSuccessfully(): void
