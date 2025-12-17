@@ -1,10 +1,7 @@
 name: Mutation Testing
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
+  workflow_call:
 
 permissions:
   contents: read
@@ -42,8 +39,13 @@ jobs:
 
       - name: Download Infection PHAR
         run: |
-          wget https://github.com/infection/infection/releases/latest/download/infection.phar
-          wget https://github.com/infection/infection/releases/latest/download/infection.phar.asc
+          wget https://github.com/infection/infection/releases/download/0.30.0/infection.phar
+          wget https://github.com/infection/infection/releases/download/0.30.0/infection.phar.asc
+
+      - name: Validate Infection PHAR
+        run: |
+          gpg --keyserver hkps://keys.openpgp.org --recv-keys C6D76C329EBADE2FB9C458CFC5095986493B4AA0
+          gpg --with-fingerprint --verify infection.phar.asc infection.phar
           chmod +x infection.phar
 
       - name: Run mutation testing
