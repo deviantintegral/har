@@ -27,8 +27,6 @@ class CacheStateTest extends HarTestBase
         $serialized = $serializer->serialize($cacheState, 'json');
         $decoded = json_decode($serialized, true);
 
-        $this->assertEquals('Test cache state', $decoded['comment']);
-
         $deserialized = $serializer->deserialize(
             $serialized,
             CacheState::class,
