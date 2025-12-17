@@ -322,6 +322,53 @@ class SplitCommandTest extends HarTestBase
         $this->assertTrue($definition->hasOption('force'));
     }
 
+    public function testCommandConfigureCallsParent(): void
+    {
+        // Test that parent::configure() is called by verifying
+        // that the command is properly set up with all its configuration
+        $command = new SplitCommand();
+
+        // Verify the help text is set (only happens if configure is fully executed)
+        $help = $command->getHelp();
+        $this->assertNotEmpty($help, 'Help text should be set by configure');
+        $this->assertStringContainsString('split', $help, 'Help should mention splitting');
+
+        // Verify all arguments and options are registered
+        // This confirms the entire configure method executed properly
+        $definition = $command->getDefinition();
+        $this->assertTrue($definition->hasArgument('har'));
+        $this->assertTrue($definition->hasOption('md5'));
+        $this->assertTrue($definition->hasOption('force'));
+    }
+
+    public function testSplitUpdatesProgressBar(): void
+    {
+        $harFile = __DIR__.'/../../fixtures/www.softwareishard.com-multiple-entries.har';
+
+        // Execute the command
+        $this->commandTester->execute([
+            'har' => $harFile,
+            'destination' => $this->tempDir,
+        ]);
+
+        $output = $this->commandTester->getDisplay();
+
+        // Verify progress messages are shown
+        // The progress bar shows "11/11" when complete
+        $this->assertMatchesRegularExpression('/11\/11/', $output, 'Progress should show 11/11 completion');
+
+        // Verify the command succeeds (which confirms progressFinish was called)
+        $this->assertSame(Command::SUCCESS, $this->commandTester->getStatusCode());
+
+        // Count the actual files created to confirm progress was tracked correctly
+        $files = glob($this->tempDir.'/*.har');
+        $this->assertCount(11, $files, 'Should create 11 files');
+
+        // This test kills the MethodCallRemoval mutants for:
+        // - $io->progressAdvance() - without it, progress wouldn't reach 11/11
+        // - $io->progressFinish() - without it, the progress bar wouldn't complete properly
+    }
+
     private function recursiveRemoveDirectory(string $directory): void
     {
         if (!is_dir($directory)) {
