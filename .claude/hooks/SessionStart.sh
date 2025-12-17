@@ -76,7 +76,8 @@ if [ ! -f "infection.phar" ]; then
 
     # Validate Infection PHAR with GPG
     echo "Validating infection signature..."
-    gpg --keyserver hkps://keys.openpgp.org --recv-keys C6D76C329EBADE2FB9C458CFC5095986493B4AA0
+    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    gpg --import "$SCRIPT_DIR/infection-public-key.asc"
     gpg --with-fingerprint --verify infection.phar.asc infection.phar
 
     if [ $? -ne 0 ]; then
