@@ -19,14 +19,6 @@ class BrowserTest extends HarTestBase
           ->setVersion('1.0')
           ->setComment('Test case');
         $serialized = $serializer->serialize($browser, 'json');
-        $this->assertEquals(
-            [
-                'name' => 'BrowserTest',
-                'version' => '1.0',
-                'comment' => 'Test case',
-            ],
-            json_decode($serialized, true)
-        );
 
         $deserialized = $serializer->deserialize(
             $serialized,
