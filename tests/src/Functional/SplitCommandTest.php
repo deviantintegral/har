@@ -282,6 +282,46 @@ class SplitCommandTest extends HarTestBase
         $this->assertStringContainsString('notafile', $output);
     }
 
+    public function testSplitOutputsProgressMessages(): void
+    {
+        $harFile = __DIR__.'/../../fixtures/www.softwareishard.com-multiple-entries.har';
+
+        $this->commandTester->execute([
+            'har' => $harFile,
+            'destination' => $this->tempDir,
+        ]);
+
+        $output = $this->commandTester->getDisplay();
+
+        // Verify command outputs splitting message
+        $this->assertStringContainsString('Splitting', $output);
+        $this->assertStringContainsString('one file per entry', $output);
+
+        // Verify progress is shown (should contain progress indicators)
+        // The progress bar will show completion indicators like "[====]" or percentages
+        $this->assertMatchesRegularExpression('/\d+\/\d+|\d+%|=+/', $output, 'Output should contain progress indicators');
+    }
+
+    public function testCommandConfiguration(): void
+    {
+        $command = new SplitCommand();
+
+        // Verify command is properly configured
+        $this->assertEquals('har:split', $command->getName());
+        $this->assertStringContainsString('Split a HAR file', $command->getDescription());
+
+        // Verify required arguments exist
+        $definition = $command->getDefinition();
+        $this->assertTrue($definition->hasArgument('har'));
+        $this->assertTrue($definition->hasArgument('destination'));
+        $this->assertTrue($definition->getArgument('har')->isRequired());
+        $this->assertFalse($definition->getArgument('destination')->isRequired());
+
+        // Verify options exist
+        $this->assertTrue($definition->hasOption('md5'));
+        $this->assertTrue($definition->hasOption('force'));
+    }
+
     private function recursiveRemoveDirectory(string $directory): void
     {
         if (!is_dir($directory)) {
