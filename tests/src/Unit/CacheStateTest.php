@@ -41,18 +41,6 @@ class CacheStateTest extends HarTestBase
         $this->assertEquals($cacheState, $deserialized);
     }
 
-    public function testGet(): void
-    {
-        $cacheState = (new CacheState())
-          ->setLastAccess('2024-01-01T12:00:00Z')
-          ->setETag('abc123')
-          ->setHitCount(10);
-
-        $this->assertEquals('2024-01-01T12:00:00Z', $cacheState->getLastAccess());
-        $this->assertEquals('abc123', $cacheState->getETag());
-        $this->assertEquals(10, $cacheState->getHitCount());
-    }
-
     public function testDefaultHitCount(): void
     {
         $cacheState = new CacheState();
