@@ -324,4 +324,40 @@ class PostDataTest extends HarTestBase
         // This test kills the MethodCallRemoval mutant at PostData.php:37
         // If traitSetText() is not called, text wouldn't be properly cleared
     }
+
+    /**
+     * @testdox getBodySize() calculates body size from params when they exist (kills IfNegation at PostData.php:73)
+     */
+    public function testGetBodySizeUsesParamsWhenPresent(): void
+    {
+        // This test explicitly kills the IfNegation mutation at PostData.php:73
+        // Mutation ID: e4cc213ec19ae561e913ff9e073f5319
+        //
+        // Original:  if ($this->hasParams()) { ... calculate from params ... }
+        // Mutated:   if (!$this->hasParams()) { ... }
+        //
+        // With the mutation:
+        // - When params exist: !hasParams() is false, skips params block, returns 0
+        // - When no params: !hasParams() is true, enters block but params is empty, returns 0
+        //
+        // This test verifies that when params exist, getBodySize() returns the
+        // correct size based on the URL-encoded params, NOT 0.
+
+        $postData = new PostData();
+        $postData->setParams([
+            (new Params())->setName('name')->setValue('test'),
+        ]);
+
+        // Verify precondition: hasParams() must return true
+        $this->assertTrue($postData->hasParams(), 'Precondition: hasParams() must be true');
+
+        // The URL-encoded query string would be: name=test
+        // Length = 9 characters
+        $expectedSize = 9;
+        $actualSize = $postData->getBodySize();
+
+        // With the IfNegation mutation, this would return 0 instead of 9
+        // because the params calculation block would be skipped
+        $this->assertSame($expectedSize, $actualSize);
+    }
 }
