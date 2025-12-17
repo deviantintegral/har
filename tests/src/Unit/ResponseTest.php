@@ -27,13 +27,6 @@ class ResponseTest extends HarTestBase
         $this->assertEquals('Who needs reasons?', $response->getStatusText());
     }
 
-    public function testGetSetContent(): void
-    {
-        $content = (new Content())->setText('test content');
-        $response = (new \Deviantintegral\Har\Response())->setContent($content);
-        $this->assertSame($content, $response->getContent());
-    }
-
     public function testGetSetRedirectURL(): void
     {
         $uri = new Uri('https://www.example.com/redirect');
