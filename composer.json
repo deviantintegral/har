@@ -26,7 +26,8 @@
         "phpunit/phpunit": "^11||^12",
         "guzzlehttp/guzzle": "^7.0",
         "humbug/box": "^4.6",
-        "phpstan/phpstan": "^2.0"
+        "phpstan/phpstan": "^2.0",
+        "infection/infection": "^0.30"
     },
     "autoload": {
         "psr-4": {
