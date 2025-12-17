@@ -57,6 +57,9 @@ class HarFileRepository implements RepositoryInterface
         }
 
         foreach ($hars as $index => $har_file) {
+            // @infection-ignore-all: Equivalent mutation - changing < 4 to <= 4 has no effect
+            // because any file with .har extension must be at least 5 chars ("x.har").
+            // 4-char files would be filtered by length OR extension check either way.
             if (\strlen($har_file) < 4) {
                 unset($hars[$index]);
                 continue;
