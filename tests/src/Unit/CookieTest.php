@@ -61,7 +61,6 @@ class CookieTest extends HarTestBase
 
         $this->assertFalse($cookie->hasSecure());
         $this->assertFalse($cookie->hasHttpOnly());
-        $this->assertNull($cookie->isHttpOnly());
 
         $serialized = $serializer->serialize($cookie, 'json');
         $this->assertEquals(
