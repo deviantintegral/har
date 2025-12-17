@@ -40,5 +40,11 @@ jobs:
       - name: Install dependencies
         run: composer update -n --prefer-dist
 
+      - name: Download Infection PHAR
+        run: |
+          wget https://github.com/infection/infection/releases/latest/download/infection.phar
+          wget https://github.com/infection/infection/releases/latest/download/infection.phar.asc
+          chmod +x infection.phar
+
       - name: Run mutation testing
-        run: vendor/bin/infection --threads=max --min-msi=87 --min-covered-msi=87
+        run: ./infection.phar --threads=max --min-msi=87 --min-covered-msi=87
