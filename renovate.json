@@ -7,7 +7,7 @@
   ],
   "regexManagers": [
     {
-      "fileMatch": ["^\\.github/workflows/test\\.yml$"],
+      "fileMatch": ["^\\.github/workflows/test\\.yml$", "^\\.claude/hooks/SessionStart\\.sh$"],
       "matchStrings": [
         "infection/infection/releases/download/(?<currentValue>.*?)/infection\\.phar"
       ],
