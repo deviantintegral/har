@@ -2,6 +2,7 @@ composer.lock
 build
 .phpunit.result.cache
 .phpunit.cache
+phpunit.xml
 vendor
 .php-cs-fixer.cache
 har.phar
