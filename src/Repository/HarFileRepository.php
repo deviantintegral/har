@@ -46,6 +46,8 @@ class HarFileRepository implements RepositoryInterface
     public function getIds(): array
     {
         if (!is_dir($this->repositoryPath)) {
+            // @infection-ignore-all: Equivalent mutation - without this return, scandir()
+            // returns false for non-directories, caught by the if (!$hars) check below.
             return [];
         }
 
