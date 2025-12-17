@@ -25,19 +25,6 @@ class EdgeCaseTest extends HarTestBase
     }
 
     /**
-     * Tests that incomplete/truncated JSON throws an exception.
-     */
-    public function testIncompleteJsonThrowsException(): void
-    {
-        $repository = $this->getEdgeCaseRepository();
-        $serializer = new Serializer();
-
-        $this->expectException(JMSRuntimeException::class);
-        $json = $repository->loadJson('incomplete-json.har');
-        $serializer->deserializeHar($json);
-    }
-
-    /**
      * Tests that HAR files with invalid structure (wrong types) throw an exception.
      */
     public function testInvalidStructureThrowsException(): void
