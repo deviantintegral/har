@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.7.0](https://github.com/deviantintegral/har/compare/v0.6.0...v0.7.0) (2025-12-17)
+
+
+### Features
+
+* make SessionStart hook only run in remote environments ([9a42b73](https://github.com/deviantintegral/har/commit/9a42b73fab5e792f0a7e28c4fa6a83a56fe905b0))
+
+
+### Bug Fixes
+
+* validate required 'log' key during HAR deserialization ([9d938fb](https://github.com/deviantintegral/har/commit/9d938fb0ee3a8642e9647d27296c3228353dcb7a))
+
+
+### Miscellaneous Chores
+
+* add phpunit.xml to .gitignore ([79e46f1](https://github.com/deviantintegral/har/commit/79e46f151ae6b4f6b1664b68503c613cc517db46))
+* configure Renovate to track Infection version ([6a7ef28](https://github.com/deviantintegral/har/commit/6a7ef286dbe14c6ac049f1b10d4ab291d4c8134a))
+* **deps:** update dependency friendsofphp/php-cs-fixer to v3.92.2 ([#162](https://github.com/deviantintegral/har/issues/162)) ([be5e7f1](https://github.com/deviantintegral/har/commit/be5e7f1092ffe1da784245dc8db02e2b064f8937))
+* **deps:** update dependency infection/infection to v0.31.9 ([c419fe6](https://github.com/deviantintegral/har/commit/c419fe6a74980ed0a46ed2d53c803adcdc082f51))
+* ignore equivalent LessThan mutation in HarFileRepository::getIds ([4f0e2a0](https://github.com/deviantintegral/har/commit/4f0e2a00ca36ae4fa0763ac4249276641d5bd74a))
+* ignore equivalent ReturnRemoval mutation in HarFileRepository::getIds ([72b5839](https://github.com/deviantintegral/har/commit/72b583932a3aac4edddda0da934fb45b41a80d27))
+* ignore equivalent YieldValue mutation in Har::splitLogEntries ([8eaf8fb](https://github.com/deviantintegral/har/commit/8eaf8fb70eb015c70d98b880e46dcb52531a950d))
+* update renovate to track infection in SessionStart hook ([914153d](https://github.com/deviantintegral/har/commit/914153dae169063b384678900a41a032aeb24f88))
+
 ## [0.6.0](https://github.com/deviantintegral/har/compare/v0.5.0...v0.6.0) (2025-12-16)
 
 
