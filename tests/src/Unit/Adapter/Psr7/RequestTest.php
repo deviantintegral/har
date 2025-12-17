@@ -499,4 +499,31 @@ class RequestTest extends HarTestBase
         // Modified should have the new protocol version
         $this->assertEquals('2.0', $modified->getProtocolVersion());
     }
+
+    public function testWithBodyClonesInternalRequest(): void
+    {
+        // Start with a GET request that has no post data
+        $harRequest = $this->getHarFileRepository()->load(
+            'www.softwareishard.com-single-entry.har'
+        )->getLog()->getEntries()[0]->getRequest();
+
+        $original = new Request($harRequest);
+
+        // Verify it has no post data initially
+        $this->assertFalse($original->getHarRequest()->hasPostData());
+
+        // Call withBody to create a modified request
+        $newBody = Utils::streamFor('new_content');
+        $modified = $original->withBody($newBody);
+
+        // Verify the modified request has the new body
+        $this->assertEquals('new_content', (string) $modified->getBody());
+        $this->assertTrue($modified->getHarRequest()->hasPostData());
+
+        // This test specifically catches the CloneRemoval mutant
+        // If the clone is removed, the original request's internal state would be modified
+        // Verify the original request still has no post data
+        $this->assertFalse($original->getHarRequest()->hasPostData());
+        $this->assertEquals('', (string) $original->getBody());
+    }
 }
