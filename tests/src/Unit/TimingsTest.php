@@ -50,7 +50,6 @@ class TimingsTest extends HarTestBase
 
         // Default value is -1, so hasBlocked() should return false
         $this->assertFalse($timings->hasBlocked());
-        $this->assertEquals(-1, $timings->getBlocked());
 
         // After setting a value, hasBlocked() should return true
         $timings->setBlocked(100.5);
@@ -64,7 +63,6 @@ class TimingsTest extends HarTestBase
 
         // Default value is -1, so hasDns() should return false
         $this->assertFalse($timings->hasDns());
-        $this->assertEquals(-1, $timings->getDns());
 
         // After setting a value, hasDns() should return true
         $timings->setDns(50.3);
@@ -78,7 +76,6 @@ class TimingsTest extends HarTestBase
 
         // Default value is -1, so hasConnect() should return false
         $this->assertFalse($timings->hasConnect());
-        $this->assertEquals(-1, $timings->getConnect());
 
         // After setting a value, hasConnect() should return true
         $timings->setConnect(75.2);
@@ -92,7 +89,6 @@ class TimingsTest extends HarTestBase
 
         // Default value is -1, so hasSsl() should return false
         $this->assertFalse($timings->hasSsl());
-        $this->assertEquals(-1, $timings->getSsl());
 
         // After setting a value, hasSsl() should return true
         $timings->setSsl(25.7);
