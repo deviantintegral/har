@@ -19,7 +19,6 @@ class SplitCommand extends Command
 {
     protected function configure(): void
     {
-        parent::configure();
         $this->setName('har:split')
           ->setDescription('Split a HAR file into one file per entry')
           ->setHelp('Each entry in the supplied HAR will be split into a single file.')
