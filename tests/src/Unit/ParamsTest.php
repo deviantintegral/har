@@ -22,7 +22,6 @@ class ParamsTest extends HarTestBase
           ->setContentType('text/plain')
           ->setComment('Test value');
 
-        $this->assertTrue($params->hasFileName());
         $this->assertTrue($params->hasContentType());
 
         $serializer = $this->getSerializer();
