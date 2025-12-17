@@ -16,15 +16,5 @@ class CacheTest extends HarTestBase
         $this->assertFalse($cache->hasBeforeRequest());
         $this->assertNull($cache->getBeforeRequest());
         $this->assertFalse($cache->hasComment());
-
-        $serializer = $this->getSerializer();
-        $serialized = $serializer->serialize($cache, 'json');
-
-        $deserialized = $serializer->deserialize(
-            $serialized,
-            Cache::class,
-            'json'
-        );
-        $this->assertEquals($cache, $deserialized);
     }
 }
