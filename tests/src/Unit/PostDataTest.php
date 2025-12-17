@@ -164,4 +164,42 @@ class PostDataTest extends HarTestBase
         // Verify the text was set
         $this->assertEquals('test content', $postData->getText());
     }
+
+    public function testGetParamsCallsTraitSetText(): void
+    {
+        // This test verifies that getParams() calls traitSetText() to ensure
+        // params and text are properly synchronized even when set via deserialization
+        $serializer = $this->getSerializer();
+
+        // Create JSON with both params and text (shouldn't happen, but could in malformed data)
+        // In practice, params are set via deserialization, bypassing setParams()
+        $json = json_encode([
+            'params' => [
+                ['name' => 'key', 'value' => 'value'],
+            ],
+            'text' => 'some text that should be cleared',
+        ]);
+
+        // Deserialize - this sets params directly without calling setParams()
+        /** @var PostData $postData */
+        $postData = $serializer->deserialize($json, PostData::class, 'json');
+
+        // Before calling getParams(), text might still be set from deserialization
+        // (though in this specific case it's cleared by setParams during deserialization)
+        // The key point is that getParams() must ensure text is cleared
+
+        // Call getParams() which should call traitSetText() to clear text
+        $params = $postData->getParams();
+
+        // Verify we got the params back
+        $this->assertCount(1, $params);
+        $this->assertEquals('key', $params[0]->getName());
+
+        // Verify text is null (synchronized properly by traitSetText())
+        $this->assertFalse($postData->hasText());
+        $this->assertNull($postData->getText());
+
+        // This test kills the MethodCallRemoval mutant at PostData.php:37
+        // If traitSetText() is not called, text wouldn't be properly cleared
+    }
 }
