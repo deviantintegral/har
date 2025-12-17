@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Only run in remote environments
+if [ "$CLAUDE_CODE_REMOTE" != "true" ]; then
+  exit 0
+fi
+
 # Session start hook to ensure pre-commit is installed
 echo "Setting up pre-commit..."
 
