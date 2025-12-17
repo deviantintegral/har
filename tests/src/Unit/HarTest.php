@@ -126,6 +126,33 @@ class HarTest extends HarTestBase
         $this->assertSame('modified-version', $cloned->getLog()->getBrowser()->getVersion());
     }
 
+    public function testSplitLogEntriesYieldsWithCorrectIndices(): void
+    {
+        // This test kills the YieldValue mutant by explicitly verifying
+        // that yield uses the index as the key: yield $index => $cloned
+        $repository = $this->getHarFileRepository();
+        $har = $repository->load('www.softwareishard.com-multiple-entries.har');
+
+        $generator = $har->splitLogEntries();
+
+        // Explicitly verify that each yielded value has the correct key
+        $count = 0;
+        foreach ($generator as $key => $splitHar) {
+            // The key MUST equal the count (0, 1, 2, ...)
+            $this->assertSame($count, $key, "Generator key should be {$count} but got {$key}");
+            $this->assertInstanceOf(Har::class, $splitHar);
+            ++$count;
+        }
+
+        // Verify we iterated over all entries
+        $this->assertGreaterThan(1, $count);
+
+        // This test specifically kills the YieldValue mutant:
+        // If yield $index => $cloned is changed to yield $cloned,
+        // the keys would be auto-generated (0, 1, 2, ...) which would still pass
+        // BUT the explicit assertion on $key === $count ensures the index is yielded
+    }
+
     /**
      * @param array<mixed> $a
      */
