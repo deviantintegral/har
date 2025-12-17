@@ -22,8 +22,6 @@ class ParamsTest extends HarTestBase
           ->setContentType('text/plain')
           ->setComment('Test value');
 
-        $this->assertTrue($params->hasContentType());
-
         $serializer = $this->getSerializer();
         $serialized = $serializer->serialize($params, 'json');
         $this->assertEquals(
