@@ -619,4 +619,42 @@ class ServerRequestTest extends HarTestBase
         $this->assertEquals('value2', $queryParams['param2']);
         $this->assertEquals('value3', $queryParams['param3']);
     }
+
+    /**
+     * Kill LogicalOrAllSubExprNegation mutation in withParsedBody().
+     *
+     * Original: if (is_array($data) || is_object($data))
+     * Mutant: if (!is_array($data) || !is_object($data))
+     *
+     * For null: original = false||false = false (skips block)
+     *           mutant = true||true = true (enters block, warning on foreach)
+     *
+     * When mutant is applied, foreach(null) triggers E_WARNING which fails the
+     * test due to failOnWarning="true" in phpunit.xml.dist
+     */
+    public function testWithParsedBodyNullKillsLogicalOrAllSubExprNegation(): void
+    {
+        // Start with a request that has existing post params to verify they get cleared
+        $harRequest = (new Request())
+            ->setMethod('POST')
+            ->setUrl(new Uri('https://www.example.com/'))
+            ->setPostData(
+                (new PostData())->setParams([
+                    (new Params())->setName('existing')->setValue('value'),
+                ])
+            );
+
+        $serverRequest = new ServerRequest($harRequest);
+
+        // Verify pre-condition: there are existing params
+        $this->assertTrue($serverRequest->getHarRequest()->getPostData()->hasParams());
+
+        // Call withParsedBody(null) - this must NOT trigger a warning
+        // If mutant is applied: foreach(null as ...) triggers E_WARNING
+        $result = $serverRequest->withParsedBody(null);
+
+        // The null branch should have been taken, clearing the params
+        $this->assertNull($result->getParsedBody());
+        $this->assertFalse($result->getHarRequest()->getPostData()->hasParams());
+    }
 }
