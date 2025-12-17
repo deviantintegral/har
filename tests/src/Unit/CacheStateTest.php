@@ -25,7 +25,6 @@ class CacheStateTest extends HarTestBase
           ->setExpires($expires)
           ->setComment('Test cache state');
         $serialized = $serializer->serialize($cacheState, 'json');
-        $decoded = json_decode($serialized, true);
 
         $deserialized = $serializer->deserialize(
             $serialized,
