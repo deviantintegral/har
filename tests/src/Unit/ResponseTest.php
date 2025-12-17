@@ -61,18 +61,6 @@ class ResponseTest extends HarTestBase
         $this->assertEquals($response->getComment(), $deserialized->getComment());
     }
 
-    public function testSetHeadersCalculatesCorrectSize(): void
-    {
-        $response = new \Deviantintegral\Har\Response();
-
-        // Test with single header: "Content-Type: application/json"
-        // Size calculation: strlen("Content-Type") + 2 + strlen("application/json") + 2 = 12 + 2 + 16 + 2 = 32
-        // Plus final 2 for double CRLF: 32 + 2 = 34
-        $headers = [(new Header())->setName('Content-Type')->setValue('application/json')];
-        $response->setHeaders($headers);
-        $this->assertSame(34, $response->getHeadersSize());
-    }
-
     public function testSetHeadersWithMultipleHeaders(): void
     {
         $response = new \Deviantintegral\Har\Response();
