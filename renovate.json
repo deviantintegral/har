@@ -5,6 +5,16 @@
     ":preserveSemverRanges",
     "helpers:pinGitHubActionDigests"
   ],
+  "regexManagers": [
+    {
+      "fileMatch": ["^\\.github/workflows/test\\.yml$"],
+      "matchStrings": [
+        "infection/infection/releases/download/(?<currentValue>.*?)/infection\\.phar"
+      ],
+      "depNameTemplate": "infection/infection",
+      "datasourceTemplate": "github-releases"
+    }
+  ],
   "packageRules": [
     {
       "matchUpdateTypes": [
