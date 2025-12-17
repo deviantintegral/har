@@ -11,3 +11,4 @@ har.phar
 infection.phar
 *.har
 infection*.txt
+infection-report.html

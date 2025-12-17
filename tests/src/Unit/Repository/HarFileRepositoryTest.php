@@ -78,6 +78,7 @@ class HarFileRepositoryTest extends HarTestBase
     public function testLoadJsonThrowsExceptionForInvalidFile(): void
     {
         $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('does not exist');
         $this->repository->loadJson('non-existent-file.har');
     }
 

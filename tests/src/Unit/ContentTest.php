@@ -69,4 +69,26 @@ class ContentTest extends HarTestBase
 
         $this->assertDeserialize($serialized, Content::class, $content);
     }
+
+    public function testSetTextAutomaticallySetsSize(): void
+    {
+        $content = new Content();
+        $text = 'This is a test string';
+
+        $content->setText($text);
+
+        // Verify that setText automatically sets the size
+        $this->assertEquals(\strlen($text), $content->getSize());
+    }
+
+    public function testSetTextAutomaticallyUpdatesSizeWhenCalledMultipleTimes(): void
+    {
+        $content = new Content();
+
+        $content->setText('short');
+        $this->assertEquals(5, $content->getSize());
+
+        $content->setText('a much longer string');
+        $this->assertEquals(20, $content->getSize());
+    }
 }

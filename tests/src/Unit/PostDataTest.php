@@ -67,4 +67,54 @@ class PostDataTest extends HarTestBase
         // The body size should be the length of the query string: key1=value1&key2=value2
         $this->assertSame(23, $postData->getBodySize());
     }
+
+    public function testGetParamsClearsText(): void
+    {
+        // Text and params are mutually exclusive
+        $postData = new PostData();
+
+        // First set both text and params
+        $postData->setText('some text content');
+        $postData->setParams([
+            (new Params())->setName('key')->setValue('value'),
+        ]);
+
+        // Getting params should clear the text field
+        $params = $postData->getParams();
+
+        $this->assertNotEmpty($params);
+        $this->assertFalse($postData->hasText());
+        $this->assertNull($postData->getText());
+    }
+
+    public function testHasParamsReturnsTrueWhenParamsSet(): void
+    {
+        $postData = new PostData();
+        $this->assertFalse($postData->hasParams());
+
+        $postData->setParams([
+            (new Params())->setName('key')->setValue('value'),
+        ]);
+
+        $this->assertTrue($postData->hasParams());
+    }
+
+    public function testHasParamsReturnsFalseWhenParamsEmpty(): void
+    {
+        $postData = new PostData();
+        $postData->setParams([]);
+
+        $this->assertFalse($postData->hasParams());
+    }
+
+    public function testGetBodySizeReturnsZeroWhenNoParams(): void
+    {
+        $postData = new PostData();
+        $postData->setText('test');
+        // Clear text by setting empty params
+        $postData->setParams([]);
+
+        // Should return 0 when hasParams() is false
+        $this->assertSame(0, $postData->getBodySize());
+    }
 }
