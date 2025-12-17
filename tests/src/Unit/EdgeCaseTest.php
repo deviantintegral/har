@@ -17,26 +17,6 @@ use JMS\Serializer\Exception\RuntimeException as JMSRuntimeException;
 class EdgeCaseTest extends HarTestBase
 {
     /**
-     * Tests that the existing empty file test still works (regression test).
-     */
-    public function testLoadJsonHandlesEmptyFile(): void
-    {
-        $tempDir = sys_get_temp_dir().'/har_test_edge_'.uniqid();
-        mkdir($tempDir);
-        $emptyFile = $tempDir.'/empty.har';
-        file_put_contents($emptyFile, '');
-
-        $repository = new \Deviantintegral\Har\Repository\HarFileRepository($tempDir);
-        $this->expectException(\RuntimeException::class);
-        try {
-            $repository->loadJson('empty.har');
-        } finally {
-            unlink($emptyFile);
-            rmdir($tempDir);
-        }
-    }
-
-    /**
      * Tests that corrupted binary data throws an exception.
      */
     public function testCorruptedBinaryDataThrowsException(): void
