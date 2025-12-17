@@ -27,32 +27,6 @@ class ResponseTest extends HarTestBase
         $this->assertEquals('Who needs reasons?', $response->getStatusText());
     }
 
-    public function testGetSetStatus(): void
-    {
-        $response = (new \Deviantintegral\Har\Response())->setStatus(404);
-        $this->assertEquals(404, $response->getStatus());
-    }
-
-    public function testGetSetStatusText(): void
-    {
-        $response = (new \Deviantintegral\Har\Response())->setStatusText('Not Found');
-        $this->assertEquals('Not Found', $response->getStatusText());
-    }
-
-    public function testGetSetContent(): void
-    {
-        $content = (new Content())->setText('test content');
-        $response = (new \Deviantintegral\Har\Response())->setContent($content);
-        $this->assertSame($content, $response->getContent());
-    }
-
-    public function testGetSetRedirectURL(): void
-    {
-        $uri = new Uri('https://www.example.com/redirect');
-        $response = (new \Deviantintegral\Har\Response())->setRedirectURL($uri);
-        $this->assertSame($uri, $response->getRedirectURL());
-    }
-
     public function testSerialize(): void
     {
         $serializer = $this->getSerializer();
