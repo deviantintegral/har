@@ -48,6 +48,24 @@ class RequestTest extends HarTestBase
         );
     }
 
+    public function testWithRequestTargetThrowsExceptionWhenMissingScheme(): void
+    {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('must be an absolute-form target');
+
+        // Missing scheme - should throw exception
+        $this->getRequest->withRequestTarget('//www.example.com/home');
+    }
+
+    public function testWithRequestTargetThrowsExceptionWhenMissingHost(): void
+    {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('must be an absolute-form target');
+
+        // Missing host - should throw exception
+        $this->getRequest->withRequestTarget('file:///home');
+    }
+
     public function testGetBody(): void
     {
         $stream = $this->postRequest->getBody();
