@@ -322,25 +322,6 @@ class SplitCommandTest extends HarTestBase
         $this->assertTrue($definition->hasOption('force'));
     }
 
-    public function testCommandConfigureCallsParent(): void
-    {
-        // Test that parent::configure() is called by verifying
-        // that the command is properly set up with all its configuration
-        $command = new SplitCommand();
-
-        // Verify the help text is set (only happens if configure is fully executed)
-        $help = $command->getHelp();
-        $this->assertNotEmpty($help, 'Help text should be set by configure');
-        $this->assertStringContainsString('split', $help, 'Help should mention splitting');
-
-        // Verify all arguments and options are registered
-        // This confirms the entire configure method executed properly
-        $definition = $command->getDefinition();
-        $this->assertTrue($definition->hasArgument('har'));
-        $this->assertTrue($definition->hasOption('md5'));
-        $this->assertTrue($definition->hasOption('force'));
-    }
-
     public function testSplitUpdatesProgressBar(): void
     {
         $harFile = __DIR__.'/../../fixtures/www.softwareishard.com-multiple-entries.har';
