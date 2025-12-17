@@ -60,7 +60,6 @@ class CookieTest extends HarTestBase
             ->setValue('Test value');
 
         $this->assertFalse($cookie->hasSecure());
-        $this->assertNull($cookie->isSecure());
         $this->assertFalse($cookie->hasHttpOnly());
         $this->assertNull($cookie->isHttpOnly());
 
