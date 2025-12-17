@@ -256,10 +256,13 @@ class SplitCommandTest extends HarTestBase
         // Should fail with FAILURE status
         $this->assertSame(Command::FAILURE, $this->commandTester->getStatusCode());
 
-        // Should display error message
+        // Should display ONLY "File not found" error message
         $output = $this->commandTester->getDisplay();
         $this->assertStringContainsString('File not found', $output);
         $this->assertStringContainsString('nonexistent.har', $output);
+        // Must NOT contain any other error messages (kills ReturnRemoval mutation)
+        // Without the return, execution would continue and hit "Unable to read file"
+        $this->assertStringNotContainsString('Unable to read file', $output);
     }
 
     public function testSplitFailsWhenPathIsDirectory(): void
