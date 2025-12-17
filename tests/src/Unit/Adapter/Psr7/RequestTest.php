@@ -227,4 +227,154 @@ class RequestTest extends HarTestBase
     {
         $this->assertEquals(new Uri('http://www.softwareishard.com/blog/har-12-spec/'), $this->getRequest->getUri());
     }
+
+    public function testWithHeaderDoesNotModifyOriginal(): void
+    {
+        $original = $this->getRequest;
+        $originalHeaders = $original->getHeaders();
+
+        $modified = $original->withHeader('X-Test', 'value');
+
+        // Original should not have the new header
+        $this->assertFalse($original->hasHeader('X-Test'));
+        $this->assertEquals($originalHeaders, $original->getHeaders());
+
+        // Modified should have the new header
+        $this->assertTrue($modified->hasHeader('X-Test'));
+    }
+
+    public function testWithoutHeaderDoesNotModifyOriginal(): void
+    {
+        $original = $this->getRequest;
+        $this->assertTrue($original->hasHeader('Accept'));
+
+        $modified = $original->withoutHeader('Accept');
+
+        // Original should still have the header
+        $this->assertTrue($original->hasHeader('Accept'));
+
+        // Modified should not have the header
+        $this->assertFalse($modified->hasHeader('Accept'));
+    }
+
+    public function testWithAddedHeaderDoesNotModifyOriginal(): void
+    {
+        $original = $this->getRequest;
+        $originalAccept = $original->getHeader('Accept');
+
+        $modified = $original->withAddedHeader('Accept', '*/*');
+
+        // Original should have the same header values
+        $this->assertEquals($originalAccept, $original->getHeader('Accept'));
+
+        // Modified should have the additional value
+        $this->assertCount(\count($originalAccept) + 1, $modified->getHeader('Accept'));
+    }
+
+    public function testWithRequestTargetDoesNotModifyOriginal(): void
+    {
+        $original = $this->getRequest;
+        $originalTarget = $original->getRequestTarget();
+
+        $modified = $original->withRequestTarget('https://www.example.com/home');
+
+        // Original should have the same request target
+        $this->assertEquals($originalTarget, $original->getRequestTarget());
+
+        // Modified should have the new request target
+        $this->assertEquals('https://www.example.com/home', $modified->getRequestTarget());
+    }
+
+    public function testWithMethodDoesNotModifyOriginal(): void
+    {
+        $original = $this->getRequest;
+        $originalMethod = $original->getMethod();
+
+        $modified = $original->withMethod('POST');
+
+        // Original should have the same method
+        $this->assertEquals($originalMethod, $original->getMethod());
+
+        // Modified should have the new method
+        $this->assertEquals('POST', $modified->getMethod());
+    }
+
+    public function testWithUriDoesNotModifyOriginal(): void
+    {
+        $original = $this->getRequest;
+        $originalUri = $original->getUri();
+
+        $newUri = new Uri('http://www.example.com/');
+        $modified = $original->withUri($newUri);
+
+        // Original should have the same URI
+        $this->assertEquals($originalUri, $original->getUri());
+
+        // Modified should have the new URI
+        $this->assertSame($newUri, $modified->getUri());
+    }
+
+    public function testWithBodyDoesNotModifyOriginal(): void
+    {
+        // Create a fresh request for this test
+        $original = new Request(
+            $this->getHarFileRepository()->load(
+                'www.softwareishard.com-empty-login.har'
+            )->getLog()->getEntries()[0]->getRequest()
+        );
+
+        // Capture the state before calling withBody
+        $originalHarBefore = $original->getHarRequest();
+        $originalHasPostDataBefore = $originalHarBefore->hasPostData();
+        $originalPostDataBefore = $originalHarBefore->hasPostData() ?
+            $originalHarBefore->getPostData() : null;
+
+        $newBody = Utils::streamFor('a=1&b=2');
+        $modified = $original->withBody($newBody);
+
+        // Modified should have the new body
+        $this->assertEquals('a=1&b=2', (string) $modified->getBody());
+
+        // Get the HAR request after calling withBody to verify it wasn't modified
+        $originalHarAfter = $original->getHarRequest();
+        $this->assertEquals($originalHasPostDataBefore, $originalHarAfter->hasPostData());
+
+        // Verify the PostData object itself wasn't modified if it existed
+        if (null !== $originalPostDataBefore && $originalHarAfter->hasPostData()) {
+            // They should be equal but not the same object (because getHarRequest clones)
+            $this->assertEquals(
+                $originalPostDataBefore->getBodySize(),
+                $originalHarAfter->getPostData()->getBodySize()
+            );
+        }
+    }
+
+    public function testGetHarRequestReturnsClone(): void
+    {
+        $harRequest1 = $this->getRequest->getHarRequest();
+        $harRequest2 = $this->getRequest->getHarRequest();
+
+        // Modifying one should not affect the other
+        $harRequest1->setMethod('POST');
+
+        $this->assertEquals('POST', $harRequest1->getMethod());
+        $this->assertNotEquals('POST', $harRequest2->getMethod());
+    }
+
+    public function testConstructorCreatesClone(): void
+    {
+        $originalHarRequest = $this->getHarFileRepository()->load(
+            'www.softwareishard.com-single-entry.har'
+        )->getLog()->getEntries()[0]->getRequest();
+
+        $originalMethod = $originalHarRequest->getMethod();
+
+        $request = new Request($originalHarRequest);
+
+        // Modifying the original should not affect the request
+        $originalHarRequest->setMethod('POST');
+
+        $this->assertEquals('POST', $originalHarRequest->getMethod());
+        $this->assertEquals($originalMethod, $request->getMethod());
+    }
 }

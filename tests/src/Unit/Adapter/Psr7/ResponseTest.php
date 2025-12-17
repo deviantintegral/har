@@ -150,4 +150,57 @@ class ResponseTest extends HarTestBase
         $resultBody = $withBody->getBody();
         $this->assertEquals($newBodyContent, $resultBody->getContents());
     }
+
+    public function testWithStatusDoesNotModifyOriginal(): void
+    {
+        $original = $this->response;
+        $originalStatus = $original->getStatusCode();
+        $originalReasonPhrase = $original->getReasonPhrase();
+
+        $modified = $original->withStatus(404, 'Not Found');
+
+        // Original should have the same status
+        $this->assertEquals($originalStatus, $original->getStatusCode());
+        $this->assertEquals($originalReasonPhrase, $original->getReasonPhrase());
+
+        // Modified should have the new status
+        $this->assertEquals(404, $modified->getStatusCode());
+        $this->assertEquals('Not Found', $modified->getReasonPhrase());
+    }
+
+    public function testWithBodyDoesNotModifyOriginal(): void
+    {
+        $original = $this->response;
+
+        // Capture the state before calling withBody
+        $originalHarBefore = $original->getHarResponse();
+        $originalContentSizeBefore = $originalHarBefore->getContent()->getSize();
+
+        $newBody = \GuzzleHttp\Psr7\Utils::streamFor('New content');
+        $modified = $original->withBody($newBody);
+
+        // Modified should have the new body
+        $this->assertEquals('New content', (string) $modified->getBody());
+
+        // Get the HAR response after calling withBody to verify it wasn't modified
+        $originalHarAfter = $original->getHarResponse();
+
+        // The content size should be the same as before
+        $this->assertEquals(
+            $originalContentSizeBefore,
+            $originalHarAfter->getContent()->getSize()
+        );
+    }
+
+    public function testGetHarResponseReturnsClone(): void
+    {
+        $harResponse1 = $this->response->getHarResponse();
+        $harResponse2 = $this->response->getHarResponse();
+
+        // Modifying one should not affect the other
+        $harResponse1->setStatus(404);
+
+        $this->assertEquals(404, $harResponse1->getStatus());
+        $this->assertNotEquals(404, $harResponse2->getStatus());
+    }
 }

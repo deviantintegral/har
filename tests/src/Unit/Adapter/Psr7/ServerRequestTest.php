@@ -323,4 +323,111 @@ class ServerRequestTest extends HarTestBase
         $this->assertEquals(['session' => 'abc123'], $new->getCookieParams());
         $this->assertEquals(['foo' => 'bar'], $new->getQueryParams());
     }
+
+    public function testWithCookieParamsClonesHarRequest(): void
+    {
+        $original = $this->serverRequest;
+
+        // Capture state before modification
+        $originalCookiesBefore = $original->getCookieParams();
+        $originalHarBefore = $original->getHarRequest();
+        $originalCookiesCountBefore = \count($originalHarBefore->getCookies());
+
+        $modified = $original->withCookieParams(['new_cookie' => 'xyz789']);
+
+        // Verify the original wasn't modified
+        $this->assertEquals($originalCookiesBefore, $original->getCookieParams());
+
+        $originalHarAfter = $original->getHarRequest();
+        $this->assertCount($originalCookiesCountBefore, $originalHarAfter->getCookies());
+
+        // Verify modified has the new cookies
+        $this->assertEquals(['new_cookie' => 'xyz789'], $modified->getCookieParams());
+    }
+
+    public function testWithQueryParamsClonesHarRequest(): void
+    {
+        $original = $this->serverRequest;
+
+        // Capture state before modification
+        $originalQueryBefore = $original->getQueryParams();
+        $originalHarBefore = $original->getHarRequest();
+        $originalQueryCountBefore = \count($originalHarBefore->getQueryString());
+
+        $modified = $original->withQueryParams(['new_param' => 'value']);
+
+        // Verify the original wasn't modified
+        $this->assertEquals($originalQueryBefore, $original->getQueryParams());
+
+        $originalHarAfter = $original->getHarRequest();
+        $this->assertCount($originalQueryCountBefore, $originalHarAfter->getQueryString());
+
+        // Verify modified has the new query params
+        $this->assertEquals(['new_param' => 'value'], $modified->getQueryParams());
+    }
+
+    public function testWithParsedBodyClonesHarRequest(): void
+    {
+        $original = $this->serverRequest;
+
+        // Capture state before modification
+        $originalParsedBodyBefore = $original->getParsedBody();
+        $originalHarBefore = $original->getHarRequest();
+        $originalHasPostDataBefore = $originalHarBefore->hasPostData();
+
+        $modified = $original->withParsedBody(['new_key' => 'new_value']);
+
+        // Verify the original wasn't modified
+        $this->assertEquals($originalParsedBodyBefore, $original->getParsedBody());
+
+        $originalHarAfter = $original->getHarRequest();
+        $this->assertEquals($originalHasPostDataBefore, $originalHarAfter->hasPostData());
+
+        // Verify modified has the new parsed body
+        $this->assertEquals(['new_key' => 'new_value'], $modified->getParsedBody());
+    }
+
+    public function testGetCookieParamsWithMultipleCookies(): void
+    {
+        // Create a HAR request with multiple cookies
+        $harRequest = (new Request())
+            ->setMethod('GET')
+            ->setUrl(new Uri('https://www.example.com/'))
+            ->setCookies([
+                (new Cookie())->setName('cookie1')->setValue('value1'),
+                (new Cookie())->setName('cookie2')->setValue('value2'),
+                (new Cookie())->setName('cookie3')->setValue('value3'),
+            ]);
+
+        $serverRequest = new ServerRequest($harRequest);
+        $cookies = $serverRequest->getCookieParams();
+
+        // Verify all cookies are returned, not just one
+        $this->assertCount(3, $cookies);
+        $this->assertEquals('value1', $cookies['cookie1']);
+        $this->assertEquals('value2', $cookies['cookie2']);
+        $this->assertEquals('value3', $cookies['cookie3']);
+    }
+
+    public function testGetQueryParamsWithMultipleParams(): void
+    {
+        // Create a HAR request with multiple query parameters
+        $harRequest = (new Request())
+            ->setMethod('GET')
+            ->setUrl(new Uri('https://www.example.com/'))
+            ->setQueryString([
+                (new Params())->setName('param1')->setValue('value1'),
+                (new Params())->setName('param2')->setValue('value2'),
+                (new Params())->setName('param3')->setValue('value3'),
+            ]);
+
+        $serverRequest = new ServerRequest($harRequest);
+        $queryParams = $serverRequest->getQueryParams();
+
+        // Verify all query parameters are returned, not just one
+        $this->assertCount(3, $queryParams);
+        $this->assertEquals('value1', $queryParams['param1']);
+        $this->assertEquals('value2', $queryParams['param2']);
+        $this->assertEquals('value3', $queryParams['param3']);
+    }
 }
