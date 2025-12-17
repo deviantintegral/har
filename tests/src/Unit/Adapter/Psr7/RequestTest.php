@@ -377,4 +377,18 @@ class RequestTest extends HarTestBase
         $this->assertEquals('POST', $originalHarRequest->getMethod());
         $this->assertEquals($originalMethod, $request->getMethod());
     }
+
+    public function testWithProtocolVersionDoesNotModifyOriginal(): void
+    {
+        $original = $this->getRequest;
+        $originalVersion = $original->getProtocolVersion();
+
+        $modified = $original->withProtocolVersion('2.0');
+
+        // Original should have the same protocol version
+        $this->assertEquals($originalVersion, $original->getProtocolVersion());
+
+        // Modified should have the new protocol version
+        $this->assertEquals('2.0', $modified->getProtocolVersion());
+    }
 }
