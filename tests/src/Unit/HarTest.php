@@ -71,6 +71,11 @@ class HarTest extends HarTestBase
             // Verify it's a different instance (cloned)
             $this->assertNotSame($har, $splitHar);
         }
+
+        // Verify indices are yielded correctly (0, 1, 2, ...)
+        $expectedIndices = range(0, $originalEntryCount - 1);
+        $actualIndices = array_keys($splitHars);
+        $this->assertEquals($expectedIndices, $actualIndices);
     }
 
     public function testCloneIsDeep(): void
