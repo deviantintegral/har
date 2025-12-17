@@ -151,6 +151,60 @@ class PostDataTest extends HarTestBase
         $this->assertSame(0, $postData->getBodySize());
     }
 
+    public function testHasParamsLogicalNotMutation(): void
+    {
+        // This test kills the LogicalNot mutant by explicitly verifying
+        // both true and false cases of hasParams()
+        $postData = new PostData();
+
+        // When params is null/empty, hasParams() should return false
+        $this->assertFalse($postData->hasParams(), 'hasParams() should return false when params is empty');
+
+        // Set params
+        $postData->setParams([
+            (new Params())->setName('key')->setValue('value'),
+        ]);
+
+        // When params has items, hasParams() should return true
+        $this->assertTrue($postData->hasParams(), 'hasParams() should return true when params has items');
+
+        // Clear params
+        $postData->setParams([]);
+
+        // When params is explicitly empty array, hasParams() should return false
+        $this->assertFalse($postData->hasParams(), 'hasParams() should return false when params is empty array');
+
+        // This test specifically kills the LogicalNot mutant at PostData.php:68
+        // If `return !empty($this->params)` is changed to `return empty($this->params)`,
+        // this test will fail because the true/false results would be inverted
+    }
+
+    public function testGetBodySizeIfNegationMutation(): void
+    {
+        // This test kills the IfNegation mutant by explicitly verifying
+        // the behavior when hasParams() is true vs false
+        $postData = new PostData();
+
+        // When hasParams() is false, getBodySize() should skip the params calculation
+        $this->assertFalse($postData->hasParams());
+        $this->assertSame(0, $postData->getBodySize(), 'Should return 0 when no params');
+
+        // Set params
+        $postData->setParams([
+            (new Params())->setName('foo')->setValue('bar'),
+        ]);
+
+        // When hasParams() is true, getBodySize() should calculate from params
+        $this->assertTrue($postData->hasParams());
+        $expectedSize = \strlen('foo=bar');  // 7
+        $this->assertSame($expectedSize, $postData->getBodySize(), 'Should calculate size from params');
+
+        // This test specifically kills the IfNegation mutant at PostData.php:73
+        // If `if ($this->hasParams())` is changed to `if (!$this->hasParams())`,
+        // the calculation would happen when there are no params (causing error)
+        // and NOT happen when there are params (returning 0 incorrectly)
+    }
+
     public function testSetTextIsPublic(): void
     {
         $postData = new PostData();
