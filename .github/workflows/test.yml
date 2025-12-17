@@ -168,4 +168,4 @@ jobs:
           chmod +x infection.phar
 
       - name: Run mutation testing
-        run: ./infection.phar --threads=max --min-msi=98 --min-covered-msi=98
+        run: ./infection.phar --threads=max --min-msi=100 --min-covered-msi=100
