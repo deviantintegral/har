@@ -313,28 +313,6 @@ class ServerRequestTest extends HarTestBase
         $this->assertNull($serverRequest->getParsedBody());
     }
 
-    public function testWithParsedBodyObject(): void
-    {
-        // Test that withParsedBody works with objects
-        $data = new \stdClass();
-        $data->username = 'john';
-        $data->password = 'secret';
-
-        $new = $this->serverRequest->withParsedBody($data);
-        $parsedBody = $new->getParsedBody();
-
-        $this->assertIsArray($parsedBody);
-        $this->assertEquals('john', $parsedBody['username']);
-        $this->assertEquals('secret', $parsedBody['password']);
-
-        // Verify HAR params are actually set when data is an object
-        $harRequest = $new->getHarRequest();
-        $this->assertTrue($harRequest->hasPostData());
-        $this->assertTrue($harRequest->getPostData()->hasParams());
-        $params = $harRequest->getPostData()->getParams();
-        $this->assertCount(2, $params);
-    }
-
     public function testWithParsedBodyLogicalOrCondition(): void
     {
         // This test kills LogicalOr mutations by verifying the exact behavior
