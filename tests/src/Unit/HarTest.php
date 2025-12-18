@@ -59,6 +59,23 @@ class HarTest extends HarTestBase
         }
     }
 
+    public function testSetLog(): void
+    {
+        $creator = new \Deviantintegral\Har\Creator();
+        $creator->setName('TestCreator');
+        $creator->setVersion('1.0');
+
+        $log = (new Log())
+            ->setVersion('1.2')
+            ->setCreator($creator)
+            ->setEntries([]);
+
+        $har = (new Har())->setLog($log);
+
+        $this->assertSame($log, $har->getLog());
+        $this->assertEquals('1.2', $har->getLog()->getVersion());
+    }
+
     public function testCloneBrowserIsDeep(): void
     {
         $repository = $this->getHarFileRepository();
