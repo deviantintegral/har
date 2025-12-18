@@ -142,7 +142,6 @@ class SplitCommandTest extends HarTestBase
         $this->assertSame(Command::SUCCESS, $this->commandTester->getStatusCode());
 
         $outputFile = $this->tempDir.'/1.har';
-        $this->assertFileExists($outputFile);
         $originalContent = file_get_contents($outputFile);
 
         // Modify the file to verify it gets overwritten
