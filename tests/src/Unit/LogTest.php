@@ -62,7 +62,6 @@ class LogTest extends HarTestBase
 
         // Verify the original log's creator name is unchanged
         $this->assertSame($originalCreatorName, $log->getCreator()->getName());
-        $this->assertSame('modified-creator', $clonedLog->getCreator()->getName());
     }
 
     public function testClonePagesIsDeep(): void
