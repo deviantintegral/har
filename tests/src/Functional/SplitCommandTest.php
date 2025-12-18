@@ -324,36 +324,6 @@ class SplitCommandTest extends HarTestBase
         $this->assertTrue($definition->hasOption('force'));
     }
 
-    public function testSplitUpdatesProgressBar(): void
-    {
-        $harFile = __DIR__.'/../../fixtures/www.softwareishard.com-multiple-entries.har';
-
-        // Execute the command
-        $this->commandTester->execute([
-            'har' => $harFile,
-            'destination' => $this->tempDir,
-        ]);
-
-        $output = $this->commandTester->getDisplay();
-
-        // Verify progress bar completes (progressFinish mutation killer)
-        // The progress bar shows "11/11" and "100%" when progressFinish is called
-        $this->assertMatchesRegularExpression('/11\/11/', $output, 'Progress should show 11/11 completion');
-        $this->assertStringContainsString('100%', $output, 'Progress should show 100% completion');
-
-        // Verify intermediate progress is shown (progressAdvance mutation killer)
-        // Without progressAdvance(), we'd only see 0/11 then jump to 11/11
-        // Check for at least one intermediate state (anything from 1/11 to 10/11)
-        $this->assertMatchesRegularExpression('/[1-9]\/11|10\/11/', $output, 'Progress should show intermediate states');
-
-        // Verify the command succeeds
-        $this->assertSame(Command::SUCCESS, $this->commandTester->getStatusCode());
-
-        // Count the actual files created
-        $files = glob($this->tempDir.'/*.har');
-        $this->assertCount(11, $files, 'Should create 11 files');
-    }
-
     public function testProgressAdvanceIsCalledForEachEntry(): void
     {
         // This test kills the MethodCallRemoval mutation for progressAdvance()
