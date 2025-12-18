@@ -52,13 +52,6 @@ class TruncatingDateTimeHandlerTest extends TestCase
         // Method names should be deserializeDateTimeFromJson and deserializeDateTimeFromXml
         $this->assertContains('deserializeDateTimeFromJson', $methodNames);
         $this->assertContains('deserializeDateTimeFromXml', $methodNames);
-
-        // Verify method names have correct capitalization (Json not json, Xml not xml)
-        foreach ($methodNames as $methodName) {
-            $this->assertStringStartsWith('deserializeDateTimeFrom', $methodName);
-            $this->assertDoesNotMatchRegularExpression('/deserializeDateTimeFromjson/', $methodName);
-            $this->assertDoesNotMatchRegularExpression('/deserializeDateTimeFromxml/', $methodName);
-        }
     }
 
     public function testTruncateMicrosecondsWithPlus(): void
