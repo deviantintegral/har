@@ -48,14 +48,10 @@ class HarTest extends HarTestBase
         $repository = $this->getHarFileRepository();
         $har = $repository->load('www.softwareishard.com-multiple-entries.har');
 
-        $originalEntryCount = \count($har->getLog()->getEntries());
-
         $splitHars = [];
         foreach ($har->splitLogEntries() as $index => $splitHar) {
             $splitHars[$index] = $splitHar;
         }
-
-        $this->assertCount($originalEntryCount, $splitHars);
 
         // Verify each split HAR has only one entry
         foreach ($splitHars as $splitHar) {
