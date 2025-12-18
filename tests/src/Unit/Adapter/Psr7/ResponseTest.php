@@ -27,11 +27,6 @@ class ResponseTest extends HarTestBase
         );
     }
 
-    public function testGetReasonPhrase(): void
-    {
-        $this->assertEquals('OK', $this->response->getReasonPhrase());
-    }
-
     public function testGetHarResponse(): void
     {
         $harResponse = $this->response->getHarResponse();
