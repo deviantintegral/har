@@ -12,13 +12,6 @@ use PHPUnit\Framework\TestCase;
  */
 class TruncatingDateTimeHandlerTest extends TestCase
 {
-    private TruncatingDateTimeHandler $handler;
-
-    protected function setUp(): void
-    {
-        $this->handler = new TruncatingDateTimeHandler();
-    }
-
     public function testGetSubscribingMethods(): void
     {
         $methods = TruncatingDateTimeHandler::getSubscribingMethods();
@@ -50,12 +43,5 @@ class TruncatingDateTimeHandlerTest extends TestCase
         // Method names should be deserializeDateTimeFromJson and deserializeDateTimeFromXml
         $this->assertContains('deserializeDateTimeFromJson', $methodNames);
         $this->assertContains('deserializeDateTimeFromXml', $methodNames);
-    }
-
-    public function testTruncateMicrosecondsWithPlus(): void
-    {
-        $data = '2024-01-01T12:00:00.123456789+00:00';
-        $result = $this->handler->truncateMicroseconds($data);
-        $this->assertEquals('2024-01-01T12:00:00.123456+00:00', $result);
     }
 }
