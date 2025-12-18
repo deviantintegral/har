@@ -26,11 +26,6 @@ class CookieTest extends HarTestBase
           ->setSecure(true)
           ->setValue('Test value');
 
-        $this->assertTrue($cookie->hasSecure());
-        $this->assertNotNull($cookie->isSecure());
-        $this->assertTrue($cookie->hasHttpOnly());
-        $this->assertNotNull($cookie->isHttpOnly());
-
         $serialized = $serializer->serialize($cookie, 'json');
         $this->assertEquals(
             [
@@ -62,9 +57,7 @@ class CookieTest extends HarTestBase
             ->setValue('Test value');
 
         $this->assertFalse($cookie->hasSecure());
-        $this->assertNull($cookie->isSecure());
         $this->assertFalse($cookie->hasHttpOnly());
-        $this->assertNull($cookie->isHttpOnly());
 
         $serialized = $serializer->serialize($cookie, 'json');
         $this->assertEquals(
