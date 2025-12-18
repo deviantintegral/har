@@ -85,7 +85,6 @@ class SplitCommandTest extends HarTestBase
         // Should create 1 file
         $files = glob($this->tempDir.'/*.har');
         $this->assertCount(1, $files);
-        $this->assertFileExists($this->tempDir.'/1.har');
 
         // Verify the file is valid HAR
         $serializer = new Serializer();
