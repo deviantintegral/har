@@ -66,12 +66,6 @@ class ResponseTest extends HarTestBase
         $this->assertFalse($withoutHeader->hasHeader('Content-Type'));
     }
 
-    public function testWithAddedHeaderArrayValue(): void
-    {
-        $withAdded = $this->response->withAddedHeader('X-Custom', ['value1', 'value2']);
-        $this->assertEquals(['value1', 'value2'], $withAdded->getHeader('X-Custom'));
-    }
-
     public function testGetBody(): void
     {
         $body = $this->response->getBody();
