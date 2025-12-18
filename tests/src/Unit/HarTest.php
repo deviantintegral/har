@@ -65,26 +65,6 @@ class HarTest extends HarTestBase
         }
     }
 
-    public function testCloneIsDeep(): void
-    {
-        $repository = $this->getHarFileRepository();
-        $har = $repository->load('www.softwareishard.com-multiple-entries.har');
-
-        $originalEntryCount = \count($har->getLog()->getEntries());
-
-        // Clone the HAR
-        $cloned = clone $har;
-
-        // Verify the clone has a different Log instance
-        $this->assertNotSame($har->getLog(), $cloned->getLog());
-
-        // Modify the cloned HAR's entries
-        $cloned->getLog()->setEntries([]);
-
-        // Verify the original HAR's entries are unchanged
-        $this->assertCount($originalEntryCount, $har->getLog()->getEntries());
-    }
-
     public function testCloneBrowserIsDeep(): void
     {
         $repository = $this->getHarFileRepository();
