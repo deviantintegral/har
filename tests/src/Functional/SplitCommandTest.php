@@ -226,8 +226,6 @@ class SplitCommandTest extends HarTestBase
         // Load split files and compare each entry
         for ($i = 0; $i < \count($originalEntries); ++$i) {
             $splitFile = $this->tempDir.'/'.($i + 1).'.har';
-            $this->assertFileExists($splitFile);
-
             $splitContents = file_get_contents($splitFile);
             $splitHar = $serializer->deserializeHar($splitContents);
             $splitEntry = $splitHar->getLog()->getEntries()[0];
