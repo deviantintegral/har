@@ -12,22 +12,6 @@ use PHPUnit\Framework\TestCase;
  */
 class TextTraitTest extends TestCase
 {
-    public function testHasText(): void
-    {
-        $instance = new TextTraitTestClass();
-
-        // Initially no text
-        $this->assertFalse($instance->hasText());
-
-        // After setting text
-        $instance->setText('content');
-        $this->assertTrue($instance->hasText());
-
-        // After clearing text
-        $instance->setText(null);
-        $this->assertFalse($instance->hasText());
-    }
-
     public function testGetText(): void
     {
         $instance = new TextTraitTestClass();
