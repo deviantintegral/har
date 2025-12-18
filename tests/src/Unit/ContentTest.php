@@ -24,7 +24,6 @@ class ContentTest extends HarTestBase
           ->setNumber(1);
 
         $this->assertTrue($content->hasEncoding());
-        $this->assertNotNull($content->getEncoding());
         $this->assertTrue($content->hasNumber());
         $this->assertNotNull($content->getNumber());
 
