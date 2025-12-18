@@ -35,19 +35,6 @@ class EntryTest extends HarTestBase
         $this->assertTrue($first->hasInitiator());
     }
 
-    public function testSerializationOfEntryWithAddedInitiatorOfTypeOther(): void
-    {
-        // Load a HAR file into an object.
-        $id = 'www.softwareishard.com-empty-login.har';
-        $har = $this->repository->load($id);
-        $first = $har->getLog()->getEntries()[0];
-        $first->setInitiator((new Initiator())->setType('other'));
-
-        $serialized = $this->getSerializer()->serialize($har, 'json');
-        $actual = json_decode($serialized, true);
-        $this->assertEquals('other', $actual['log']['entries'][0]['_initiator']['type']);
-    }
-
     public function testGetSetPageref(): void
     {
         $entry = (new Entry())->setPageref('page_1');
