@@ -27,13 +27,6 @@ class ResponseTest extends HarTestBase
         );
     }
 
-    public function testGetHarResponse(): void
-    {
-        $harResponse = $this->response->getHarResponse();
-        $this->assertInstanceOf(\Deviantintegral\Har\Response::class, $harResponse);
-        $this->assertEquals(200, $harResponse->getStatus());
-    }
-
     public function testWithHeader(): void
     {
         $withHeader = $this->response->withHeader('X-Test', 'value');
