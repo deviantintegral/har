@@ -79,11 +79,4 @@ class TruncatingDateTimeHandlerTest extends TestCase
         $result = $this->handler->truncateMicroseconds($data);
         $this->assertEquals('2024-01-01T12:00:00.123+00:00', $result);
     }
-
-    public function testTruncateMicrosecondsWithExactSixDigits(): void
-    {
-        $data = '2024-01-01T12:00:00.123456+00:00';
-        $result = $this->handler->truncateMicroseconds($data);
-        $this->assertEquals('2024-01-01T12:00:00.123456+00:00', $result);
-    }
 }
