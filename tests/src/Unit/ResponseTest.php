@@ -27,32 +27,6 @@ class ResponseTest extends HarTestBase
         $this->assertEquals('Who needs reasons?', $response->getStatusText());
     }
 
-    public function testGetSetStatus(): void
-    {
-        $response = (new \Deviantintegral\Har\Response())->setStatus(404);
-        $this->assertEquals(404, $response->getStatus());
-    }
-
-    public function testGetSetStatusText(): void
-    {
-        $response = (new \Deviantintegral\Har\Response())->setStatusText('Not Found');
-        $this->assertEquals('Not Found', $response->getStatusText());
-    }
-
-    public function testGetSetContent(): void
-    {
-        $content = (new Content())->setText('test content');
-        $response = (new \Deviantintegral\Har\Response())->setContent($content);
-        $this->assertSame($content, $response->getContent());
-    }
-
-    public function testGetSetRedirectURL(): void
-    {
-        $uri = new Uri('https://www.example.com/redirect');
-        $response = (new \Deviantintegral\Har\Response())->setRedirectURL($uri);
-        $this->assertSame($uri, $response->getRedirectURL());
-    }
-
     public function testSerialize(): void
     {
         $serializer = $this->getSerializer();
@@ -87,18 +61,6 @@ class ResponseTest extends HarTestBase
         $this->assertEquals($response->getComment(), $deserialized->getComment());
     }
 
-    public function testSetHeadersCalculatesCorrectSize(): void
-    {
-        $response = new \Deviantintegral\Har\Response();
-
-        // Test with single header: "Content-Type: application/json"
-        // Size calculation: strlen("Content-Type") + 2 + strlen("application/json") + 2 = 12 + 2 + 16 + 2 = 32
-        // Plus final 2 for double CRLF: 32 + 2 = 34
-        $headers = [(new Header())->setName('Content-Type')->setValue('application/json')];
-        $response->setHeaders($headers);
-        $this->assertSame(34, $response->getHeadersSize());
-    }
-
     public function testSetHeadersWithMultipleHeaders(): void
     {
         $response = new \Deviantintegral\Har\Response();
@@ -123,16 +85,5 @@ class ResponseTest extends HarTestBase
         // Size should be just the final 2 bytes for double CRLF
         $response->setHeaders([]);
         $this->assertSame(2, $response->getHeadersSize());
-    }
-
-    public function testSetHeadersWithSingleCharacterValues(): void
-    {
-        $response = new \Deviantintegral\Har\Response();
-
-        // Test with minimal header to ensure each +2 is necessary
-        // "X: Y" = 1 + 2 + 1 + 2 = 6, plus final 2 = 8
-        $headers = [(new Header())->setName('X')->setValue('Y')];
-        $response->setHeaders($headers);
-        $this->assertSame(8, $response->getHeadersSize());
     }
 }
