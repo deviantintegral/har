@@ -82,7 +82,6 @@ class DateFormatInterfaceHandlerTest extends TestCase
 
         $this->assertInstanceOf(\Deviantintegral\Har\Cookie::class, $result);
         $this->assertInstanceOf(\Deviantintegral\NullDateTime\ConcreteDateTime::class, $result->getExpires());
-        $this->assertNotInstanceOf(NullDateTime::class, $result->getExpires());
     }
 
     public function testDeserializeLogicalOrCondition(): void
