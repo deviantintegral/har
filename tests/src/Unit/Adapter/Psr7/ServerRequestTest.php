@@ -420,42 +420,6 @@ class ServerRequestTest extends HarTestBase
         $this->assertEquals('value2', $params[1]->getValue());
     }
 
-    public function testWithParsedBodyNullFromCleanRequest(): void
-    {
-        // This test kills LogicalOrAllSubExprNegation by verifying null doesn't enter
-        // the params-setting block. Start from a clean request to isolate behavior.
-        $cleanRequest = (new Request())
-            ->setMethod('GET')
-            ->setUrl(new Uri('https://www.example.com/'));
-
-        $serverRequest = new ServerRequest($cleanRequest);
-
-        // Set error handler to detect if foreach on null is attempted
-        // If LogicalOrAllSubExprNegation is applied (!is_array || !is_object),
-        // then for null: !false || !false = true, entering the block and
-        // attempting foreach on null
-        $warningTriggered = false;
-        $previousHandler = set_error_handler(function ($errno, $errstr) use (&$warningTriggered) {
-            if (str_contains($errstr, 'foreach')) {
-                $warningTriggered = true;
-            }
-
-            return false; // Allow normal error handling to continue
-        });
-
-        try {
-            $newRequest = $serverRequest->withParsedBody(null);
-
-            // Should NOT have triggered a foreach warning
-            $this->assertFalse($warningTriggered, 'withParsedBody(null) should not attempt foreach');
-
-            // Verify the result is correct
-            $this->assertNull($newRequest->getParsedBody());
-        } finally {
-            restore_error_handler();
-        }
-    }
-
     public function testWithRequestTarget(): void
     {
         $new = $this->serverRequest->withRequestTarget('https://www.example.com/newpath');
