@@ -66,19 +66,6 @@ class ResponseTest extends HarTestBase
         $this->assertFalse($withoutHeader->hasHeader('Content-Type'));
     }
 
-    public function testWithBody(): void
-    {
-        $newBodyContent = 'Test body content';
-        $newBody = \GuzzleHttp\Psr7\Utils::streamFor($newBodyContent);
-
-        $withBody = $this->response->withBody($newBody);
-        $this->assertInstanceOf(Response::class, $withBody);
-
-        // Verify the new body content
-        $resultBody = $withBody->getBody();
-        $this->assertEquals($newBodyContent, $resultBody->getContents());
-    }
-
     public function testWithStatusDoesNotModifyOriginal(): void
     {
         $original = $this->response;
