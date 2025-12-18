@@ -162,7 +162,6 @@ class SplitCommandTest extends HarTestBase
         // Verify the file was overwritten with original content
         $newContent = file_get_contents($outputFile);
         $this->assertEquals($originalContent, $newContent);
-        $this->assertNotEquals('modified content', $newContent);
     }
 
     public function testSplitFailsWhenFileExistsWithoutForce(): void
