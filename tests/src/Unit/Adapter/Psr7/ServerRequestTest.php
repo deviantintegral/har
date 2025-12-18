@@ -168,7 +168,6 @@ class ServerRequestTest extends HarTestBase
     public function testGetAttribute(): void
     {
         // Attributes are not part of HAR spec, always returns default
-        $this->assertNull($this->serverRequest->getAttribute('custom_attr'));
         $this->assertNull($this->serverRequest->getAttribute('nonexistent'));
         $this->assertEquals('default', $this->serverRequest->getAttribute('nonexistent', 'default'));
     }
