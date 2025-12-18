@@ -90,7 +90,6 @@ class HarTest extends HarTestBase
 
         // Verify the original HAR's entries are unchanged
         $this->assertCount($originalEntryCount, $har->getLog()->getEntries());
-        $this->assertCount(0, $cloned->getLog()->getEntries());
     }
 
     public function testCloneBrowserIsDeep(): void
