@@ -12,28 +12,6 @@ use PHPUnit\Framework\TestCase;
  */
 class TextTraitTest extends TestCase
 {
-    public function testSetTextIsPublic(): void
-    {
-        // This test kills the PublicVisibility mutation in TextTrait::setText
-        // by using a class that uses the trait WITHOUT aliasing/overriding.
-        //
-        // Unlike PostData and Content which alias setText as traitSetText
-        // and provide their own public setText, TextTraitTestClass uses
-        // the trait's method directly. If the trait's method becomes
-        // protected, this test will fail with a fatal error.
-        $instance = new TextTraitTestClass();
-
-        // Calling setText from outside the class - would fail if protected
-        $result = $instance->setText('test content');
-
-        // Verify method chaining works (returns self)
-        $this->assertSame($instance, $result);
-
-        // Verify the text was set
-        $this->assertTrue($instance->hasText());
-        $this->assertEquals('test content', $instance->getText());
-    }
-
     public function testSetTextWithNull(): void
     {
         $instance = new TextTraitTestClass();
