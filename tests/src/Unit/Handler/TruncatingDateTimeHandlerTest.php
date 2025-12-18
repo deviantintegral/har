@@ -22,7 +22,6 @@ class TruncatingDateTimeHandlerTest extends TestCase
     public function testGetSubscribingMethods(): void
     {
         $methods = TruncatingDateTimeHandler::getSubscribingMethods();
-        $this->assertNotEmpty($methods);
 
         // Check that all expected types are present
         $types = [];
