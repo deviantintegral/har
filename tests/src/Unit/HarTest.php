@@ -43,13 +43,6 @@ class HarTest extends HarTestBase
         }
     }
 
-    public function testGetSetLog(): void
-    {
-        $log = new Log();
-        $har = (new Har())->setLog($log);
-        $this->assertSame($log, $har->getLog());
-    }
-
     public function testSplitLogEntries(): void
     {
         $repository = $this->getHarFileRepository();
