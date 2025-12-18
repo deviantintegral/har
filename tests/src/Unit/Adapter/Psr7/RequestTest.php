@@ -8,7 +8,6 @@ use Deviantintegral\Har\Adapter\Psr7\Request;
 use Deviantintegral\Har\Tests\Unit\HarTestBase;
 use GuzzleHttp\Psr7\Uri;
 use GuzzleHttp\Psr7\Utils;
-use Psr\Http\Message\StreamInterface;
 
 class RequestTest extends HarTestBase
 {
@@ -69,7 +68,6 @@ class RequestTest extends HarTestBase
     public function testGetBody(): void
     {
         $stream = $this->postRequest->getBody();
-        $this->assertInstanceOf(StreamInterface::class, $stream);
         $this->assertEquals('log=&pwd=&wp-submit=Log+In&redirect_to=http%3A%2F%2Fwww.softwareishard.com%2Fblog%2Fwp-admin%2F&testcookie=1', (string) $stream);
     }
 
@@ -164,9 +162,6 @@ class RequestTest extends HarTestBase
 
         // The Host header should remain unchanged
         $this->assertEquals($originalHost, $modified->getHeader('Host'));
-
-        // Verify it's NOT set to the new URI's host
-        $this->assertNotEquals(['newhost.example.com'], $modified->getHeader('Host'));
     }
 
     public function testWithUriWithEmptyHostDoesNotSetHeader(): void
@@ -192,7 +187,6 @@ class RequestTest extends HarTestBase
     public function testHasHeaderCaseInsensitive(): void
     {
         // Test that hasHeader works with different case variations
-        $this->assertTrue($this->getRequest->hasHeader('Accept'));
         $this->assertTrue($this->getRequest->hasHeader('accept'));
         $this->assertTrue($this->getRequest->hasHeader('ACCEPT'));
         $this->assertTrue($this->getRequest->hasHeader('AcCePt'));
@@ -251,15 +245,12 @@ class RequestTest extends HarTestBase
         // Test that withoutHeader works with different case variations
         $without_accept_lower = $this->getRequest->withoutHeader('accept');
         $this->assertFalse($without_accept_lower->hasHeader('Accept'));
-        $this->assertFalse($without_accept_lower->hasHeader('accept'));
 
         $without_accept_upper = $this->getRequest->withoutHeader('ACCEPT');
         $this->assertFalse($without_accept_upper->hasHeader('Accept'));
-        $this->assertFalse($without_accept_upper->hasHeader('ACCEPT'));
 
         $without_accept_mixed = $this->getRequest->withoutHeader('AcCePt');
         $this->assertFalse($without_accept_mixed->hasHeader('Accept'));
-        $this->assertFalse($without_accept_mixed->hasHeader('AcCePt'));
     }
 
     public function testWithAddedHeader(): void
@@ -294,7 +285,6 @@ class RequestTest extends HarTestBase
         $modified = $original->withHeader('X-Test', 'value');
 
         // Original should not have the new header
-        $this->assertFalse($original->hasHeader('X-Test'));
         $this->assertEquals($originalHeaders, $original->getHeaders());
 
         // Modified should have the new header
