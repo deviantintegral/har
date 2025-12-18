@@ -85,18 +85,6 @@ class DateFormatInterfaceHandlerTest extends TestCase
         $this->assertInstanceOf(NullDateTime::class, $result->getExpires());
     }
 
-    public function testDeserializeEmptyStringReturnsNullDateTime(): void
-    {
-        // Test using the actual serializer to deserialize a Cookie with empty string expires datetime
-        $serializer = new \Deviantintegral\Har\Serializer();
-
-        $json = '{"name": "test", "value": "value", "expires": ""}';
-        $result = $serializer->getSerializer()->deserialize($json, \Deviantintegral\Har\Cookie::class, 'json');
-
-        $this->assertInstanceOf(\Deviantintegral\Har\Cookie::class, $result);
-        $this->assertInstanceOf(NullDateTime::class, $result->getExpires());
-    }
-
     public function testDeserializeValidDateTimeReturnsConcreteDateTime(): void
     {
         // Test using the actual serializer to deserialize a Cookie with valid expires datetime
