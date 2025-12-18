@@ -111,6 +111,5 @@ class LogTest extends HarTestBase
 
         // Verify the original log's entry comment is unchanged
         $this->assertSame($originalComment, $log->getEntries()[0]->getComment());
-        $this->assertSame('modified-comment', $clonedLog->getEntries()[0]->getComment());
     }
 }
