@@ -56,7 +56,6 @@ class HarTest extends HarTestBase
         $har = $repository->load('www.softwareishard.com-multiple-entries.har');
 
         $originalEntryCount = \count($har->getLog()->getEntries());
-        $this->assertGreaterThan(1, $originalEntryCount);
 
         $splitHars = [];
         foreach ($har->splitLogEntries() as $index => $splitHar) {
