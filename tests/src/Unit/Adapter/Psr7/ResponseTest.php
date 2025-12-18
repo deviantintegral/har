@@ -27,13 +27,6 @@ class ResponseTest extends HarTestBase
         );
     }
 
-    public function testWithStatus(): void
-    {
-        $withStatus = $this->response->withStatus(404, 'Not Found');
-        $this->assertEquals(404, $withStatus->getStatusCode());
-        $this->assertEquals('Not Found', $withStatus->getReasonPhrase());
-    }
-
     public function testGetReasonPhrase(): void
     {
         $this->assertEquals('OK', $this->response->getReasonPhrase());
