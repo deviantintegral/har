@@ -37,7 +37,6 @@ class HarFileRepositoryTest extends HarTestBase
     public function testGetIds(): void
     {
         $ids = $this->repository->getIds();
-        $this->assertNotEmpty($ids);
         $this->assertContains('www.softwareishard.com-single-entry.har', $ids);
         $this->assertContains('www.softwareishard.com-multiple-entries.har', $ids);
     }
