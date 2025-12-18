@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.7.1](https://github.com/deviantintegral/har/compare/v0.7.0...v0.7.1) (2025-12-18)
+
+
+### Miscellaneous Chores
+
+* add infection.phar.asc to gitignore ([8998321](https://github.com/deviantintegral/har/commit/89983217f1ae4469e19218079cd495f70bed92dc))
+* **main:** actually let's not do 1.0.0 yet ([fa424fb](https://github.com/deviantintegral/har/commit/fa424fb9c358915dedd0d76295d126fe10b2073d))
+* **main:** prepare for 1.0.0 ([f4f84f8](https://github.com/deviantintegral/har/commit/f4f84f8e215b50047ec62d50a4fbcf331e725e8a))
+
 ## [0.7.0](https://github.com/deviantintegral/har/compare/v0.6.0...v0.7.0) (2025-12-17)
 
 

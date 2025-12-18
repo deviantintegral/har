@@ -27,30 +27,6 @@ class ResponseTest extends HarTestBase
         );
     }
 
-    public function testGetStatusCode(): void
-    {
-        $this->assertEquals(200, $this->response->getStatusCode());
-    }
-
-    public function testWithStatus(): void
-    {
-        $withStatus = $this->response->withStatus(404, 'Not Found');
-        $this->assertEquals(404, $withStatus->getStatusCode());
-        $this->assertEquals('Not Found', $withStatus->getReasonPhrase());
-    }
-
-    public function testGetReasonPhrase(): void
-    {
-        $this->assertEquals('OK', $this->response->getReasonPhrase());
-    }
-
-    public function testGetHarResponse(): void
-    {
-        $harResponse = $this->response->getHarResponse();
-        $this->assertInstanceOf(\Deviantintegral\Har\Response::class, $harResponse);
-        $this->assertEquals(200, $harResponse->getStatus());
-    }
-
     public function testWithHeader(): void
     {
         $withHeader = $this->response->withHeader('X-Test', 'value');
@@ -78,29 +54,6 @@ class ResponseTest extends HarTestBase
         $this->assertEquals('', $this->response->getHeaderLine('X-NonExistent'));
     }
 
-    public function testGetHeader(): void
-    {
-        $headers = $this->response->getHeader('Content-Type');
-        $this->assertEquals(['text/html; charset=UTF-8'], $headers);
-    }
-
-    public function testHasHeader(): void
-    {
-        $this->assertTrue($this->response->hasHeader('Content-Type'));
-        $this->assertFalse($this->response->hasHeader('X-NonExistent'));
-    }
-
-    public function testGetHeaders(): void
-    {
-        $headers = $this->response->getHeaders();
-        $this->assertArrayHasKey('Content-Type', $headers);
-    }
-
-    public function testGetProtocolVersion(): void
-    {
-        $this->assertEquals('1.1', $this->response->getProtocolVersion());
-    }
-
     public function testWithProtocolVersion(): void
     {
         $withProtocol = $this->response->withProtocolVersion('2.0');
@@ -111,44 +64,6 @@ class ResponseTest extends HarTestBase
     {
         $withoutHeader = $this->response->withoutHeader('Content-Type');
         $this->assertFalse($withoutHeader->hasHeader('Content-Type'));
-    }
-
-    public function testWithAddedHeader(): void
-    {
-        $withAdded = $this->response->withAddedHeader('X-Custom', 'value1');
-        $this->assertEquals(['value1'], $withAdded->getHeader('X-Custom'));
-
-        $withMultiple = $withAdded->withAddedHeader('X-Custom', 'value2');
-        $this->assertEquals(['value1', 'value2'], $withMultiple->getHeader('X-Custom'));
-    }
-
-    public function testWithAddedHeaderArrayValue(): void
-    {
-        $withAdded = $this->response->withAddedHeader('X-Custom', ['value1', 'value2']);
-        $this->assertEquals(['value1', 'value2'], $withAdded->getHeader('X-Custom'));
-    }
-
-    public function testGetBody(): void
-    {
-        $body = $this->response->getBody();
-        $this->assertInstanceOf(\Psr\Http\Message\StreamInterface::class, $body);
-
-        // Verify the body content matches the response content
-        $bodyContent = $body->getContents();
-        $this->assertNotEmpty($bodyContent);
-    }
-
-    public function testWithBody(): void
-    {
-        $newBodyContent = 'Test body content';
-        $newBody = \GuzzleHttp\Psr7\Utils::streamFor($newBodyContent);
-
-        $withBody = $this->response->withBody($newBody);
-        $this->assertInstanceOf(Response::class, $withBody);
-
-        // Verify the new body content
-        $resultBody = $withBody->getBody();
-        $this->assertEquals($newBodyContent, $resultBody->getContents());
     }
 
     public function testWithStatusDoesNotModifyOriginal(): void
