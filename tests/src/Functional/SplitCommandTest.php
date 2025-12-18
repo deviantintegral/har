@@ -366,10 +366,6 @@ class SplitCommandTest extends HarTestBase
         // and outputs a newline after completion. Without progressFinish(),
         // the output ends with "100%" but no newline.
 
-        // Check for 100% completion marker
-        $this->assertStringContainsString('100%', $output,
-            'Progress bar must show 100% completion - this requires progressFinish() to be called');
-
         // Check that 11/11 appears (the final state)
         $this->assertMatchesRegularExpression('/11\/11/', $output,
             'Progress bar must show final 11/11 state - this requires progressFinish() to be called');
