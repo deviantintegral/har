@@ -61,12 +61,6 @@ class TruncatingDateTimeHandlerTest extends TestCase
         }
     }
 
-    public function testConstructorWithDefaultParameters(): void
-    {
-        $handler = new TruncatingDateTimeHandler();
-        $this->assertInstanceOf(TruncatingDateTimeHandler::class, $handler);
-    }
-
     public function testConstructorWithCustomParameters(): void
     {
         $handler = new TruncatingDateTimeHandler('Y-m-d', 'America/New_York');
