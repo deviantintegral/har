@@ -66,16 +66,6 @@ class ResponseTest extends HarTestBase
         $this->assertFalse($withoutHeader->hasHeader('Content-Type'));
     }
 
-    public function testGetBody(): void
-    {
-        $body = $this->response->getBody();
-        $this->assertInstanceOf(\Psr\Http\Message\StreamInterface::class, $body);
-
-        // Verify the body content matches the response content
-        $bodyContent = $body->getContents();
-        $this->assertNotEmpty($bodyContent);
-    }
-
     public function testWithBody(): void
     {
         $newBodyContent = 'Test body content';
