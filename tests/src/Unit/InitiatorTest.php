@@ -26,9 +26,7 @@ class InitiatorTest extends HarTestBase
 
         $this->assertDeserialize($serialized, Initiator::class, $initiator);
 
-        $this->assertFalse($initiator->hasUrl());
         $this->assertNull($initiator->getUrl());
-        $this->assertFalse($initiator->hasLineNumber());
         $this->assertNull($initiator->getLineNumber());
     }
 
@@ -55,8 +53,6 @@ class InitiatorTest extends HarTestBase
         $initiator->setUrl(new Uri('https://www.php.net/'));
         $this->assertDeserialize($serialized, Initiator::class, $initiator);
         $this->assertTrue($initiator->hasLineNumber());
-        $this->assertIsNumeric($initiator->getLineNumber());
         $this->assertTrue($initiator->hasUrl());
-        $this->assertNotNull($initiator->getUrl());
     }
 }

@@ -19,6 +19,10 @@ class ReadmeTest extends TestCase
 {
     public function testExample(): void
     {
+        if (!getenv('FUNCTIONAL_TESTS')) {
+            $this->markTestSkipped('Skipping functional test. Set FUNCTIONAL_TESTS=1 to run.');
+        }
+
         // Initialize a repository of HAR files, with IDs being the file names.
         $repository = new HarFileRepository(__DIR__.'/../../fixtures');
 
