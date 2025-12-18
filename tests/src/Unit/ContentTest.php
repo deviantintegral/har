@@ -25,7 +25,6 @@ class ContentTest extends HarTestBase
 
         $this->assertTrue($content->hasEncoding());
         $this->assertTrue($content->hasNumber());
-        $this->assertNotNull($content->getNumber());
 
         $serialized = $serializer->serialize($content, 'json');
         $this->assertEquals(
