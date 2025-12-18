@@ -17,7 +17,6 @@ jobs:
     outputs:
       release_created: ${{ steps.release.outputs.release_created }}
       tag_name: ${{ steps.release.outputs.tag_name }}
-      upload_url: ${{ steps.release.outputs.upload_url }}
     steps:
       - uses: googleapis/release-please-action@16a9c90856f42705d54a6fda1823352bdc62cf38 # v4
         id: release
@@ -66,11 +65,7 @@ jobs:
           ./har.phar list
 
       - name: Upload PHAR to Release
-        uses: actions/upload-release-asset@e8f9f06c4b078e705bd2ea027f0926603fc9b4d5 # v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@da05d552573ad5aba039eaac05058a918a7bf631 # v2
         with:
-          upload_url: ${{ needs.release-please.outputs.upload_url }}
-          asset_path: ./har.phar
-          asset_name: har.phar
-          asset_content_type: application/octet-stream
+          tag_name: ${{ needs.release-please.outputs.tag_name }}
+          files: har.phar
