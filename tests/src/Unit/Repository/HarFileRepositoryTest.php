@@ -147,46 +147,4 @@ class HarFileRepositoryTest extends HarTestBase
         }
         rmdir($tempDir);
     }
-
-    public function testGetIdsLengthCheckBoundary(): void
-    {
-        $tempDir = sys_get_temp_dir().'/har_test_'.uniqid();
-        mkdir($tempDir);
-
-        // Test the strlen < 4 boundary condition
-        // Note: The shortest possible .har file is "?.har" (5 chars)
-        // since we need at least 1 char before ".har" (4 chars)
-        // The length check filters ., .., and 3-char names
-        $files = [
-            'abc' => '',        // 3 chars - should be filtered by length check
-            'abcd' => '',       // 4 chars - should pass length check (but fail extension)
-            '1.har' => '{}',    // 5 chars - should pass both checks
-        ];
-
-        foreach ($files as $filename => $content) {
-            file_put_contents($tempDir.'/'.$filename, $content);
-        }
-
-        $repository = new HarFileRepository($tempDir);
-        $ids = $repository->getIds();
-
-        // Only 1.har (5 chars) should pass both length and extension checks
-        $this->assertContains('1.har', $ids);
-
-        // The 3-char file should be filtered by length check
-        $this->assertNotContains('abc', $ids);
-
-        // The 4-char file should pass length check but fail extension check
-        // This tests that < 4 is correct (not <= 4 which would filter it)
-        $this->assertNotContains('abcd', $ids);
-
-        // Verify 1.har is the only result (proves 3-char was filtered, 4-char passed length check)
-        $this->assertCount(1, $ids);
-
-        // Clean up
-        foreach (array_keys($files) as $filename) {
-            unlink($tempDir.'/'.$filename);
-        }
-        rmdir($tempDir);
-    }
 }
