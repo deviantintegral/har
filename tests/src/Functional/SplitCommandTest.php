@@ -309,8 +309,6 @@ class SplitCommandTest extends HarTestBase
 
         // Verify required arguments exist
         $definition = $command->getDefinition();
-        $this->assertTrue($definition->hasArgument('har'));
-        $this->assertTrue($definition->hasArgument('destination'));
         $this->assertTrue($definition->getArgument('har')->isRequired());
         $this->assertFalse($definition->getArgument('destination')->isRequired());
 
