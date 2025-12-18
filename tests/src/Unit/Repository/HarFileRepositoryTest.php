@@ -29,7 +29,6 @@ class HarFileRepositoryTest extends HarTestBase
     public function testLoadJson(): void
     {
         $json = $this->repository->loadJson('www.softwareishard.com-single-entry.har');
-        $this->assertNotEmpty($json);
         $decoded = json_decode($json, true);
         $this->assertIsArray($decoded);
         $this->assertArrayHasKey('log', $decoded);
