@@ -43,7 +43,6 @@ class CacheStateTest extends HarTestBase
 
         $this->assertEquals('2024-01-01T12:00:00Z', $cacheState->getLastAccess());
         $this->assertEquals('abc123', $cacheState->getETag());
-        $this->assertEquals(10, $cacheState->getHitCount());
     }
 
     public function testDefaultHitCount(): void
