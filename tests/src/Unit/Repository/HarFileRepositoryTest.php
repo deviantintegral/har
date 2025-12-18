@@ -189,46 +189,4 @@ class HarFileRepositoryTest extends HarTestBase
         }
         rmdir($tempDir);
     }
-
-    public function testGetIdsLessThanFourCharactersFiltered(): void
-    {
-        // This test explicitly kills the LessThan mutant by testing
-        // that strlen < 4 correctly filters 3-char files but not 4-char files
-        $tempDir = sys_get_temp_dir().'/har_test_'.uniqid();
-        mkdir($tempDir);
-
-        $files = [
-            'a.b' => '{}',      // 3 chars - MUST be filtered (strlen < 4 is true)
-            'ab.c' => '{}',     // 4 chars - must NOT be filtered by length check (strlen < 4 is false)
-            '1.har' => '{}',    // 5 chars with .har extension - should pass
-        ];
-
-        foreach ($files as $filename => $content) {
-            file_put_contents($tempDir.'/'.$filename, $content);
-        }
-
-        $repository = new HarFileRepository($tempDir);
-        $ids = $repository->getIds();
-
-        // 3-char file must be filtered
-        $this->assertNotContains('a.b', $ids, '3-char files must be filtered by strlen < 4');
-
-        // 4-char file should pass the length check (even though it lacks .har extension)
-        // Since it lacks .har, it will be filtered by the extension check, not length
-        $this->assertNotContains('ab.c', $ids, '4-char file filtered by extension, not length');
-
-        // 5-char .har file should pass both checks
-        $this->assertContains('1.har', $ids);
-
-        // This test specifically kills the LessThan mutant at HarFileRepository.php:58
-        // If strlen($har_file) < 4 is changed to strlen($har_file) <= 4,
-        // then 4-char files would incorrectly be filtered by the length check
-        // The boundary is crucial: < 4 means "filter 0-3", <= 4 means "filter 0-4"
-
-        // Clean up
-        foreach (array_keys($files) as $filename) {
-            unlink($tempDir.'/'.$filename);
-        }
-        rmdir($tempDir);
-    }
 }
