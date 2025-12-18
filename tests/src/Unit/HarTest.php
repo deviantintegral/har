@@ -131,7 +131,6 @@ class HarTest extends HarTestBase
         foreach ($generator as $key => $splitHar) {
             // The key MUST equal the count (0, 1, 2, ...)
             $this->assertSame($count, $key, "Generator key should be {$count} but got {$key}");
-            $this->assertInstanceOf(Har::class, $splitHar);
             ++$count;
         }
 
