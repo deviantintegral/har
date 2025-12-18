@@ -5,9 +5,13 @@
     ":preserveSemverRanges",
     "helpers:pinGitHubActionDigests"
   ],
-  "regexManagers": [
+  "customManagers": [
     {
-      "fileMatch": ["^\\.github/workflows/test\\.yml$", "^\\.claude/hooks/SessionStart\\.sh$"],
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^\\.github/workflows/test\\.yml$/",
+        "/^\\.claude/hooks/SessionStart\\.sh$/"
+      ],
       "matchStrings": [
         "infection/infection/releases/download/(?<currentValue>.*?)/infection\\.phar"
       ],
