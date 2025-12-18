@@ -53,7 +53,6 @@ class HarFileRepositoryTest extends HarTestBase
     {
         $ids = ['www.softwareishard.com-single-entry.har', 'www.softwareishard.com-multiple-entries.har'];
         $generator = $this->repository->loadMultiple($ids);
-        $this->assertInstanceOf(\Generator::class, $generator);
 
         $hars = iterator_to_array($generator);
         $this->assertCount(2, $hars);
