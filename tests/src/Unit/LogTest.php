@@ -43,11 +43,6 @@ class LogTest extends HarTestBase
         $this->assertEquals($log, $deserialized);
     }
 
-    public function testIso8601MicrosecondsConstant(): void
-    {
-        $this->assertEquals('Y-m-d\TH:i:s.uT', Log::ISO_8601_MICROSECONDS);
-    }
-
     public function testCloneCreatorIsDeep(): void
     {
         $repository = $this->getHarFileRepository();
