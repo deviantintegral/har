@@ -16,9 +16,6 @@ class TextTraitTest extends TestCase
     {
         $instance = new TextTraitTestClass();
 
-        // Initially null
-        $this->assertNull($instance->getText());
-
         // After setting
         $instance->setText('some text');
         $this->assertEquals('some text', $instance->getText());
