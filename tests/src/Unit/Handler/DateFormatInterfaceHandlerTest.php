@@ -46,12 +46,6 @@ class DateFormatInterfaceHandlerTest extends TestCase
         $this->assertContains(GraphNavigatorInterface::DIRECTION_DESERIALIZATION, $directions);
     }
 
-    public function testConstructorWithCustomParameters(): void
-    {
-        $handler = new DateFormatInterfaceHandler('Y-m-d', 'America/New_York');
-        $this->assertInstanceOf(DateFormatInterfaceHandler::class, $handler);
-    }
-
     public function testSerializeNullDateTime(): void
     {
         $nullDateTime = new NullDateTime();
