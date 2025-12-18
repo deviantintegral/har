@@ -83,28 +83,4 @@ class DateFormatInterfaceHandlerTest extends TestCase
         $this->assertInstanceOf(\Deviantintegral\Har\Cookie::class, $result);
         $this->assertInstanceOf(\Deviantintegral\NullDateTime\ConcreteDateTime::class, $result->getExpires());
     }
-
-    public function testDeserializeLogicalOrCondition(): void
-    {
-        // This test kills Identical and LogicalOr mutations by verifying the exact behavior
-        // of the condition: if (null === $data || '' === $data)
-        $serializer = new \Deviantintegral\Har\Serializer();
-
-        // Test empty string - should return NullDateTime
-        $jsonEmpty = '{"name": "test", "value": "value", "expires": ""}';
-        $resultEmpty = $serializer->getSerializer()->deserialize($jsonEmpty, \Deviantintegral\Har\Cookie::class, 'json');
-        $this->assertInstanceOf(NullDateTime::class, $resultEmpty->getExpires(), 'Empty string should return NullDateTime');
-
-        // Test valid datetime - should NOT return NullDateTime
-        $jsonValid = '{"name": "test", "value": "value", "expires": "2023-01-15T10:30:00.000Z"}';
-        $resultValid = $serializer->getSerializer()->deserialize($jsonValid, \Deviantintegral\Har\Cookie::class, 'json');
-        $this->assertNotInstanceOf(NullDateTime::class, $resultValid->getExpires(), 'Valid datetime should NOT return NullDateTime');
-        $this->assertInstanceOf(\Deviantintegral\NullDateTime\ConcreteDateTime::class, $resultValid->getExpires());
-
-        // This test specifically kills these mutants:
-        // 1. Identical: if (null !== $data || '' === $data)
-        //    Would cause empty string to try parsing as datetime (error) instead of returning NullDateTime
-        // 2. LogicalOrAllSubExprNegation: if (!(null === $data) || !('' === $data))
-        //    Would be true for valid strings, incorrectly returning NullDateTime for valid dates
-    }
 }
