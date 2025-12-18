@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.0.0](https://github.com/deviantintegral/har/compare/v0.7.2...v1.0.0) (2025-12-18)
+
+
+### Miscellaneous Chores
+
+* **config:** migrate config renovate.json ([64d94b1](https://github.com/deviantintegral/har/commit/64d94b1c466402e52bafa36bd52eebee6883ab0b))
+* **deps:** update dependency friendsofphp/php-cs-fixer to v3.92.3 ([#223](https://github.com/deviantintegral/har/issues/223)) ([5e0c76e](https://github.com/deviantintegral/har/commit/5e0c76eb88a2e8ff42d7a021ae285ea7adca0568))
+* **main:** prepare to release 1.0.0 ([d245e5d](https://github.com/deviantintegral/har/commit/d245e5da337f74d2fd6e10d5e043e075cb6b8d14))
+
 ## [0.7.2](https://github.com/deviantintegral/har/compare/v0.7.1...v0.7.2) (2025-12-18)
 
 
