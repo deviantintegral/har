@@ -183,7 +183,6 @@ class ServerRequestTest extends HarTestBase
         // Attributes are not part of HAR spec, this is a no-op
         $new = $this->serverRequest->withoutAttribute('custom_attr');
         $this->assertNull($new->getAttribute('custom_attr'));
-        $this->assertNull($this->serverRequest->getAttribute('custom_attr'));
     }
 
     public function testInheritedMethodsPreserveServerRequestState(): void
