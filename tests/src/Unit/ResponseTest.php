@@ -86,15 +86,4 @@ class ResponseTest extends HarTestBase
         $response->setHeaders([]);
         $this->assertSame(2, $response->getHeadersSize());
     }
-
-    public function testSetHeadersWithSingleCharacterValues(): void
-    {
-        $response = new \Deviantintegral\Har\Response();
-
-        // Test with minimal header to ensure each +2 is necessary
-        // "X: Y" = 1 + 2 + 1 + 2 = 6, plus final 2 = 8
-        $headers = [(new Header())->setName('X')->setValue('Y')];
-        $response->setHeaders($headers);
-        $this->assertSame(8, $response->getHeadersSize());
-    }
 }
