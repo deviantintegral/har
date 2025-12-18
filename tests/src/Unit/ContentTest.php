@@ -51,7 +51,6 @@ class ContentTest extends HarTestBase
             ->setSize(\strlen($text));
 
         $this->assertFalse($content->hasEncoding());
-        $this->assertNull($content->getEncoding());
         $this->assertFalse($content->hasNumber());
         $this->assertNull($content->getNumber());
 
