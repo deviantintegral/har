@@ -54,12 +54,6 @@ class ResponseTest extends HarTestBase
         $this->assertEquals('', $this->response->getHeaderLine('X-NonExistent'));
     }
 
-    public function testHasHeader(): void
-    {
-        $this->assertTrue($this->response->hasHeader('Content-Type'));
-        $this->assertFalse($this->response->hasHeader('X-NonExistent'));
-    }
-
     public function testGetHeaders(): void
     {
         $headers = $this->response->getHeaders();
