@@ -109,13 +109,7 @@ class SplitCommandTest extends HarTestBase
         $files = glob($this->tempDir.'/*.har');
         $this->assertCount(11, $files);
 
-        // Verify file names are MD5 hashes
-        foreach ($files as $file) {
-            $basename = basename($file, '.har');
-            $this->assertMatchesRegularExpression('/^[a-f0-9]{32}$/', $basename, 'Filename should be MD5 hash');
-        }
-
-        // Verify each file is valid HAR
+        // Verify each file is valid HAR and filename matches MD5 of URL
         $serializer = new Serializer();
         foreach ($files as $file) {
             $contents = file_get_contents($file);
