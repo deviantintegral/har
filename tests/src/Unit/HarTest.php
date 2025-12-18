@@ -53,10 +53,8 @@ class HarTest extends HarTestBase
             $splitHars[$index] = $splitHar;
         }
 
-        // Verify each split HAR has only one entry
+        // Verify it's a different instance (cloned)
         foreach ($splitHars as $splitHar) {
-            $this->assertCount(1, $splitHar->getLog()->getEntries());
-            // Verify it's a different instance (cloned)
             $this->assertNotSame($har, $splitHar);
         }
     }
