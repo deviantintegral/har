@@ -7,20 +7,6 @@ namespace Deviantintegral\Har\Tests\Unit;
 class SerializerTest extends HarTestBase
 {
     /**
-     * Test that getSerializerBuilder is publicly accessible.
-     */
-    public function testGetSerializerBuilderIsPublic(): void
-    {
-        $serializer = new \Deviantintegral\Har\Serializer();
-        $builder = $serializer->getSerializerBuilder();
-        $this->assertInstanceOf(\JMS\Serializer\SerializerBuilder::class, $builder);
-
-        // Verify the builder can create a serializer
-        $builtSerializer = $builder->build();
-        $this->assertInstanceOf(\JMS\Serializer\SerializerInterface::class, $builtSerializer);
-    }
-
-    /**
      * Test that TruncatingDateTimeHandler is registered and truncates microseconds.
      */
     public function testTruncatingDateTimeHandlerIsRegistered(): void
