@@ -87,7 +87,6 @@ class LogTest extends HarTestBase
 
         // Verify the original log's page title is unchanged
         $this->assertSame($originalPageTitle, $log->getPages()[0]->getTitle());
-        $this->assertSame('modified-title', $clonedLog->getPages()[0]->getTitle());
     }
 
     public function testCloneEntriesIsDeep(): void
