@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.2](https://github.com/deviantintegral/har/compare/v0.7.1...v0.7.2) (2025-12-18)
+
+
+### Miscellaneous Chores
+
+* **deps:** update softprops/action-gh-release digest to a06a81a ([dfe023f](https://github.com/deviantintegral/har/commit/dfe023f1494fe08e6c9b14235590e16d61e25d97))
+
 ## [0.7.1](https://github.com/deviantintegral/har/compare/v0.7.0...v0.7.1) (2025-12-18)
 
 
