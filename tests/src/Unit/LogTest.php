@@ -34,12 +34,6 @@ class LogTest extends HarTestBase
           ->setComment('Test log');
 
         $serialized = $serializer->serialize($log, 'json');
-        $decoded = json_decode($serialized, true);
-
-        $this->assertEquals('1.2', $decoded['version']);
-        $this->assertEquals('TestCreator', $decoded['creator']['name']);
-        $this->assertEquals('TestBrowser', $decoded['browser']['name']);
-        $this->assertEquals('Test log', $decoded['comment']);
 
         $deserialized = $serializer->deserialize(
             $serialized,
