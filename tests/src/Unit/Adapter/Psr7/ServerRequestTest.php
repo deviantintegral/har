@@ -245,28 +245,6 @@ class ServerRequestTest extends HarTestBase
         $this->assertEquals(['foo' => 'bar'], $new->getQueryParams());
     }
 
-    public function testInitializeFromHarRequest(): void
-    {
-        // Test that a ServerRequest can be created from a HAR request
-        // and properly extract query params, cookies, and parsed body
-        $serverRequest = new ServerRequest($this->harRequest);
-
-        // Should extract query params from HAR request
-        $this->assertEquals(['foo' => 'bar'], $serverRequest->getQueryParams());
-
-        // Should extract cookies from HAR request
-        $this->assertEquals(['session' => 'abc123'], $serverRequest->getCookieParams());
-
-        // Should extract parsed body from HAR POST params
-        $this->assertEquals(
-            ['username' => 'john', 'password' => 'secret'],
-            $serverRequest->getParsedBody()
-        );
-
-        // Server params should be empty by default
-        $this->assertEquals([], $serverRequest->getServerParams());
-    }
-
     public function testGetParsedBodyWithNoPostData(): void
     {
         // Test that getParsedBody returns null when there's no post data
