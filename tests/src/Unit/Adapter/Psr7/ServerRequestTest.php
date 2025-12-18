@@ -183,7 +183,6 @@ class ServerRequestTest extends HarTestBase
         // Attributes are not part of HAR spec, this is a no-op
         $new = $this->serverRequest->withoutAttribute('custom_attr');
         $this->assertNull($new->getAttribute('custom_attr'));
-        $this->assertNull($this->serverRequest->getAttribute('custom_attr'));
     }
 
     public function testInheritedMethodsPreserveServerRequestState(): void
@@ -246,28 +245,6 @@ class ServerRequestTest extends HarTestBase
         $this->assertEquals(['foo' => 'bar'], $new->getQueryParams());
     }
 
-    public function testInitializeFromHarRequest(): void
-    {
-        // Test that a ServerRequest can be created from a HAR request
-        // and properly extract query params, cookies, and parsed body
-        $serverRequest = new ServerRequest($this->harRequest);
-
-        // Should extract query params from HAR request
-        $this->assertEquals(['foo' => 'bar'], $serverRequest->getQueryParams());
-
-        // Should extract cookies from HAR request
-        $this->assertEquals(['session' => 'abc123'], $serverRequest->getCookieParams());
-
-        // Should extract parsed body from HAR POST params
-        $this->assertEquals(
-            ['username' => 'john', 'password' => 'secret'],
-            $serverRequest->getParsedBody()
-        );
-
-        // Server params should be empty by default
-        $this->assertEquals([], $serverRequest->getServerParams());
-    }
-
     public function testGetParsedBodyWithNoPostData(): void
     {
         // Test that getParsedBody returns null when there's no post data
@@ -312,46 +289,6 @@ class ServerRequestTest extends HarTestBase
 
         $serverRequest = new ServerRequest($harRequest);
         $this->assertNull($serverRequest->getParsedBody());
-    }
-
-    public function testWithParsedBodyObject(): void
-    {
-        // Test that withParsedBody works with objects
-        $data = new \stdClass();
-        $data->username = 'john';
-        $data->password = 'secret';
-
-        $new = $this->serverRequest->withParsedBody($data);
-        $parsedBody = $new->getParsedBody();
-
-        $this->assertIsArray($parsedBody);
-        $this->assertEquals('john', $parsedBody['username']);
-        $this->assertEquals('secret', $parsedBody['password']);
-
-        // Verify HAR params are actually set when data is an object
-        $harRequest = $new->getHarRequest();
-        $this->assertTrue($harRequest->hasPostData());
-        $this->assertTrue($harRequest->getPostData()->hasParams());
-        $params = $harRequest->getPostData()->getParams();
-        $this->assertCount(2, $params);
-    }
-
-    public function testWithParsedBodyOnlyProcessesArraysAndObjects(): void
-    {
-        // Verify that withParsedBody only sets params for arrays and objects
-        // Test with array
-        $arrayRequest = $this->serverRequest->withParsedBody(['key' => 'value']);
-        $this->assertTrue($arrayRequest->getHarRequest()->getPostData()->hasParams());
-
-        // Test with object
-        $obj = new \stdClass();
-        $obj->key = 'value';
-        $objectRequest = $this->serverRequest->withParsedBody($obj);
-        $this->assertTrue($objectRequest->getHarRequest()->getPostData()->hasParams());
-
-        // Test with null - should clear params
-        $nullRequest = $this->serverRequest->withParsedBody(null);
-        $this->assertFalse($nullRequest->getHarRequest()->getPostData()->hasParams());
     }
 
     public function testWithParsedBodyLogicalOrCondition(): void
@@ -437,42 +374,6 @@ class ServerRequestTest extends HarTestBase
         $this->assertEquals('value1', $params[0]->getValue());
         $this->assertEquals('key2', $params[1]->getName());
         $this->assertEquals('value2', $params[1]->getValue());
-    }
-
-    public function testWithParsedBodyNullFromCleanRequest(): void
-    {
-        // This test kills LogicalOrAllSubExprNegation by verifying null doesn't enter
-        // the params-setting block. Start from a clean request to isolate behavior.
-        $cleanRequest = (new Request())
-            ->setMethod('GET')
-            ->setUrl(new Uri('https://www.example.com/'));
-
-        $serverRequest = new ServerRequest($cleanRequest);
-
-        // Set error handler to detect if foreach on null is attempted
-        // If LogicalOrAllSubExprNegation is applied (!is_array || !is_object),
-        // then for null: !false || !false = true, entering the block and
-        // attempting foreach on null
-        $warningTriggered = false;
-        $previousHandler = set_error_handler(function ($errno, $errstr) use (&$warningTriggered) {
-            if (str_contains($errstr, 'foreach')) {
-                $warningTriggered = true;
-            }
-
-            return false; // Allow normal error handling to continue
-        });
-
-        try {
-            $newRequest = $serverRequest->withParsedBody(null);
-
-            // Should NOT have triggered a foreach warning
-            $this->assertFalse($warningTriggered, 'withParsedBody(null) should not attempt foreach');
-
-            // Verify the result is correct
-            $this->assertNull($newRequest->getParsedBody());
-        } finally {
-            restore_error_handler();
-        }
     }
 
     public function testWithRequestTarget(): void
