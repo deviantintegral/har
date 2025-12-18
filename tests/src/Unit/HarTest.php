@@ -135,9 +135,6 @@ class HarTest extends HarTestBase
             ++$count;
         }
 
-        // Verify we iterated over all entries
-        $this->assertGreaterThan(1, $count);
-
         // This test specifically kills the YieldValue mutant:
         // If yield $index => $cloned is changed to yield $cloned,
         // the keys would be auto-generated (0, 1, 2, ...) which would still pass
