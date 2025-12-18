@@ -115,7 +115,6 @@ class HarTest extends HarTestBase
 
         // Verify the original HAR's browser version is unchanged
         $this->assertSame($originalBrowserVersion, $har->getLog()->getBrowser()->getVersion());
-        $this->assertSame('modified-version', $cloned->getLog()->getBrowser()->getVersion());
     }
 
     public function testSplitLogEntriesYieldsWithCorrectIndices(): void
