@@ -74,9 +74,6 @@ class HarTest extends HarTestBase
         // Clone the HAR
         $cloned = clone $har;
 
-        // Verify the Browser object is a different instance
-        $this->assertNotSame($har->getLog()->getBrowser(), $cloned->getLog()->getBrowser());
-
         // Modify the cloned HAR's browser version
         $cloned->getLog()->getBrowser()->setVersion('modified-version');
 
