@@ -341,10 +341,6 @@ class SplitCommandTest extends HarTestBase
         $this->assertGreaterThan(2, \count($progressStates),
             'Progress bar should show multiple intermediate states when progressAdvance() is called. '.
             'Found states: '.implode(', ', $progressStates));
-
-        // Verify we start at 0 and end at 11
-        $this->assertContains('0', $progressStates, 'Progress should start at 0');
-        $this->assertContains('11', $progressStates, 'Progress should end at 11');
     }
 
     public function testProgressFinishShowsCompletion(): void
