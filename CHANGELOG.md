@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/deviantintegral/har/compare/v1.0.0...v1.0.1) (2025-12-25)
+
+
+### Miscellaneous Chores
+
+* **deps:** update dependency infection/infection to v0.32.0 ([b1289be](https://github.com/deviantintegral/har/commit/b1289bebf77d5a0e48f592b4759625eed80a3e0d))
+
 ## [1.0.0](https://github.com/deviantintegral/har/compare/v0.7.2...v1.0.0) (2025-12-18)
 
 
