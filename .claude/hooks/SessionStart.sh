@@ -65,6 +65,16 @@ fi
 
 composer install
 
+# Install actionlint for GitHub Actions workflow linting
+echo "Checking for actionlint..."
+if ! command -v actionlint &> /dev/null && [ ! -f "./actionlint" ]; then
+    echo "actionlint is not installed. Downloading actionlint..."
+    bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
+    echo "actionlint installed successfully!"
+else
+    echo "actionlint is already available."
+fi
+
 # Install infection for mutation testing
 echo "Checking for infection..."
 if [ ! -f "infection.phar" ]; then
