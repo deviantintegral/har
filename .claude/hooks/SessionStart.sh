@@ -69,7 +69,7 @@ composer install
 echo "Checking for actionlint..."
 if ! command -v actionlint &> /dev/null && [ ! -f "./actionlint" ]; then
     echo "actionlint is not installed. Downloading actionlint..."
-    bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/v1.7.9/scripts/download-actionlint.bash) v1.7.9
+    bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/v1.7.9/scripts/download-actionlint.bash) 1.7.9
     echo "actionlint installed successfully!"
 else
     echo "actionlint is already available."
