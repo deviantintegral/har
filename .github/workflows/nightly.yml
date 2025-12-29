@@ -12,3 +12,5 @@ permissions:
 jobs:
   test:
     uses: ./.github/workflows/test.yml
+    with:
+      skip_coverage_annotation: true

@@ -2,6 +2,12 @@ name: Test
 
 on:
   workflow_call:
+    inputs:
+      skip_coverage_annotation:
+        description: 'Skip coverage annotation (required for scheduled runs that lack checks: write permission)'
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -53,6 +59,7 @@ jobs:
         run: php scripts/check-coverage-threshold.php build/logs/clover.xml
 
       - name: Code Coverage Annotation
+        if: ${{ !inputs.skip_coverage_annotation }}
         uses: ggilder/codecoverage@47c83daaf1d5a3190cad56363baf459c59114170 # v1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
