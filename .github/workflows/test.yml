@@ -9,10 +9,6 @@ on:
         default: false
         type: boolean
 
-permissions:
-  contents: read
-  checks: write
-
 jobs:
   tests:
     name: Tests (PHP ${{ matrix.php }})

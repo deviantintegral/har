@@ -4,13 +4,20 @@ on:
   schedule:
     # Run every Monday at 12 AM UTC
     - cron: '0 0 * * 1'
-  workflow_dispatch: # Allow manual trigger
+  workflow_dispatch:
+    inputs:
+      skip_coverage_annotation:
+        description: 'Skip coverage annotation'
+        required: false
+        default: true
+        type: boolean
 
 permissions:
   contents: read
+  checks: write
 
 jobs:
   test:
     uses: ./.github/workflows/test.yml
     with:
-      skip_coverage_annotation: true
+      skip_coverage_annotation: ${{ github.event_name == 'schedule' || inputs.skip_coverage_annotation }}
