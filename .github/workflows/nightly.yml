@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       skip_coverage_annotation:
-        description: 'Skip coverage annotation (scheduled runs must skip due to permission limits)'
+        description: 'Skip coverage annotation'
         required: false
         default: true
         type: boolean
@@ -20,6 +20,4 @@ jobs:
   test:
     uses: ./.github/workflows/test.yml
     with:
-      # For scheduled runs, always skip annotation (can't get checks:write permission).
-      # For manual runs, use the input value (defaults to true, but can be set to false).
       skip_coverage_annotation: ${{ github.event_name == 'schedule' || inputs.skip_coverage_annotation }}
