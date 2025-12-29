@@ -4,13 +4,22 @@ on:
   schedule:
     # Run every Monday at 12 AM UTC
     - cron: '0 0 * * 1'
-  workflow_dispatch: # Allow manual trigger
+  workflow_dispatch:
+    inputs:
+      skip_coverage_annotation:
+        description: 'Skip coverage annotation (scheduled runs must skip due to permission limits)'
+        required: false
+        default: true
+        type: boolean
 
 permissions:
   contents: read
+  checks: write
 
 jobs:
   test:
     uses: ./.github/workflows/test.yml
     with:
-      skip_coverage_annotation: true
+      # For scheduled runs, always skip annotation (can't get checks:write permission).
+      # For manual runs, use the input value (defaults to true, but can be set to false).
+      skip_coverage_annotation: ${{ github.event_name == 'schedule' || inputs.skip_coverage_annotation }}
