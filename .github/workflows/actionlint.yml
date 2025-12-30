@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
       - name: Download actionlint
         id: get_actionlint
-        run: bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/v1.7.9/scripts/download-actionlint.bash) 1.7.9
+        run: bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/v1.7.10/scripts/download-actionlint.bash) 1.7.9
         shell: bash
       - name: Check workflow files
         run: ${{ steps.get_actionlint.outputs.executable }} -color
