@@ -25,10 +25,12 @@
         "/^\\.claude/hooks/SessionStart\\.sh$/"
       ],
       "matchStrings": [
-        "rhysd/actionlint/(?<currentValue>v[0-9.]+)/scripts/download-actionlint\\.bash"
+        "rhysd/actionlint/v(?<currentValue>[0-9.]+)/scripts/download-actionlint\\.bash\\) [0-9.]+"
       ],
+      "autoReplaceStringTemplate": "rhysd/actionlint/v{{{newValue}}}/scripts/download-actionlint.bash) {{{newValue}}}",
       "depNameTemplate": "rhysd/actionlint",
-      "datasourceTemplate": "github-releases"
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^v(?<version>.*)$"
     }
   ],
   "packageRules": [
