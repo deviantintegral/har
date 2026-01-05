@@ -1,0 +1,31 @@
+name: Validate Renovate config
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - renovate.json
+      - renovate.json5
+      - .renovaterc
+      - .renovaterc.json
+      - .github/renovate.json
+      - .github/renovate.json5
+  pull_request:
+    paths:
+      - renovate.json
+      - renovate.json5
+      - .renovaterc
+      - .renovaterc.json
+      - .github/renovate.json
+      - .github/renovate.json5
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      - uses: suzuki-shunsuke/github-action-renovate-config-validator@36a15b83e4d5571b462c394c00bb6dd64c1364bf # v1.1.1

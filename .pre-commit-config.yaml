@@ -17,6 +17,10 @@ repos:
     hooks:
       - id: conventional-pre-commit
         stages: [commit-msg]
+  - repo: https://github.com/renovatebot/pre-commit-hooks
+    rev: 42.71.0
+    hooks:
+      - id: renovate-config-validator
   - repo: local
     hooks:
       - id: php-cs-fixer
