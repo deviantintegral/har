@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.0.1](https://github.com/deviantintegral/har/compare/v1.0.0...v1.0.1) (2026-01-05)
+
+
+### Bug Fixes
+
+* **ci:** resolve nightly workflow permission error ([#230](https://github.com/deviantintegral/har/issues/230)) ([992ea1a](https://github.com/deviantintegral/har/commit/992ea1ae34f1a2b9bb998d7ffbbffde80be36997))
+* **ci:** skip coverage annotation in nightly workflow ([#229](https://github.com/deviantintegral/har/issues/229)) ([cf85abe](https://github.com/deviantintegral/har/commit/cf85abef9eeaab58fa33b158b2265f61ac4601c6))
+* **deps:** sync actionlint versions and update Renovate config ([a438df1](https://github.com/deviantintegral/har/commit/a438df166f6e2747d9499d6f61ebd58d41f2e2bd))
+
+
+### Miscellaneous Chores
+
+* **deps:** downgrade actionlint to v1.7.9 for Renovate testing ([bdc7f96](https://github.com/deviantintegral/har/commit/bdc7f96da80c74d96a9ffdce90ce1531a05afe8a))
+* **deps:** pin actions/checkout action to 34e1148 ([#227](https://github.com/deviantintegral/har/issues/227)) ([ce6ce55](https://github.com/deviantintegral/har/commit/ce6ce556656b5350843e871e52b28e349a40eed6))
+* **deps:** update actions/checkout action to v6 ([#228](https://github.com/deviantintegral/har/issues/228)) ([534d506](https://github.com/deviantintegral/har/commit/534d506afee769f85f9fbe9fbb2c9f99409ac97a))
+* **deps:** update dependency friendsofphp/php-cs-fixer to v3.92.4 ([#232](https://github.com/deviantintegral/har/issues/232)) ([83d463e](https://github.com/deviantintegral/har/commit/83d463ecf04f0a0abf7f18e332c96e76106b8494))
+* **deps:** update dependency infection/infection to v0.32.0 ([b1289be](https://github.com/deviantintegral/har/commit/b1289bebf77d5a0e48f592b4759625eed80a3e0d))
+* **deps:** update dependency rhysd/actionlint to v1.7.10 ([8c2bfc9](https://github.com/deviantintegral/har/commit/8c2bfc90d22a023ce9b441c4f96526189106ab9b))
+* **deps:** update dependency rhysd/actionlint to v1.7.10 ([#231](https://github.com/deviantintegral/har/issues/231)) ([aa0ff05](https://github.com/deviantintegral/har/commit/aa0ff057efbaf97998fb915b3eb7df1470bd2c0d))
+
 ## [1.0.0](https://github.com/deviantintegral/har/compare/v0.7.2...v1.0.0) (2025-12-18)
 
 
