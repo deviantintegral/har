@@ -86,4 +86,38 @@ class ResponseTest extends HarTestBase
         $response->setHeaders([]);
         $this->assertSame(2, $response->getHeadersSize());
     }
+
+    public function testCloneIsDeep(): void
+    {
+        $content = (new Content())->setText('test content');
+        $response = (new \Deviantintegral\Har\Response())
+            ->setStatus(200)
+            ->setStatusText('OK')
+            ->setHeaders([
+                (new Header())->setName('Set-Cookie')->setValue('session=abc123'),
+            ])
+            ->setCookies([
+                (new \Deviantintegral\Har\Cookie())->setName('session')->setValue('abc123'),
+            ])
+            ->setContent($content)
+            ->setRedirectURL(new Uri(''))
+            ->setHttpVersion('HTTP/1.1');
+
+        $cloned = clone $response;
+
+        // Verify headers are cloned
+        $this->assertNotSame($response->getHeaders()[0], $cloned->getHeaders()[0]);
+        $cloned->getHeaders()[0]->setValue('session=xyz789');
+        $this->assertEquals('session=abc123', $response->getHeaders()[0]->getValue());
+
+        // Verify cookies are cloned
+        $this->assertNotSame($response->getCookies()[0], $cloned->getCookies()[0]);
+        $cloned->getCookies()[0]->setValue('xyz789');
+        $this->assertEquals('abc123', $response->getCookies()[0]->getValue());
+
+        // Verify content is cloned
+        $this->assertNotSame($response->getContent(), $cloned->getContent());
+        $cloned->getContent()->setText('modified content');
+        $this->assertEquals('test content', $response->getContent()->getText());
+    }
 }
