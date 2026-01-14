@@ -13,6 +13,13 @@
                 // so yield $index => $cloned is equivalent to yield $cloned (PHP auto-generates same keys)
                 "Deviantintegral\\Har\\Har::splitLogEntries"
             ]
+        },
+        "MethodCallRemoval": {
+            "ignore": [
+                // Equivalent mutation: params are modified in place via setValue(), and setQueryString
+                // just sets the same array back - removing it doesn't change behavior
+                "Deviantintegral\\Har\\HarSanitizer::sanitizeQueryParams"
+            ]
         }
     }
 }

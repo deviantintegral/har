@@ -21,6 +21,11 @@ final class HarSanitizer
      */
     private array $headersToRedact = [];
 
+    /**
+     * @var string[]
+     */
+    private array $queryParamsToRedact = [];
+
     private string $redactedValue = self::DEFAULT_REDACTED_VALUE;
 
     private bool $caseSensitive = false;
@@ -33,6 +38,18 @@ final class HarSanitizer
     public function redactHeaders(array $headerNames): self
     {
         $this->headersToRedact = $headerNames;
+
+        return $this;
+    }
+
+    /**
+     * Set query parameters that should be redacted.
+     *
+     * @param string[] $paramNames parameter names to redact
+     */
+    public function redactQueryParams(array $paramNames): self
+    {
+        $this->queryParamsToRedact = $paramNames;
 
         return $this;
     }
@@ -88,12 +105,16 @@ final class HarSanitizer
     }
 
     /**
-     * Sanitize request headers.
+     * Sanitize request headers and query params.
      */
     private function sanitizeRequest(Request $request): void
     {
         if (!empty($this->headersToRedact)) {
             $this->sanitizeHeaders($request);
+        }
+
+        if (!empty($this->queryParamsToRedact)) {
+            $this->sanitizeQueryParams($request);
         }
     }
 
@@ -122,6 +143,22 @@ final class HarSanitizer
 
         // Recalculate headers size
         $message->setHeaders($headers);
+    }
+
+    /**
+     * Sanitize query parameters on a request.
+     */
+    private function sanitizeQueryParams(Request $request): void
+    {
+        $params = $request->getQueryString();
+
+        foreach ($params as $param) {
+            if ($this->shouldRedact($param->getName(), $this->queryParamsToRedact)) {
+                $param->setValue($this->redactedValue);
+            }
+        }
+
+        $request->setQueryString($params);
     }
 
     /**
