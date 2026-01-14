@@ -130,6 +130,23 @@ class Log
     }
 
     /**
+     * Filter entries by HTTP method.
+     *
+     * @param string $method The HTTP method to filter by (GET, POST, etc.)
+     *
+     * @return Entry[] Entries matching the HTTP method
+     */
+    public function filterEntriesByMethod(string $method): array
+    {
+        $normalizedMethod = strtoupper($method);
+
+        return array_values(array_filter(
+            $this->entries,
+            static fn (Entry $entry): bool => strtoupper($entry->getRequest()->getMethod()) === $normalizedMethod
+        ));
+    }
+
+    /**
      * Deep clone all object properties when cloning Log.
      */
     public function __clone(): void

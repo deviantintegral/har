@@ -13,6 +13,7 @@ use GuzzleHttp\Psr7\Uri;
 
 /**
  * @covers \Deviantintegral\Har\Log::filterEntriesByUrlPattern
+ * @covers \Deviantintegral\Har\Log::filterEntriesByMethod
  */
 class LogFilterTest extends HarTestBase
 {
@@ -80,6 +81,82 @@ class LogFilterTest extends HarTestBase
         $log = (new Log())->setEntries([]);
 
         $this->assertEmpty($log->filterEntriesByUrlPattern('/test/'));
+    }
+
+    public function testFilterEntriesByMethodWithFixture(): void
+    {
+        $repository = $this->getHarFileRepository();
+        $har = $repository->load('www.softwareishard.com-multiple-entries.har');
+        $log = $har->getLog();
+
+        // All entries in fixture are GET
+        $getEntries = $log->filterEntriesByMethod('GET');
+        $this->assertCount(\count($log->getEntries()), $getEntries);
+
+        // No POST entries
+        $postEntries = $log->filterEntriesByMethod('POST');
+        $this->assertEmpty($postEntries);
+    }
+
+    public function testFilterEntriesByMethodCaseInsensitive(): void
+    {
+        $log = $this->createLogWithTestEntries();
+
+        $upperResults = $log->filterEntriesByMethod('POST');
+        $lowerResults = $log->filterEntriesByMethod('post');
+        $mixedResults = $log->filterEntriesByMethod('Post');
+
+        $this->assertEquals($upperResults, $lowerResults);
+        $this->assertEquals($upperResults, $mixedResults);
+        $this->assertCount(1, $upperResults);
+    }
+
+    public function testFilterEntriesByMethodNormalizesEntryMethod(): void
+    {
+        // Create an entry with lowercase method to test that the filter
+        // normalizes the entry's method, not just the filter parameter
+        $entry = $this->createEntry('get', 'https://example.com/test', 200, 'text/html');
+        $log = (new Log())->setEntries([$entry]);
+
+        $results = $log->filterEntriesByMethod('GET');
+        $this->assertCount(1, $results);
+    }
+
+    public function testFilterEntriesByMethodReturnsCorrectEntries(): void
+    {
+        $log = $this->createLogWithTestEntries();
+
+        $getEntries = $log->filterEntriesByMethod('GET');
+        $this->assertCount(3, $getEntries);
+        foreach ($getEntries as $entry) {
+            $this->assertSame('GET', $entry->getRequest()->getMethod());
+        }
+
+        $postEntries = $log->filterEntriesByMethod('POST');
+        $this->assertCount(1, $postEntries);
+        $this->assertSame('POST', $postEntries[0]->getRequest()->getMethod());
+
+        $deleteEntries = $log->filterEntriesByMethod('DELETE');
+        $this->assertCount(1, $deleteEntries);
+    }
+
+    public function testFilterEntriesByMethodReturnsReindexedArray(): void
+    {
+        $log = $this->createLogWithTestEntries();
+
+        // POST is at index 1 in the entries array
+        // Without array_values, result would have key [1]
+        // With array_values, result should have key [0]
+        $results = $log->filterEntriesByMethod('POST');
+        $this->assertCount(1, $results);
+        $this->assertSame([0], array_keys($results));
+    }
+
+    public function testFilterEntriesByMethodOnEmptyEntries(): void
+    {
+        $log = (new Log())->setEntries([]);
+
+        $this->assertEmpty($log->filterEntriesByMethod('GET'));
     }
 
     /**
