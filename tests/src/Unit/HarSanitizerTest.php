@@ -12,6 +12,7 @@ use Deviantintegral\Har\Har;
 use Deviantintegral\Har\HarSanitizer;
 use Deviantintegral\Har\Header;
 use Deviantintegral\Har\Log;
+use Deviantintegral\Har\Params;
 use Deviantintegral\Har\Request;
 use Deviantintegral\Har\Response;
 use Deviantintegral\Har\Timings;
@@ -246,6 +247,55 @@ class HarSanitizerTest extends HarTestBase
         $this->assertSame($originalHeadersSize, $newHeadersSize);
     }
 
+    public function testRedactQueryParams(): void
+    {
+        $har = $this->createHarWithQueryParams([
+            'api_key' => 'secret-key',
+            'token' => 'auth-token',
+            'page' => '1',
+        ]);
+
+        $sanitizer = new HarSanitizer();
+        $sanitizer->redactQueryParams(['api_key', 'token']);
+
+        $sanitized = $sanitizer->sanitize($har);
+
+        $params = $sanitized->getLog()->getEntries()[0]->getRequest()->getQueryString();
+        $paramMap = $this->paramsToMap($params);
+
+        $this->assertEquals('[REDACTED]', $paramMap['api_key']);
+        $this->assertEquals('[REDACTED]', $paramMap['token']);
+        $this->assertEquals('1', $paramMap['page']);
+    }
+
+    public function testRedactQueryParamsCaseInsensitive(): void
+    {
+        $har = $this->createHarWithQueryParams([
+            'API_KEY' => 'secret-key',
+            'Token' => 'auth-token',
+        ]);
+
+        $sanitizer = new HarSanitizer();
+        $sanitizer->redactQueryParams(['api_key', 'token']);
+
+        $sanitized = $sanitizer->sanitize($har);
+
+        $params = $sanitized->getLog()->getEntries()[0]->getRequest()->getQueryString();
+        $paramMap = $this->paramsToMap($params);
+
+        $this->assertEquals('[REDACTED]', $paramMap['API_KEY']);
+        $this->assertEquals('[REDACTED]', $paramMap['Token']);
+    }
+
+    public function testRedactQueryParamsFluentInterface(): void
+    {
+        $sanitizer = new HarSanitizer();
+
+        $result = $sanitizer->redactQueryParams(['api_key']);
+
+        $this->assertSame($sanitizer, $result);
+    }
+
     public function testWithRealFixture(): void
     {
         $repository = $this->getHarFileRepository();
@@ -312,6 +362,27 @@ class HarSanitizerTest extends HarTestBase
             ->setRedirectURL(new Uri(''));
 
         return $this->createHarWithResponse($response);
+    }
+
+    /**
+     * @param array<string, string> $params
+     */
+    private function createHarWithQueryParams(array $params): Har
+    {
+        $paramObjects = [];
+        foreach ($params as $name => $value) {
+            $param = (new Params())->setName($name)->setValue($value);
+            $paramObjects[] = $param;
+        }
+
+        $request = (new Request())
+            ->setMethod('GET')
+            ->setUrl(new Uri('https://example.com'))
+            ->setQueryString($paramObjects)
+            ->setHeaders([])
+            ->setHttpVersion('HTTP/1.1');
+
+        return $this->createHarWithRequest($request);
     }
 
     private function createHarWithMultipleEntries(): Har
@@ -440,6 +511,21 @@ class HarSanitizerTest extends HarTestBase
         $map = [];
         foreach ($headers as $header) {
             $map[$header->getName()] = $header->getValue();
+        }
+
+        return $map;
+    }
+
+    /**
+     * @param Params[] $params
+     *
+     * @return array<string, string>
+     */
+    private function paramsToMap(array $params): array
+    {
+        $map = [];
+        foreach ($params as $param) {
+            $map[$param->getName()] = $param->getValue();
         }
 
         return $map;
