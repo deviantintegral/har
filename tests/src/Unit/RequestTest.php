@@ -266,4 +266,44 @@ class RequestTest extends HarTestBase
         $this->assertEquals('baz', $queryParams[1]->getName());
         $this->assertEquals('qux', $queryParams[1]->getValue());
     }
+
+    public function testCloneIsDeep(): void
+    {
+        $request = (new Request())
+            ->setMethod('POST')
+            ->setUrl(new Uri('https://example.com'))
+            ->setHeaders([
+                (new Header())->setName('Authorization')->setValue('Bearer token'),
+            ])
+            ->setCookies([
+                (new Cookie())->setName('session')->setValue('abc123'),
+            ])
+            ->setQueryString([
+                (new \Deviantintegral\Har\Params())->setName('foo')->setValue('bar'),
+            ])
+            ->setPostData((new PostData())->setText('test body'))
+            ->setHttpVersion('HTTP/1.1');
+
+        $cloned = clone $request;
+
+        // Verify headers are cloned
+        $this->assertNotSame($request->getHeaders()[0], $cloned->getHeaders()[0]);
+        $cloned->getHeaders()[0]->setValue('Bearer new-token');
+        $this->assertEquals('Bearer token', $request->getHeaders()[0]->getValue());
+
+        // Verify cookies are cloned
+        $this->assertNotSame($request->getCookies()[0], $cloned->getCookies()[0]);
+        $cloned->getCookies()[0]->setValue('xyz789');
+        $this->assertEquals('abc123', $request->getCookies()[0]->getValue());
+
+        // Verify query params are cloned
+        $this->assertNotSame($request->getQueryString()[0], $cloned->getQueryString()[0]);
+        $cloned->getQueryString()[0]->setValue('baz');
+        $this->assertEquals('bar', $request->getQueryString()[0]->getValue());
+
+        // Verify postData is cloned
+        $this->assertNotSame($request->getPostData(), $cloned->getPostData());
+        $cloned->getPostData()->setText('modified body');
+        $this->assertEquals('test body', $request->getPostData()->getText());
+    }
 }
