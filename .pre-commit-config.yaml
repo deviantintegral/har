@@ -41,3 +41,9 @@ repos:
         language: system
         types: [php]
         pass_filenames: false
+      - id: infection
+        name: Mutation Tests
+        entry: php infection.phar --min-msi=100 --min-covered-msi=100
+        language: system
+        types: [php]
+        pass_filenames: false
