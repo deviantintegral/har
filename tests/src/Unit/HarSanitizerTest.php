@@ -6,6 +6,7 @@ namespace Deviantintegral\Har\Tests\Unit;
 
 use Deviantintegral\Har\Cache;
 use Deviantintegral\Har\Content;
+use Deviantintegral\Har\Cookie;
 use Deviantintegral\Har\Creator;
 use Deviantintegral\Har\Entry;
 use Deviantintegral\Har\Har;
@@ -608,6 +609,94 @@ class HarSanitizerTest extends HarTestBase
         $this->assertEquals('[REDACTED]', $data['password']);
     }
 
+    public function testRedactCookies(): void
+    {
+        $har = $this->createHarWithRequestCookies([
+            'session_id' => 'abc123',
+            'tracking' => 'xyz789',
+            'preferences' => 'dark_mode',
+        ]);
+
+        $sanitizer = new HarSanitizer();
+        $sanitizer->redactCookies(['session_id', 'tracking']);
+
+        $sanitized = $sanitizer->sanitize($har);
+
+        $cookies = $sanitized->getLog()->getEntries()[0]->getRequest()->getCookies();
+        $cookieMap = $this->cookiesToMap($cookies);
+
+        $this->assertEquals('[REDACTED]', $cookieMap['session_id']);
+        $this->assertEquals('[REDACTED]', $cookieMap['tracking']);
+        $this->assertEquals('dark_mode', $cookieMap['preferences']);
+    }
+
+    public function testRedactResponseCookies(): void
+    {
+        $har = $this->createHarWithResponseCookies([
+            'session_id' => 'secret-session',
+            'auth_token' => 'secret-token',
+            'locale' => 'en_US',
+        ]);
+
+        $sanitizer = new HarSanitizer();
+        $sanitizer->redactCookies(['session_id', 'auth_token']);
+
+        $sanitized = $sanitizer->sanitize($har);
+
+        $cookies = $sanitized->getLog()->getEntries()[0]->getResponse()->getCookies();
+        $cookieMap = $this->cookiesToMap($cookies);
+
+        $this->assertEquals('[REDACTED]', $cookieMap['session_id']);
+        $this->assertEquals('[REDACTED]', $cookieMap['auth_token']);
+        $this->assertEquals('en_US', $cookieMap['locale']);
+    }
+
+    public function testRedactCookiesCaseInsensitive(): void
+    {
+        $har = $this->createHarWithRequestCookies([
+            'SESSION_ID' => 'secret1',
+            'Session_Id' => 'secret2',
+        ]);
+
+        $sanitizer = new HarSanitizer();
+        $sanitizer->redactCookies(['session_id']);
+
+        $sanitized = $sanitizer->sanitize($har);
+
+        $cookies = $sanitized->getLog()->getEntries()[0]->getRequest()->getCookies();
+        $cookieMap = $this->cookiesToMap($cookies);
+
+        $this->assertEquals('[REDACTED]', $cookieMap['SESSION_ID']);
+        $this->assertEquals('[REDACTED]', $cookieMap['Session_Id']);
+    }
+
+    public function testRedactCookiesFluentInterface(): void
+    {
+        $sanitizer = new HarSanitizer();
+
+        $result = $sanitizer->redactCookies(['session_id']);
+
+        $this->assertSame($sanitizer, $result);
+    }
+
+    public function testRedactCookiesOriginalUnmodified(): void
+    {
+        $har = $this->createHarWithRequestCookies([
+            'session_id' => 'original-value',
+        ]);
+
+        $originalValue = $har->getLog()->getEntries()[0]->getRequest()->getCookies()[0]->getValue();
+
+        $sanitizer = new HarSanitizer();
+        $sanitizer->redactCookies(['session_id']);
+        $sanitizer->sanitize($har);
+
+        // Original should be unchanged
+        $currentValue = $har->getLog()->getEntries()[0]->getRequest()->getCookies()[0]->getValue();
+        $this->assertEquals($originalValue, $currentValue);
+        $this->assertEquals('original-value', $currentValue);
+    }
+
     public function testWithRealFixture(): void
     {
         $repository = $this->getHarFileRepository();
@@ -920,5 +1009,68 @@ class HarSanitizerTest extends HarTestBase
             ->setRedirectURL(new Uri(''));
 
         return $this->createHarWithResponse($response);
+    }
+
+    /**
+     * @param array<string, string> $cookies
+     */
+    private function createHarWithRequestCookies(array $cookies): Har
+    {
+        $cookieObjects = [];
+        foreach ($cookies as $name => $value) {
+            $cookie = (new Cookie())->setName($name)->setValue($value);
+            $cookieObjects[] = $cookie;
+        }
+
+        $request = (new Request())
+            ->setMethod('GET')
+            ->setUrl(new Uri('https://example.com'))
+            ->setHeaders([])
+            ->setCookies($cookieObjects)
+            ->setHttpVersion('HTTP/1.1');
+
+        return $this->createHarWithRequest($request);
+    }
+
+    /**
+     * @param array<string, string> $cookies
+     */
+    private function createHarWithResponseCookies(array $cookies): Har
+    {
+        $cookieObjects = [];
+        foreach ($cookies as $name => $value) {
+            $cookie = (new Cookie())->setName($name)->setValue($value);
+            $cookieObjects[] = $cookie;
+        }
+
+        $content = (new Content())
+            ->setSize(0)
+            ->setCompression(0);
+
+        $response = (new Response())
+            ->setStatus(200)
+            ->setStatusText('OK')
+            ->setHeaders([])
+            ->setCookies($cookieObjects)
+            ->setHttpVersion('HTTP/1.1')
+            ->setContent($content)
+            ->setRedirectURL(new Uri(''));
+
+        return $this->createHarWithResponse($response);
+    }
+
+    /**
+     * @param Cookie[] $cookies
+     *
+     * @return array<string, string>
+     */
+    private function cookiesToMap(array $cookies): array
+    {
+        $map = [];
+        foreach ($cookies as $cookie) {
+            $map[$cookie->getName()] = $cookie->getValue();
+        }
+
+        return $map;
     }
 }
