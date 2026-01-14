@@ -16,6 +16,7 @@ use GuzzleHttp\Psr7\Uri;
  * @covers \Deviantintegral\Har\Log::filterEntriesByMethod
  * @covers \Deviantintegral\Har\Log::filterEntriesByStatus
  * @covers \Deviantintegral\Har\Log::filterEntriesByDomain
+ * @covers \Deviantintegral\Har\Log::filterEntriesByContentType
  */
 class LogFilterTest extends HarTestBase
 {
@@ -322,6 +323,90 @@ class LogFilterTest extends HarTestBase
         $log = (new Log())->setEntries([]);
 
         $this->assertEmpty($log->filterEntriesByDomain('example.com'));
+    }
+
+    public function testFilterEntriesByContentTypeWithFixture(): void
+    {
+        $repository = $this->getHarFileRepository();
+        $har = $repository->load('www.softwareishard.com-multiple-entries.har');
+        $log = $har->getLog();
+
+        // Filter for text/html content
+        $htmlEntries = $log->filterEntriesByContentType('text/html');
+        $this->assertNotEmpty($htmlEntries);
+        foreach ($htmlEntries as $entry) {
+            $this->assertStringStartsWith('text/html', $entry->getResponse()->getContent()->getMimeType());
+        }
+
+        // Filter for text/* (all text types)
+        $textEntries = $log->filterEntriesByContentType('text/');
+        $this->assertNotEmpty($textEntries);
+        foreach ($textEntries as $entry) {
+            $this->assertStringStartsWith('text/', $entry->getResponse()->getContent()->getMimeType());
+        }
+    }
+
+    public function testFilterEntriesByContentTypeReturnsCorrectEntries(): void
+    {
+        $log = $this->createLogWithTestEntries();
+
+        // Test entries have: application/json (2), text/html (1), image/png (1), image/jpeg (1)
+        $jsonEntries = $log->filterEntriesByContentType('application/json');
+        $this->assertCount(2, $jsonEntries);
+        foreach ($jsonEntries as $entry) {
+            $this->assertSame('application/json', $entry->getResponse()->getContent()->getMimeType());
+        }
+
+        $imageEntries = $log->filterEntriesByContentType('image/');
+        $this->assertCount(2, $imageEntries);
+        foreach ($imageEntries as $entry) {
+            $this->assertStringStartsWith('image/', $entry->getResponse()->getContent()->getMimeType());
+        }
+    }
+
+    public function testFilterEntriesByContentTypeCaseInsensitive(): void
+    {
+        $log = $this->createLogWithTestEntries();
+
+        $lowerResults = $log->filterEntriesByContentType('application/json');
+        $upperResults = $log->filterEntriesByContentType('APPLICATION/JSON');
+        $mixedResults = $log->filterEntriesByContentType('Application/Json');
+
+        $this->assertEquals($lowerResults, $upperResults);
+        $this->assertEquals($lowerResults, $mixedResults);
+        $this->assertCount(2, $lowerResults);
+    }
+
+    public function testFilterEntriesByContentTypeNormalizesEntryContentType(): void
+    {
+        // Create an entry with uppercase content type to test that the filter
+        // normalizes the entry's content type, not just the filter parameter
+        $entry = $this->createEntry('GET', 'https://example.com/test', 200, 'APPLICATION/JSON');
+        $log = (new Log())->setEntries([$entry]);
+
+        $results = $log->filterEntriesByContentType('application/json');
+        $this->assertCount(1, $results);
+    }
+
+    public function testFilterEntriesByContentTypeReturnsReindexedArray(): void
+    {
+        $log = $this->createLogWithTestEntries();
+
+        // Test entries: app/json (idx 0), app/json (idx 1), text/html (idx 2),
+        //               image/png (idx 3), image/jpeg (idx 4)
+        // Filter text/html should match only index 2
+        // Without array_values, result would have key [2]
+        // With array_values, result should have key [0]
+        $results = $log->filterEntriesByContentType('text/html');
+        $this->assertCount(1, $results);
+        $this->assertSame([0], array_keys($results));
+    }
+
+    public function testFilterEntriesByContentTypeOnEmptyEntries(): void
+    {
+        $log = (new Log())->setEntries([]);
+
+        $this->assertEmpty($log->filterEntriesByContentType('application/json'));
     }
 
     /**

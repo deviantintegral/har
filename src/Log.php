@@ -184,6 +184,32 @@ class Log
     }
 
     /**
+     * Filter entries by response content type (MIME type).
+     *
+     * Matches entries where the content type starts with the specified type.
+     * This allows matching "application/json" when the actual type is
+     * "application/json; charset=utf-8".
+     *
+     * Comparison is case-insensitive per RFC 2045.
+     *
+     * @param string $contentType The content type to filter by (e.g., "application/json")
+     *
+     * @return Entry[] Entries matching the content type
+     */
+    public function filterEntriesByContentType(string $contentType): array
+    {
+        $normalizedType = strtolower($contentType);
+
+        return array_values(array_filter(
+            $this->entries,
+            static fn (Entry $entry): bool => str_starts_with(
+                strtolower($entry->getResponse()->getContent()->getMimeType()),
+                $normalizedType
+            )
+        ));
+    }
+
+    /**
      * Deep clone all object properties when cloning Log.
      */
     public function __clone(): void
