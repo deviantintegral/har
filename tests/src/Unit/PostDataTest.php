@@ -324,4 +324,28 @@ class PostDataTest extends HarTestBase
         // This test kills the MethodCallRemoval mutant at PostData.php:37
         // If traitSetText() is not called, text wouldn't be properly cleared
     }
+
+    public function testCloneIsDeep(): void
+    {
+        $postData = (new PostData())
+            ->setMimeType('application/x-www-form-urlencoded')
+            ->setParams([
+                (new Params())->setName('username')->setValue('john'),
+                (new Params())->setName('password')->setValue('secret'),
+            ]);
+
+        $cloned = clone $postData;
+
+        // Verify params are cloned
+        $this->assertNotSame($postData->getParams()[0], $cloned->getParams()[0]);
+        $this->assertNotSame($postData->getParams()[1], $cloned->getParams()[1]);
+
+        // Modify cloned params
+        $cloned->getParams()[0]->setValue('jane');
+        $cloned->getParams()[1]->setValue('newpassword');
+
+        // Verify original is unchanged
+        $this->assertEquals('john', $postData->getParams()[0]->getValue());
+        $this->assertEquals('secret', $postData->getParams()[1]->getValue());
+    }
 }
