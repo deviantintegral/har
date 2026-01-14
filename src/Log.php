@@ -115,6 +115,21 @@ class Log
     }
 
     /**
+     * Filter entries by URL pattern (regex).
+     *
+     * @param string $pattern A regular expression pattern to match against entry URLs
+     *
+     * @return Entry[] Entries matching the URL pattern
+     */
+    public function filterEntriesByUrlPattern(string $pattern): array
+    {
+        return array_values(array_filter(
+            $this->entries,
+            static fn (Entry $entry): bool => 1 === preg_match($pattern, (string) $entry->getRequest()->getUrl())
+        ));
+    }
+
+    /**
      * Deep clone all object properties when cloning Log.
      */
     public function __clone(): void
