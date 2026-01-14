@@ -31,6 +31,11 @@ final class HarSanitizer
      */
     private array $bodyFieldsToRedact = [];
 
+    /**
+     * @var string[]
+     */
+    private array $cookiesToRedact = [];
+
     private string $redactedValue = self::DEFAULT_REDACTED_VALUE;
 
     private bool $caseSensitive = false;
@@ -70,6 +75,20 @@ final class HarSanitizer
     public function redactBodyFields(array $fieldNames): self
     {
         $this->bodyFieldsToRedact = $fieldNames;
+
+        return $this;
+    }
+
+    /**
+     * Set cookies that should be redacted.
+     *
+     * Applies to both request and response cookies.
+     *
+     * @param string[] $cookieNames cookie names to redact
+     */
+    public function redactCookies(array $cookieNames): self
+    {
+        $this->cookiesToRedact = $cookieNames;
 
         return $this;
     }
@@ -125,7 +144,7 @@ final class HarSanitizer
     }
 
     /**
-     * Sanitize request headers, query params, and body fields.
+     * Sanitize request headers, query params, body fields, and cookies.
      */
     private function sanitizeRequest(Request $request): void
     {
@@ -140,10 +159,14 @@ final class HarSanitizer
         if (!empty($this->bodyFieldsToRedact) && $request->hasPostData()) {
             $this->sanitizePostData($request->getPostData());
         }
+
+        if (!empty($this->cookiesToRedact)) {
+            $this->sanitizeCookies($request);
+        }
     }
 
     /**
-     * Sanitize response headers and body fields.
+     * Sanitize response headers, body fields, and cookies.
      */
     private function sanitizeResponse(Response $response): void
     {
@@ -153,6 +176,10 @@ final class HarSanitizer
 
         if (!empty($this->bodyFieldsToRedact)) {
             $this->sanitizeContent($response->getContent());
+        }
+
+        if (!empty($this->cookiesToRedact)) {
+            $this->sanitizeCookies($response);
         }
     }
 
@@ -299,5 +326,17 @@ final class HarSanitizer
         }
 
         return $data;
+    }
+
+    /**
+     * Sanitize cookies on a request or response.
+     */
+    private function sanitizeCookies(Request|Response $message): void
+    {
+        foreach ($message->getCookies() as $cookie) {
+            if ($this->shouldRedact($cookie->getName(), $this->cookiesToRedact)) {
+                $cookie->setValue($this->redactedValue);
+            }
+        }
     }
 }
