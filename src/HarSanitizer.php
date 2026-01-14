@@ -26,6 +26,11 @@ final class HarSanitizer
      */
     private array $queryParamsToRedact = [];
 
+    /**
+     * @var string[]
+     */
+    private array $bodyFieldsToRedact = [];
+
     private string $redactedValue = self::DEFAULT_REDACTED_VALUE;
 
     private bool $caseSensitive = false;
@@ -50,6 +55,21 @@ final class HarSanitizer
     public function redactQueryParams(array $paramNames): self
     {
         $this->queryParamsToRedact = $paramNames;
+
+        return $this;
+    }
+
+    /**
+     * Set body fields that should be redacted.
+     *
+     * Supports both form-encoded POST parameters and JSON body fields.
+     * JSON fields are redacted recursively at any nesting level.
+     *
+     * @param string[] $fieldNames field names to redact
+     */
+    public function redactBodyFields(array $fieldNames): self
+    {
+        $this->bodyFieldsToRedact = $fieldNames;
 
         return $this;
     }
@@ -105,7 +125,7 @@ final class HarSanitizer
     }
 
     /**
-     * Sanitize request headers and query params.
+     * Sanitize request headers, query params, and body fields.
      */
     private function sanitizeRequest(Request $request): void
     {
@@ -116,15 +136,23 @@ final class HarSanitizer
         if (!empty($this->queryParamsToRedact)) {
             $this->sanitizeQueryParams($request);
         }
+
+        if (!empty($this->bodyFieldsToRedact) && $request->hasPostData()) {
+            $this->sanitizePostData($request->getPostData());
+        }
     }
 
     /**
-     * Sanitize response headers.
+     * Sanitize response headers and body fields.
      */
     private function sanitizeResponse(Response $response): void
     {
         if (!empty($this->headersToRedact)) {
             $this->sanitizeHeaders($response);
+        }
+
+        if (!empty($this->bodyFieldsToRedact)) {
+            $this->sanitizeContent($response->getContent());
         }
     }
 
@@ -181,5 +209,95 @@ final class HarSanitizer
         }
 
         return false;
+    }
+
+    /**
+     * Sanitize POST data (form params and JSON body).
+     */
+    private function sanitizePostData(PostData $postData): void
+    {
+        // Sanitize form-encoded parameters
+        if ($postData->hasParams()) {
+            foreach ($postData->getParams() as $param) {
+                if ($this->shouldRedact($param->getName(), $this->bodyFieldsToRedact)) {
+                    $param->setValue($this->redactedValue);
+                }
+            }
+        }
+
+        // Sanitize JSON body
+        if ($postData->hasText() && $this->isJsonMimeType($postData->getMimeType())) {
+            $sanitizedText = $this->sanitizeJsonText($postData->getText());
+            if (null !== $sanitizedText) {
+                $postData->setText($sanitizedText);
+            }
+        }
+    }
+
+    /**
+     * Sanitize response content (JSON body).
+     */
+    private function sanitizeContent(Content $content): void
+    {
+        if ($content->hasText() && $this->isJsonMimeType($content->getMimeType())) {
+            $sanitizedText = $this->sanitizeJsonText($content->getText());
+            if (null !== $sanitizedText) {
+                $content->setText($sanitizedText);
+            }
+        }
+    }
+
+    /**
+     * Check if a MIME type indicates JSON content.
+     */
+    private function isJsonMimeType(string $mimeType): bool
+    {
+        // Match application/json, text/json, and variants like application/vnd.api+json
+        return str_contains($mimeType, 'json');
+    }
+
+    /**
+     * Sanitize JSON text by redacting configured fields.
+     *
+     * @return string|null the sanitized JSON, or null if parsing failed
+     */
+    private function sanitizeJsonText(?string $text): ?string
+    {
+        if (null === $text || '' === $text) {
+            return null;
+        }
+
+        $data = json_decode($text, true);
+        if (\JSON_ERROR_NONE !== json_last_error()) {
+            return null;
+        }
+
+        $sanitized = $this->redactArrayFields($data);
+
+        return json_encode($sanitized, \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * Recursively redact fields in an array.
+     *
+     * @param mixed $data the data to sanitize
+     *
+     * @return mixed the sanitized data
+     */
+    private function redactArrayFields(mixed $data): mixed
+    {
+        if (!\is_array($data)) {
+            return $data;
+        }
+
+        foreach ($data as $key => $value) {
+            if (\is_string($key) && $this->shouldRedact($key, $this->bodyFieldsToRedact)) {
+                $data[$key] = $this->redactedValue;
+            } elseif (\is_array($value)) {
+                $data[$key] = $this->redactArrayFields($value);
+            }
+        }
+
+        return $data;
     }
 }

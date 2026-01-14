@@ -20,6 +20,21 @@
                 // just sets the same array back - removing it doesn't change behavior
                 "Deviantintegral\\Har\\HarSanitizer::sanitizeQueryParams"
             ]
+        },
+        "LogicalAnd": {
+            "ignore": [
+                // Equivalent mutation: when hasText() is false but isJsonMimeType() is true,
+                // sanitizeJsonText(null) returns null, so setText is not called - same behavior
+                "Deviantintegral\\Har\\HarSanitizer::sanitizePostData",
+                "Deviantintegral\\Har\\HarSanitizer::sanitizeContent"
+            ]
+        },
+        "ReturnRemoval": {
+            "ignore": [
+                // Equivalent mutation: removing early return for empty string falls through to
+                // json_decode('') which fails with JSON_ERROR_SYNTAX, then error check returns null anyway
+                "Deviantintegral\\Har\\HarSanitizer::sanitizeJsonText"
+            ]
         }
     }
 }
