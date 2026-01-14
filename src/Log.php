@@ -164,6 +164,26 @@ class Log
     }
 
     /**
+     * Filter entries by domain (host).
+     *
+     * Comparison is case-insensitive as domain names are case-insensitive per RFC 4343.
+     * Note: PSR-7 URI implementations typically normalize hosts to lowercase per RFC 3986.
+     *
+     * @param string $domain The domain to filter by
+     *
+     * @return Entry[] Entries matching the domain
+     */
+    public function filterEntriesByDomain(string $domain): array
+    {
+        $normalizedDomain = strtolower($domain);
+
+        return array_values(array_filter(
+            $this->entries,
+            static fn (Entry $entry): bool => $entry->getRequest()->getUrl()->getHost() === $normalizedDomain
+        ));
+    }
+
+    /**
      * Deep clone all object properties when cloning Log.
      */
     public function __clone(): void

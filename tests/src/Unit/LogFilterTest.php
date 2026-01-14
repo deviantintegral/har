@@ -15,6 +15,7 @@ use GuzzleHttp\Psr7\Uri;
  * @covers \Deviantintegral\Har\Log::filterEntriesByUrlPattern
  * @covers \Deviantintegral\Har\Log::filterEntriesByMethod
  * @covers \Deviantintegral\Har\Log::filterEntriesByStatus
+ * @covers \Deviantintegral\Har\Log::filterEntriesByDomain
  */
 class LogFilterTest extends HarTestBase
 {
@@ -252,6 +253,75 @@ class LogFilterTest extends HarTestBase
         $log = (new Log())->setEntries([]);
 
         $this->assertEmpty($log->filterEntriesByStatus(200, 299));
+    }
+
+    public function testFilterEntriesByDomainWithFixture(): void
+    {
+        $repository = $this->getHarFileRepository();
+        $har = $repository->load('www.softwareishard.com-multiple-entries.har');
+        $log = $har->getLog();
+
+        // All entries are from www.softwareishard.com
+        $entries = $log->filterEntriesByDomain('www.softwareishard.com');
+        $this->assertNotEmpty($entries);
+        foreach ($entries as $entry) {
+            $this->assertSame('www.softwareishard.com', $entry->getRequest()->getUrl()->getHost());
+        }
+
+        // No entries from other domains
+        $otherEntries = $log->filterEntriesByDomain('example.com');
+        $this->assertEmpty($otherEntries);
+    }
+
+    public function testFilterEntriesByDomainReturnsCorrectEntries(): void
+    {
+        $log = $this->createLogWithTestEntries();
+
+        // Test entries have: api.example.com (3), cdn.example.com (2)
+        $apiEntries = $log->filterEntriesByDomain('api.example.com');
+        $this->assertCount(3, $apiEntries);
+        foreach ($apiEntries as $entry) {
+            $this->assertSame('api.example.com', $entry->getRequest()->getUrl()->getHost());
+        }
+
+        $cdnEntries = $log->filterEntriesByDomain('cdn.example.com');
+        $this->assertCount(2, $cdnEntries);
+        foreach ($cdnEntries as $entry) {
+            $this->assertSame('cdn.example.com', $entry->getRequest()->getUrl()->getHost());
+        }
+    }
+
+    public function testFilterEntriesByDomainCaseInsensitive(): void
+    {
+        $log = $this->createLogWithTestEntries();
+
+        $lowerResults = $log->filterEntriesByDomain('api.example.com');
+        $upperResults = $log->filterEntriesByDomain('API.EXAMPLE.COM');
+        $mixedResults = $log->filterEntriesByDomain('Api.Example.Com');
+
+        $this->assertEquals($lowerResults, $upperResults);
+        $this->assertEquals($lowerResults, $mixedResults);
+        $this->assertCount(3, $lowerResults);
+    }
+
+    public function testFilterEntriesByDomainReturnsReindexedArray(): void
+    {
+        $log = $this->createLogWithTestEntries();
+
+        // Test entries: api.example.com (indices 0,1,2), cdn.example.com (indices 3,4)
+        // Filter cdn.example.com should match indices 3 and 4
+        // Without array_values, result would have keys [3, 4]
+        // With array_values, result should have keys [0, 1]
+        $results = $log->filterEntriesByDomain('cdn.example.com');
+        $this->assertCount(2, $results);
+        $this->assertSame([0, 1], array_keys($results));
+    }
+
+    public function testFilterEntriesByDomainOnEmptyEntries(): void
+    {
+        $log = (new Log())->setEntries([]);
+
+        $this->assertEmpty($log->filterEntriesByDomain('example.com'));
     }
 
     /**
