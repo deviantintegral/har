@@ -14,6 +14,7 @@ use GuzzleHttp\Psr7\Uri;
 /**
  * @covers \Deviantintegral\Har\Log::filterEntriesByUrlPattern
  * @covers \Deviantintegral\Har\Log::filterEntriesByMethod
+ * @covers \Deviantintegral\Har\Log::filterEntriesByStatus
  */
 class LogFilterTest extends HarTestBase
 {
@@ -157,6 +158,100 @@ class LogFilterTest extends HarTestBase
         $log = (new Log())->setEntries([]);
 
         $this->assertEmpty($log->filterEntriesByMethod('GET'));
+    }
+
+    public function testFilterEntriesByStatusWithFixture(): void
+    {
+        $repository = $this->getHarFileRepository();
+        $har = $repository->load('www.softwareishard.com-multiple-entries.har');
+        $log = $har->getLog();
+
+        // All entries should have 2xx status codes
+        $successEntries = $log->filterEntriesByStatus(200, 299);
+        $this->assertNotEmpty($successEntries);
+        foreach ($successEntries as $entry) {
+            $status = $entry->getResponse()->getStatus();
+            $this->assertGreaterThanOrEqual(200, $status);
+            $this->assertLessThanOrEqual(299, $status);
+        }
+
+        // No 5xx errors expected in fixture
+        $serverErrors = $log->filterEntriesByStatus(500, 599);
+        $this->assertEmpty($serverErrors);
+    }
+
+    public function testFilterEntriesByStatusReturnsCorrectEntries(): void
+    {
+        $log = $this->createLogWithTestEntries();
+
+        // Test entries have: 200, 201, 404, 200, 500
+        // Filter 2xx (200-299)
+        $successEntries = $log->filterEntriesByStatus(200, 299);
+        $this->assertCount(3, $successEntries);
+        foreach ($successEntries as $entry) {
+            $status = $entry->getResponse()->getStatus();
+            $this->assertGreaterThanOrEqual(200, $status);
+            $this->assertLessThanOrEqual(299, $status);
+        }
+
+        // Filter 4xx (400-499)
+        $clientErrors = $log->filterEntriesByStatus(400, 499);
+        $this->assertCount(1, $clientErrors);
+        $this->assertSame(404, $clientErrors[0]->getResponse()->getStatus());
+
+        // Filter 5xx (500-599)
+        $serverErrors = $log->filterEntriesByStatus(500, 599);
+        $this->assertCount(1, $serverErrors);
+        $this->assertSame(500, $serverErrors[0]->getResponse()->getStatus());
+    }
+
+    public function testFilterEntriesByStatusBoundaryConditions(): void
+    {
+        $log = $this->createLogWithTestEntries();
+
+        // Test inclusive boundary - exactly 200
+        $exact200 = $log->filterEntriesByStatus(200, 200);
+        $this->assertCount(2, $exact200);
+        foreach ($exact200 as $entry) {
+            $this->assertSame(200, $entry->getResponse()->getStatus());
+        }
+
+        // Test boundary at min - status 201 should match min=201
+        $atMin = $log->filterEntriesByStatus(201, 201);
+        $this->assertCount(1, $atMin);
+        $this->assertSame(201, $atMin[0]->getResponse()->getStatus());
+
+        // Test boundary at max - status 201 should match max=201
+        $upTo201 = $log->filterEntriesByStatus(200, 201);
+        $this->assertCount(3, $upTo201);
+
+        // Test that 199 doesn't match when min=200
+        $noMatch = $log->filterEntriesByStatus(199, 199);
+        $this->assertEmpty($noMatch);
+
+        // Test that 501 doesn't match when max=500
+        $upTo500 = $log->filterEntriesByStatus(500, 500);
+        $this->assertCount(1, $upTo500);
+    }
+
+    public function testFilterEntriesByStatusReturnsReindexedArray(): void
+    {
+        $log = $this->createLogWithTestEntries();
+
+        // Test entries: 200 (idx 0), 201 (idx 1), 404 (idx 2), 200 (idx 3), 500 (idx 4)
+        // Filter 4xx should match only index 2
+        // Without array_values, result would have key [2]
+        // With array_values, result should have key [0]
+        $results = $log->filterEntriesByStatus(400, 499);
+        $this->assertCount(1, $results);
+        $this->assertSame([0], array_keys($results));
+    }
+
+    public function testFilterEntriesByStatusOnEmptyEntries(): void
+    {
+        $log = (new Log())->setEntries([]);
+
+        $this->assertEmpty($log->filterEntriesByStatus(200, 299));
     }
 
     /**

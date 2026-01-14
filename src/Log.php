@@ -147,6 +147,23 @@ class Log
     }
 
     /**
+     * Filter entries by HTTP status code range.
+     *
+     * @param int $minStatus The minimum status code (inclusive)
+     * @param int $maxStatus The maximum status code (inclusive)
+     *
+     * @return Entry[] Entries with status codes in the specified range
+     */
+    public function filterEntriesByStatus(int $minStatus, int $maxStatus): array
+    {
+        return array_values(array_filter(
+            $this->entries,
+            static fn (Entry $entry): bool => $entry->getResponse()->getStatus() >= $minStatus
+                && $entry->getResponse()->getStatus() <= $maxStatus
+        ));
+    }
+
+    /**
      * Deep clone all object properties when cloning Log.
      */
     public function __clone(): void
