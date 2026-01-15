@@ -115,6 +115,101 @@ class Log
     }
 
     /**
+     * Filter entries by URL pattern (regex).
+     *
+     * @param string $pattern A regular expression pattern to match against entry URLs
+     *
+     * @return Entry[] Entries matching the URL pattern
+     */
+    public function filterEntriesByUrlPattern(string $pattern): array
+    {
+        return array_values(array_filter(
+            $this->entries,
+            static fn (Entry $entry): bool => 1 === preg_match($pattern, (string) $entry->getRequest()->getUrl())
+        ));
+    }
+
+    /**
+     * Filter entries by HTTP method.
+     *
+     * @param string $method The HTTP method to filter by (GET, POST, etc.)
+     *
+     * @return Entry[] Entries matching the HTTP method
+     */
+    public function filterEntriesByMethod(string $method): array
+    {
+        $normalizedMethod = strtoupper($method);
+
+        return array_values(array_filter(
+            $this->entries,
+            static fn (Entry $entry): bool => strtoupper($entry->getRequest()->getMethod()) === $normalizedMethod
+        ));
+    }
+
+    /**
+     * Filter entries by HTTP status code range.
+     *
+     * @param int $minStatus The minimum status code (inclusive)
+     * @param int $maxStatus The maximum status code (inclusive)
+     *
+     * @return Entry[] Entries with status codes in the specified range
+     */
+    public function filterEntriesByStatus(int $minStatus, int $maxStatus): array
+    {
+        return array_values(array_filter(
+            $this->entries,
+            static fn (Entry $entry): bool => $entry->getResponse()->getStatus() >= $minStatus
+                && $entry->getResponse()->getStatus() <= $maxStatus
+        ));
+    }
+
+    /**
+     * Filter entries by domain (host).
+     *
+     * Comparison is case-insensitive as domain names are case-insensitive per RFC 4343.
+     * Note: PSR-7 URI implementations typically normalize hosts to lowercase per RFC 3986.
+     *
+     * @param string $domain The domain to filter by
+     *
+     * @return Entry[] Entries matching the domain
+     */
+    public function filterEntriesByDomain(string $domain): array
+    {
+        $normalizedDomain = strtolower($domain);
+
+        return array_values(array_filter(
+            $this->entries,
+            static fn (Entry $entry): bool => $entry->getRequest()->getUrl()->getHost() === $normalizedDomain
+        ));
+    }
+
+    /**
+     * Filter entries by response content type (MIME type).
+     *
+     * Matches entries where the content type starts with the specified type.
+     * This allows matching "application/json" when the actual type is
+     * "application/json; charset=utf-8".
+     *
+     * Comparison is case-insensitive per RFC 2045.
+     *
+     * @param string $contentType The content type to filter by (e.g., "application/json")
+     *
+     * @return Entry[] Entries matching the content type
+     */
+    public function filterEntriesByContentType(string $contentType): array
+    {
+        $normalizedType = strtolower($contentType);
+
+        return array_values(array_filter(
+            $this->entries,
+            static fn (Entry $entry): bool => str_starts_with(
+                strtolower($entry->getResponse()->getContent()->getMimeType()),
+                $normalizedType
+            )
+        ));
+    }
+
+    /**
      * Deep clone all object properties when cloning Log.
      */
     public function __clone(): void
