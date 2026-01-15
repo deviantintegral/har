@@ -272,7 +272,7 @@ class HarRecorderTest extends HarTestBase
         $this->assertEmpty($recorder->getHar()->getLog()->getEntries());
     }
 
-    public function testClearRemovesAllEntries(): void
+    public function testResetRemovesAllEntries(): void
     {
         $innerClient = $this->createMock(ClientInterface::class);
         $innerClient->method('sendRequest')->willReturn(new Response(200));
@@ -283,7 +283,7 @@ class HarRecorderTest extends HarTestBase
 
         $this->assertCount(2, $recorder->getHar()->getLog()->getEntries());
 
-        $recorder->clear();
+        $recorder->reset();
 
         $this->assertEmpty($recorder->getHar()->getLog()->getEntries());
     }

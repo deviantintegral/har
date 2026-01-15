@@ -78,9 +78,9 @@ final class HarRecorder implements ClientInterface
     }
 
     /**
-     * Clear all recorded entries.
+     * Reset and clear all recorded entries.
      */
-    public function clear(): void
+    public function reset(): void
     {
         $this->entries = [];
     }
