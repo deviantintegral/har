@@ -35,14 +35,20 @@
   ],
   "packageRules": [
     {
-      "matchManagers": ["github-actions"],
-      "matchPackageNames": ["deviantintegral/github-action-renovate-config-validator"],
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchPackageNames": [
+        "deviantintegral/github-action-renovate-config-validator"
+      ],
       "followTag": "fix-renovate-version"
     },
     {
-      "matchPackagePatterns": ["*"],
       "minimumReleaseAge": "3 days",
-      "automerge": true
+      "automerge": true,
+      "matchPackageNames": [
+        "*"
+      ]
     },
     {
       "matchCurrentVersion": "8.0",
