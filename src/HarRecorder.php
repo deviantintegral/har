@@ -78,14 +78,6 @@ final class HarRecorder implements ClientInterface
     }
 
     /**
-     * Get the number of recorded entries.
-     */
-    public function count(): int
-    {
-        return \count($this->entries);
-    }
-
-    /**
      * Clear all recorded entries.
      */
     public function clear(): void
