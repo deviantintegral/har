@@ -14,6 +14,6 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-      - uses: deviantintegral/github-action-renovate-config-validator@322e333e6885127adce1185bf8a377a3fd053c66 # fix-renovate-version
+      - uses: deviantintegral/github-action-renovate-config-validator@bceccd3745659ba70d7730aec94d32749e622a08 # fix-renovate-version
         with:
           strict: false
