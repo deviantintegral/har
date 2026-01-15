@@ -35,6 +35,11 @@
   ],
   "packageRules": [
     {
+      "matchManagers": ["github-actions"],
+      "matchPackageNames": ["deviantintegral/github-action-renovate-config-validator"],
+      "followTag": "fix-renovate-version"
+    },
+    {
       "matchPackagePatterns": ["*"],
       "minimumReleaseAge": "3 days",
       "automerge": true
