@@ -25,7 +25,8 @@ class SanitizeCommand extends Command
             ->setHelp('Redact sensitive values like authorization headers, API keys, and passwords from HAR files.')
             ->addArgument('har', InputArgument::REQUIRED, 'The source HAR file to sanitize.')
             ->addArgument('output', InputArgument::OPTIONAL, 'The output file path. Defaults to stdout.')
-            ->addOption('header', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Header name to redact (can be specified multiple times).');
+            ->addOption('header', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Header name to redact (can be specified multiple times).')
+            ->addOption('query-param', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Query parameter name to redact (can be specified multiple times).');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -60,6 +61,11 @@ class SanitizeCommand extends Command
         $headers = $input->getOption('header');
         if (!empty($headers)) {
             $sanitizer->redactHeaders($headers);
+        }
+
+        $queryParams = $input->getOption('query-param');
+        if (!empty($queryParams)) {
+            $sanitizer->redactQueryParams($queryParams);
         }
 
         $sanitized = $sanitizer->sanitize($har);

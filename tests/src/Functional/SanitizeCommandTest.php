@@ -5,8 +5,16 @@ declare(strict_types=1);
 namespace Deviantintegral\Har\Tests\Functional;
 
 use Deviantintegral\Har\Command\SanitizeCommand;
+use Deviantintegral\Har\Creator;
+use Deviantintegral\Har\Entry;
+use Deviantintegral\Har\Har;
+use Deviantintegral\Har\Log;
+use Deviantintegral\Har\Params;
+use Deviantintegral\Har\Request;
+use Deviantintegral\Har\Response;
 use Deviantintegral\Har\Serializer;
 use Deviantintegral\Har\Tests\Unit\HarTestBase;
+use GuzzleHttp\Psr7\Uri;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -174,6 +182,8 @@ class SanitizeCommandTest extends HarTestBase
         $this->assertFalse($definition->getArgument('output')->isRequired());
         $this->assertTrue($definition->hasOption('header'));
         $this->assertTrue($definition->getOption('header')->isArray());
+        $this->assertTrue($definition->hasOption('query-param'));
+        $this->assertTrue($definition->getOption('query-param')->isArray());
     }
 
     public function testSanitizeWithNoOptions(): void
@@ -200,6 +210,100 @@ class SanitizeCommandTest extends HarTestBase
         );
     }
 
+    public function testSanitizeQueryParams(): void
+    {
+        $harFile = $this->createHarFileWithQueryParams([
+            'api_key' => 'secret-key-123',
+            'token' => 'auth-token-456',
+            'page' => '1',
+        ]);
+        $outputFile = $this->tempDir.'/sanitized.har';
+
+        $this->commandTester->execute([
+            'har' => $harFile,
+            'output' => $outputFile,
+            '--query-param' => ['api_key', 'token'],
+        ]);
+
+        $this->assertSame(Command::SUCCESS, $this->commandTester->getStatusCode());
+
+        $serializer = new Serializer();
+        $sanitized = $serializer->deserializeHar(file_get_contents($outputFile));
+
+        $params = $sanitized->getLog()->getEntries()[0]->getRequest()->getQueryString();
+        $paramMap = $this->paramsToMap($params);
+
+        $this->assertEquals('[REDACTED]', $paramMap['api_key']);
+        $this->assertEquals('[REDACTED]', $paramMap['token']);
+        $this->assertEquals('1', $paramMap['page']);
+    }
+
+    public function testSanitizeMultipleQueryParams(): void
+    {
+        $harFile = $this->createHarFileWithQueryParams([
+            'secret1' => 'value1',
+            'secret2' => 'value2',
+            'secret3' => 'value3',
+            'public' => 'visible',
+        ]);
+        $outputFile = $this->tempDir.'/sanitized.har';
+
+        $this->commandTester->execute([
+            'har' => $harFile,
+            'output' => $outputFile,
+            '--query-param' => ['secret1', 'secret2', 'secret3'],
+        ]);
+
+        $this->assertSame(Command::SUCCESS, $this->commandTester->getStatusCode());
+
+        $serializer = new Serializer();
+        $sanitized = $serializer->deserializeHar(file_get_contents($outputFile));
+
+        $params = $sanitized->getLog()->getEntries()[0]->getRequest()->getQueryString();
+        $paramMap = $this->paramsToMap($params);
+
+        $this->assertEquals('[REDACTED]', $paramMap['secret1']);
+        $this->assertEquals('[REDACTED]', $paramMap['secret2']);
+        $this->assertEquals('[REDACTED]', $paramMap['secret3']);
+        $this->assertEquals('visible', $paramMap['public']);
+    }
+
+    public function testSanitizeHeadersAndQueryParamsTogether(): void
+    {
+        $harFile = $this->createHarFileWithQueryParams([
+            'api_key' => 'secret-key',
+            'page' => '1',
+        ]);
+        $outputFile = $this->tempDir.'/sanitized.har';
+
+        $this->commandTester->execute([
+            'har' => $harFile,
+            'output' => $outputFile,
+            '--header' => ['Host'],
+            '--query-param' => ['api_key'],
+        ]);
+
+        $this->assertSame(Command::SUCCESS, $this->commandTester->getStatusCode());
+
+        $serializer = new Serializer();
+        $sanitized = $serializer->deserializeHar(file_get_contents($outputFile));
+
+        $entry = $sanitized->getLog()->getEntries()[0];
+
+        // Check query params are redacted
+        $params = $entry->getRequest()->getQueryString();
+        $paramMap = $this->paramsToMap($params);
+        $this->assertEquals('[REDACTED]', $paramMap['api_key']);
+        $this->assertEquals('1', $paramMap['page']);
+
+        // Check headers are redacted
+        $headers = $entry->getRequest()->getHeaders();
+        $headerMap = $this->headersToMap($headers);
+        if (isset($headerMap['Host'])) {
+            $this->assertEquals('[REDACTED]', $headerMap['Host']);
+        }
+    }
+
     /**
      * @param \Deviantintegral\Har\Header[] $headers
      *
@@ -213,6 +317,77 @@ class SanitizeCommandTest extends HarTestBase
         }
 
         return $map;
+    }
+
+    /**
+     * @param Params[] $params
+     *
+     * @return array<string, string>
+     */
+    private function paramsToMap(array $params): array
+    {
+        $map = [];
+        foreach ($params as $param) {
+            $map[$param->getName()] = $param->getValue();
+        }
+
+        return $map;
+    }
+
+    /**
+     * @param array<string, string> $queryParams
+     */
+    private function createHarFileWithQueryParams(array $queryParams): string
+    {
+        $paramObjects = [];
+        foreach ($queryParams as $name => $value) {
+            $param = (new Params())->setName($name)->setValue($value);
+            $paramObjects[] = $param;
+        }
+
+        $request = (new Request())
+            ->setMethod('GET')
+            ->setUrl(new Uri('https://example.com/api'))
+            ->setHttpVersion('HTTP/1.1')
+            ->setHeaders([])
+            ->setCookies([])
+            ->setQueryString($paramObjects)
+            ->setHeadersSize(-1)
+            ->setBodySize(0);
+
+        $response = (new Response())
+            ->setStatus(200)
+            ->setStatusText('OK')
+            ->setHttpVersion('HTTP/1.1')
+            ->setHeaders([])
+            ->setCookies([])
+            ->setHeadersSize(-1)
+            ->setBodySize(0);
+
+        $entry = (new Entry())
+            ->setStartedDateTime(new \DateTime())
+            ->setTime(100)
+            ->setRequest($request)
+            ->setResponse($response);
+
+        $creator = (new Creator())
+            ->setName('Test')
+            ->setVersion('1.0');
+
+        $log = (new Log())
+            ->setVersion('1.2')
+            ->setCreator($creator)
+            ->setEntries([$entry]);
+
+        $har = (new Har())->setLog($log);
+
+        $serializer = new Serializer();
+        $content = $serializer->serializeHar($har);
+
+        $filePath = $this->tempDir.'/input-'.uniqid().'.har';
+        file_put_contents($filePath, $content);
+
+        return $filePath;
     }
 
     private function recursiveRemoveDirectory(string $directory): void
