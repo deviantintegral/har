@@ -35,11 +35,8 @@
   ],
   "packageRules": [
     {
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "matchCurrentVersion": "!/^0/",
+      "matchPackagePatterns": ["*"],
+      "minimumReleaseAge": "3 days",
       "automerge": true
     },
     {
