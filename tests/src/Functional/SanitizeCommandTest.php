@@ -188,6 +188,8 @@ class SanitizeCommandTest extends HarTestBase
         $this->assertTrue($definition->getOption('query-param')->isArray());
         $this->assertTrue($definition->hasOption('body-field'));
         $this->assertTrue($definition->getOption('body-field')->isArray());
+        $this->assertTrue($definition->hasOption('case-sensitive'));
+        $this->assertFalse($definition->getOption('case-sensitive')->isArray());
     }
 
     public function testSanitizeWithNoOptions(): void
@@ -403,6 +405,65 @@ class SanitizeCommandTest extends HarTestBase
         $bodyMap = $this->paramsToMap($bodyParams);
         $this->assertEquals('[REDACTED]', $bodyMap['password']);
         $this->assertEquals('john', $bodyMap['username']);
+    }
+
+    public function testCaseInsensitiveMatchingByDefault(): void
+    {
+        $harFile = $this->createHarFileWithQueryParams([
+            'API_KEY' => 'secret-key',
+            'Token' => 'auth-token',
+        ]);
+        $outputFile = $this->tempDir.'/sanitized.har';
+
+        // By default, matching is case-insensitive
+        $this->commandTester->execute([
+            'har' => $harFile,
+            'output' => $outputFile,
+            '--query-param' => ['api_key', 'token'],
+        ]);
+
+        $this->assertSame(Command::SUCCESS, $this->commandTester->getStatusCode());
+
+        $serializer = new Serializer();
+        $sanitized = $serializer->deserializeHar(file_get_contents($outputFile));
+
+        $params = $sanitized->getLog()->getEntries()[0]->getRequest()->getQueryString();
+        $paramMap = $this->paramsToMap($params);
+
+        // Both should be redacted despite case mismatch
+        $this->assertEquals('[REDACTED]', $paramMap['API_KEY']);
+        $this->assertEquals('[REDACTED]', $paramMap['Token']);
+    }
+
+    public function testCaseSensitiveMatchingWhenEnabled(): void
+    {
+        $harFile = $this->createHarFileWithQueryParams([
+            'API_KEY' => 'secret-key',
+            'api_key' => 'another-key',
+            'Token' => 'auth-token',
+        ]);
+        $outputFile = $this->tempDir.'/sanitized.har';
+
+        // With case-sensitive enabled, only exact matches should be redacted
+        $this->commandTester->execute([
+            'har' => $harFile,
+            'output' => $outputFile,
+            '--query-param' => ['api_key'],
+            '--case-sensitive' => true,
+        ]);
+
+        $this->assertSame(Command::SUCCESS, $this->commandTester->getStatusCode());
+
+        $serializer = new Serializer();
+        $sanitized = $serializer->deserializeHar(file_get_contents($outputFile));
+
+        $params = $sanitized->getLog()->getEntries()[0]->getRequest()->getQueryString();
+        $paramMap = $this->paramsToMap($params);
+
+        // Only exact case match should be redacted
+        $this->assertEquals('secret-key', $paramMap['API_KEY']);
+        $this->assertEquals('[REDACTED]', $paramMap['api_key']);
+        $this->assertEquals('auth-token', $paramMap['Token']);
     }
 
     /**

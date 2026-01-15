@@ -27,7 +27,8 @@ class SanitizeCommand extends Command
             ->addArgument('output', InputArgument::OPTIONAL, 'The output file path. Defaults to stdout.')
             ->addOption('header', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Header name to redact (can be specified multiple times).')
             ->addOption('query-param', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Query parameter name to redact (can be specified multiple times).')
-            ->addOption('body-field', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Body field name to redact (can be specified multiple times).');
+            ->addOption('body-field', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Body field name to redact (can be specified multiple times).')
+            ->addOption('case-sensitive', null, InputOption::VALUE_NONE, 'Use case-sensitive matching for field names. Defaults to case-insensitive.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -58,6 +59,10 @@ class SanitizeCommand extends Command
         $har = $serializer->deserializeHar($contents);
 
         $sanitizer = new HarSanitizer();
+
+        if ($input->getOption('case-sensitive')) {
+            $sanitizer->setCaseSensitive(true);
+        }
 
         $headers = $input->getOption('header');
         if (!empty($headers)) {
