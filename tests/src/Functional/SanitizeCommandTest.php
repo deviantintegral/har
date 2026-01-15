@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace Deviantintegral\Har\Tests\Functional;
 
 use Deviantintegral\Har\Command\SanitizeCommand;
+use Deviantintegral\Har\Content;
 use Deviantintegral\Har\Creator;
 use Deviantintegral\Har\Entry;
 use Deviantintegral\Har\Har;
 use Deviantintegral\Har\Log;
 use Deviantintegral\Har\Params;
+use Deviantintegral\Har\PostData;
 use Deviantintegral\Har\Request;
 use Deviantintegral\Har\Response;
 use Deviantintegral\Har\Serializer;
@@ -184,6 +186,8 @@ class SanitizeCommandTest extends HarTestBase
         $this->assertTrue($definition->getOption('header')->isArray());
         $this->assertTrue($definition->hasOption('query-param'));
         $this->assertTrue($definition->getOption('query-param')->isArray());
+        $this->assertTrue($definition->hasOption('body-field'));
+        $this->assertTrue($definition->getOption('body-field')->isArray());
     }
 
     public function testSanitizeWithNoOptions(): void
@@ -304,6 +308,103 @@ class SanitizeCommandTest extends HarTestBase
         }
     }
 
+    public function testSanitizeBodyFields(): void
+    {
+        $harFile = $this->createHarFileWithPostData([
+            'username' => 'john',
+            'password' => 'secret123',
+            'remember_me' => 'true',
+        ]);
+        $outputFile = $this->tempDir.'/sanitized.har';
+
+        $this->commandTester->execute([
+            'har' => $harFile,
+            'output' => $outputFile,
+            '--body-field' => ['password'],
+        ]);
+
+        $this->assertSame(Command::SUCCESS, $this->commandTester->getStatusCode());
+
+        $serializer = new Serializer();
+        $sanitized = $serializer->deserializeHar(file_get_contents($outputFile));
+
+        $postData = $sanitized->getLog()->getEntries()[0]->getRequest()->getPostData();
+        $params = $postData->getParams();
+        $paramMap = $this->paramsToMap($params);
+
+        $this->assertEquals('john', $paramMap['username']);
+        $this->assertEquals('[REDACTED]', $paramMap['password']);
+        $this->assertEquals('true', $paramMap['remember_me']);
+    }
+
+    public function testSanitizeMultipleBodyFields(): void
+    {
+        $harFile = $this->createHarFileWithPostData([
+            'username' => 'john',
+            'password' => 'secret123',
+            'api_key' => 'key-456',
+            'public_field' => 'visible',
+        ]);
+        $outputFile = $this->tempDir.'/sanitized.har';
+
+        $this->commandTester->execute([
+            'har' => $harFile,
+            'output' => $outputFile,
+            '--body-field' => ['password', 'api_key'],
+        ]);
+
+        $this->assertSame(Command::SUCCESS, $this->commandTester->getStatusCode());
+
+        $serializer = new Serializer();
+        $sanitized = $serializer->deserializeHar(file_get_contents($outputFile));
+
+        $postData = $sanitized->getLog()->getEntries()[0]->getRequest()->getPostData();
+        $params = $postData->getParams();
+        $paramMap = $this->paramsToMap($params);
+
+        $this->assertEquals('john', $paramMap['username']);
+        $this->assertEquals('[REDACTED]', $paramMap['password']);
+        $this->assertEquals('[REDACTED]', $paramMap['api_key']);
+        $this->assertEquals('visible', $paramMap['public_field']);
+    }
+
+    public function testSanitizeAllOptionsTogether(): void
+    {
+        $harFile = $this->createHarFileWithAllData(
+            ['token' => 'secret-token', 'page' => '1'],
+            ['password' => 'secret123', 'username' => 'john']
+        );
+        $outputFile = $this->tempDir.'/sanitized.har';
+
+        $this->commandTester->execute([
+            'har' => $harFile,
+            'output' => $outputFile,
+            '--header' => ['Host'],
+            '--query-param' => ['token'],
+            '--body-field' => ['password'],
+        ]);
+
+        $this->assertSame(Command::SUCCESS, $this->commandTester->getStatusCode());
+
+        $serializer = new Serializer();
+        $sanitized = $serializer->deserializeHar(file_get_contents($outputFile));
+
+        $entry = $sanitized->getLog()->getEntries()[0];
+
+        // Check query params
+        $queryParams = $entry->getRequest()->getQueryString();
+        $queryMap = $this->paramsToMap($queryParams);
+        $this->assertEquals('[REDACTED]', $queryMap['token']);
+        $this->assertEquals('1', $queryMap['page']);
+
+        // Check body fields
+        $postData = $entry->getRequest()->getPostData();
+        $bodyParams = $postData->getParams();
+        $bodyMap = $this->paramsToMap($bodyParams);
+        $this->assertEquals('[REDACTED]', $bodyMap['password']);
+        $this->assertEquals('john', $bodyMap['username']);
+    }
+
     /**
      * @param \Deviantintegral\Har\Header[] $headers
      *
@@ -355,12 +456,156 @@ class SanitizeCommandTest extends HarTestBase
             ->setHeadersSize(-1)
             ->setBodySize(0);
 
+        $content = (new Content())
+            ->setSize(0)
+            ->setMimeType('text/html');
+
         $response = (new Response())
             ->setStatus(200)
             ->setStatusText('OK')
             ->setHttpVersion('HTTP/1.1')
             ->setHeaders([])
             ->setCookies([])
+            ->setContent($content)
+            ->setHeadersSize(-1)
+            ->setBodySize(0);
+
+        $entry = (new Entry())
+            ->setStartedDateTime(new \DateTime())
+            ->setTime(100)
+            ->setRequest($request)
+            ->setResponse($response);
+
+        $creator = (new Creator())
+            ->setName('Test')
+            ->setVersion('1.0');
+
+        $log = (new Log())
+            ->setVersion('1.2')
+            ->setCreator($creator)
+            ->setEntries([$entry]);
+
+        $har = (new Har())->setLog($log);
+
+        $serializer = new Serializer();
+        $harContent = $serializer->serializeHar($har);
+
+        $filePath = $this->tempDir.'/input-'.uniqid().'.har';
+        file_put_contents($filePath, $harContent);
+
+        return $filePath;
+    }
+
+    /**
+     * @param array<string, string> $postParams
+     */
+    private function createHarFileWithPostData(array $postParams): string
+    {
+        $paramObjects = [];
+        foreach ($postParams as $name => $value) {
+            $param = (new Params())->setName($name)->setValue($value);
+            $paramObjects[] = $param;
+        }
+
+        $postData = (new PostData())
+            ->setMimeType('application/x-www-form-urlencoded')
+            ->setParams($paramObjects);
+
+        $request = (new Request())
+            ->setMethod('POST')
+            ->setUrl(new Uri('https://example.com/api'))
+            ->setHttpVersion('HTTP/1.1')
+            ->setHeaders([])
+            ->setCookies([])
+            ->setQueryString([])
+            ->setPostData($postData)
+            ->setHeadersSize(-1)
+            ->setBodySize(0);
+
+        $content = (new Content())
+            ->setSize(0)
+            ->setMimeType('text/html');
+
+        $response = (new Response())
+            ->setStatus(200)
+            ->setStatusText('OK')
+            ->setHttpVersion('HTTP/1.1')
+            ->setHeaders([])
+            ->setCookies([])
+            ->setContent($content)
+            ->setHeadersSize(-1)
+            ->setBodySize(0);
+
+        $entry = (new Entry())
+            ->setStartedDateTime(new \DateTime())
+            ->setTime(100)
+            ->setRequest($request)
+            ->setResponse($response);
+
+        $creator = (new Creator())
+            ->setName('Test')
+            ->setVersion('1.0');
+
+        $log = (new Log())
+            ->setVersion('1.2')
+            ->setCreator($creator)
+            ->setEntries([$entry]);
+
+        $har = (new Har())->setLog($log);
+
+        $serializer = new Serializer();
+        $harContent = $serializer->serializeHar($har);
+
+        $filePath = $this->tempDir.'/input-'.uniqid().'.har';
+        file_put_contents($filePath, $harContent);
+
+        return $filePath;
+    }
+
+    /**
+     * @param array<string, string> $queryParams
+     * @param array<string, string> $postParams
+     */
+    private function createHarFileWithAllData(array $queryParams, array $postParams): string
+    {
+        $queryParamObjects = [];
+        foreach ($queryParams as $name => $value) {
+            $param = (new Params())->setName($name)->setValue($value);
+            $queryParamObjects[] = $param;
+        }
+
+        $postParamObjects = [];
+        foreach ($postParams as $name => $value) {
+            $param = (new Params())->setName($name)->setValue($value);
+            $postParamObjects[] = $param;
+        }
+
+        $postData = (new PostData())
+            ->setMimeType('application/x-www-form-urlencoded')
+            ->setParams($postParamObjects);
+
+        $request = (new Request())
+            ->setMethod('POST')
+            ->setUrl(new Uri('https://example.com/api'))
+            ->setHttpVersion('HTTP/1.1')
+            ->setHeaders([])
+            ->setCookies([])
+            ->setQueryString($queryParamObjects)
+            ->setPostData($postData)
+            ->setHeadersSize(-1)
+            ->setBodySize(0);
+
+        $content = (new Content())
+            ->setSize(0)
+            ->setMimeType('text/html');
+
+        $response = (new Response())
+            ->setStatus(200)
+            ->setStatusText('OK')
+            ->setHttpVersion('HTTP/1.1')
+            ->setHeaders([])
+            ->setCookies([])
+            ->setContent($content)
             ->setHeadersSize(-1)
             ->setBodySize(0);
 
