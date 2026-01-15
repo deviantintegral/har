@@ -287,4 +287,22 @@ class HarRecorderTest extends HarTestBase
         $recorder->sendRequest(new Request('GET', new Uri('https://example.com')));
         $this->assertSame(2, $recorder->count());
     }
+
+    public function testClearRemovesAllEntries(): void
+    {
+        $innerClient = $this->createMock(ClientInterface::class);
+        $innerClient->method('sendRequest')->willReturn(new Response(200));
+
+        $recorder = new HarRecorder($innerClient);
+        $recorder->sendRequest(new Request('GET', new Uri('https://example.com/1')));
+        $recorder->sendRequest(new Request('GET', new Uri('https://example.com/2')));
+
+        $this->assertSame(2, $recorder->count());
+
+        $recorder->clear();
+
+        $this->assertSame(0, $recorder->count());
+        $this->assertEmpty($recorder->getEntries());
+        $this->assertEmpty($recorder->getHar()->getLog()->getEntries());
+    }
 }

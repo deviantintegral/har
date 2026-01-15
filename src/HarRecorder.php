@@ -96,6 +96,14 @@ final class HarRecorder implements ClientInterface
     }
 
     /**
+     * Clear all recorded entries.
+     */
+    public function clear(): void
+    {
+        $this->entries = [];
+    }
+
+    /**
      * Create a HAR entry from the request/response pair.
      */
     private function createEntry(
