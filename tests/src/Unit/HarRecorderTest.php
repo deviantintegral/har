@@ -271,4 +271,20 @@ class HarRecorderTest extends HarTestBase
 
         $this->assertEmpty($recorder->getEntries());
     }
+
+    public function testCountReturnsCorrectNumber(): void
+    {
+        $innerClient = $this->createMock(ClientInterface::class);
+        $innerClient->method('sendRequest')->willReturn(new Response(200));
+
+        $recorder = new HarRecorder($innerClient);
+
+        $this->assertSame(0, $recorder->count());
+
+        $recorder->sendRequest(new Request('GET', new Uri('https://example.com')));
+        $this->assertSame(1, $recorder->count());
+
+        $recorder->sendRequest(new Request('GET', new Uri('https://example.com')));
+        $this->assertSame(2, $recorder->count());
+    }
 }

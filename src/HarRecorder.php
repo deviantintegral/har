@@ -88,6 +88,14 @@ final class HarRecorder implements ClientInterface
     }
 
     /**
+     * Get the number of recorded entries.
+     */
+    public function count(): int
+    {
+        return \count($this->entries);
+    }
+
+    /**
      * Create a HAR entry from the request/response pair.
      */
     private function createEntry(
