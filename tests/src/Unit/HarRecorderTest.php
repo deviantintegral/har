@@ -44,7 +44,7 @@ class HarRecorderTest extends HarTestBase
         $recorder = new HarRecorder($innerClient);
         $recorder->sendRequest($request);
 
-        $entries = $recorder->getEntries();
+        $entries = $recorder->getHar()->getLog()->getEntries();
         $this->assertCount(1, $entries);
         $this->assertInstanceOf(Entry::class, $entries[0]);
     }
@@ -61,7 +61,7 @@ class HarRecorderTest extends HarTestBase
         $recorder = new HarRecorder($innerClient);
         $recorder->sendRequest($request);
 
-        $entry = $recorder->getEntries()[0];
+        $entry = $recorder->getHar()->getLog()->getEntries()[0];
         $harRequest = $entry->getRequest();
 
         $this->assertSame('POST', $harRequest->getMethod());
@@ -85,7 +85,7 @@ class HarRecorderTest extends HarTestBase
         $recorder = new HarRecorder($innerClient);
         $recorder->sendRequest($request);
 
-        $entry = $recorder->getEntries()[0];
+        $entry = $recorder->getHar()->getLog()->getEntries()[0];
         $harResponse = $entry->getResponse();
 
         $this->assertSame(200, $harResponse->getStatus());
@@ -104,7 +104,7 @@ class HarRecorderTest extends HarTestBase
         $recorder = new HarRecorder($innerClient);
         $recorder->sendRequest($request);
 
-        $entry = $recorder->getEntries()[0];
+        $entry = $recorder->getHar()->getLog()->getEntries()[0];
 
         // Time should be non-negative and reasonable (< 1 second for a mocked instant request)
         // This catches mutations that would add timestamps instead of subtract, or use wrong divisors
@@ -177,7 +177,7 @@ class HarRecorderTest extends HarTestBase
         $recorder->sendRequest(new Request('POST', new Uri('https://example.com/2')));
         $recorder->sendRequest(new Request('DELETE', new Uri('https://example.com/3')));
 
-        $entries = $recorder->getEntries();
+        $entries = $recorder->getHar()->getLog()->getEntries();
         $this->assertCount(3, $entries);
         $this->assertCount(3, $recorder->getHar()->getLog()->getEntries());
 
@@ -222,7 +222,7 @@ class HarRecorderTest extends HarTestBase
         $recorder = new HarRecorder($innerClient);
         $recorder->sendRequest(new Request('GET', new Uri('https://example.com')));
 
-        $entry = $recorder->getEntries()[0];
+        $entry = $recorder->getHar()->getLog()->getEntries()[0];
 
         $this->assertInstanceOf(\Deviantintegral\Har\Cache::class, $entry->getCache());
     }
@@ -269,7 +269,7 @@ class HarRecorderTest extends HarTestBase
             // Expected
         }
 
-        $this->assertEmpty($recorder->getEntries());
+        $this->assertEmpty($recorder->getHar()->getLog()->getEntries());
     }
 
     public function testCountReturnsCorrectNumber(): void
@@ -302,7 +302,7 @@ class HarRecorderTest extends HarTestBase
         $recorder->clear();
 
         $this->assertSame(0, $recorder->count());
-        $this->assertEmpty($recorder->getEntries());
+        $this->assertEmpty($recorder->getHar()->getLog()->getEntries());
         $this->assertEmpty($recorder->getHar()->getLog()->getEntries());
     }
 }

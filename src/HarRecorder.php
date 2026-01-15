@@ -78,16 +78,6 @@ final class HarRecorder implements ClientInterface
     }
 
     /**
-     * Get individual recorded entries.
-     *
-     * @return Entry[]
-     */
-    public function getEntries(): array
-    {
-        return $this->entries;
-    }
-
-    /**
      * Get the number of recorded entries.
      */
     public function count(): int
