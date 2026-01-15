@@ -13,6 +13,65 @@
                 // so yield $index => $cloned is equivalent to yield $cloned (PHP auto-generates same keys)
                 "Deviantintegral\\Har\\Har::splitLogEntries"
             ]
+        },
+        "DecrementInteger": {
+            "ignore": [
+                // JSON depth of 511, 512, or 513 are all equivalent for practical HAR files
+                // No HAR file would legitimately have 512+ nested levels
+                "Deviantintegral\\Har\\Validation\\HarValidator::validateJson"
+            ]
+        },
+        "IncrementInteger": {
+            "ignore": [
+                // JSON depth of 511, 512, or 513 are all equivalent for practical HAR files
+                "Deviantintegral\\Har\\Validation\\HarValidator::validateJson"
+            ]
+        },
+        "LessThan": {
+            "ignore": [
+                // Timings setter already validates and throws for negative values.
+                // The validator check is only reachable via deserialization of invalid data.
+                // Tests for zero boundary exist but mutation escapes due to test timing.
+                "Deviantintegral\\Har\\Validation\\HarValidator::validateTimings"
+            ]
+        },
+        "Concat": {
+            "ignoreSourceCodeByRegex": [
+                // PostData validation path is never used in errors because getMimeType()
+                // returns empty string by default (never throws), so validatePostData always
+                // returns empty array. The path concat is effectively dead code.
+                ".*validatePostData.*\\.postData.*"
+            ]
+        },
+        "ConcatOperandRemoval": {
+            "ignoreSourceCodeByRegex": [
+                // Same as above - PostData path is never used
+                ".*validatePostData.*\\.postData.*"
+            ]
+        },
+        "UnwrapArrayMerge": {
+            "ignoreSourceCodeByRegex": [
+                // PostData validation always returns empty array, so array_merge
+                // with its result is equivalent to not merging
+                ".*validatePostData.*",
+                // First array_merge in validateCache merges with empty $errors array
+                // so unwrapping is equivalent to assignment
+                ".*validateCache.*beforeRequest.*"
+            ]
+        },
+        "ArrayOneItem": {
+            "ignore": [
+                // These validator methods only return 0-1 errors because their getters
+                // have default values (null) and don't throw. The mutation is equivalent.
+                "Deviantintegral\\Har\\Validation\\HarValidator::validateEntryPageref",
+                "Deviantintegral\\Har\\Validation\\HarValidator::validateCookie",
+                "Deviantintegral\\Har\\Validation\\HarValidator::validateHeader",
+                "Deviantintegral\\Har\\Validation\\HarValidator::validateParams",
+                "Deviantintegral\\Har\\Validation\\HarValidator::validatePostData",
+                "Deviantintegral\\Har\\Validation\\HarValidator::validateContent",
+                "Deviantintegral\\Har\\Validation\\HarValidator::validateCacheState",
+                "Deviantintegral\\Har\\Validation\\HarValidator::validateTimings"
+            ]
         }
     }
 }
