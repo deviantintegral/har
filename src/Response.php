@@ -106,4 +106,23 @@ final class Response implements MessageInterface
 
         return $this;
     }
+
+    /**
+     * Deep clone all object properties when cloning Response.
+     */
+    public function __clone(): void
+    {
+        // Clone headers
+        $this->headers = array_map(fn (Header $h) => clone $h, $this->headers);
+
+        // Clone cookies
+        if (isset($this->cookies)) {
+            $this->cookies = array_map(fn (Cookie $c) => clone $c, $this->cookies);
+        }
+
+        // Clone content
+        if (isset($this->content)) {
+            $this->content = clone $this->content;
+        }
+    }
 }

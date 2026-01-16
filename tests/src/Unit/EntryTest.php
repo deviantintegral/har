@@ -93,4 +93,93 @@ class EntryTest extends HarTestBase
         $entry = (new Entry())->setInitiator($initiator);
         $this->assertSame($initiator, $entry->getInitiator());
     }
+
+    public function testCloneIsDeep(): void
+    {
+        $har = $this->repository->load('www.softwareishard.com-single-entry.har');
+        $entry = $har->getLog()->getEntries()[0];
+
+        // Clone the entry
+        $cloned = clone $entry;
+
+        // Verify the cloned request is a different instance
+        $this->assertNotSame($entry->getRequest(), $cloned->getRequest());
+        $this->assertNotSame($entry->getResponse(), $cloned->getResponse());
+
+        // Modify the cloned request
+        $cloned->getRequest()->setMethod('PATCH');
+
+        // Verify the original is unchanged
+        $this->assertNotEquals('PATCH', $entry->getRequest()->getMethod());
+    }
+
+    public function testCloneWithInitiator(): void
+    {
+        $entry = (new Entry())
+            ->setRequest(new Request())
+            ->setResponse(new Response())
+            ->setCache(new Cache())
+            ->setTimings(new Timings())
+            ->setInitiator((new Initiator())->setType('parser'));
+
+        $cloned = clone $entry;
+
+        // Verify initiator is cloned
+        $this->assertNotSame($entry->getInitiator(), $cloned->getInitiator());
+
+        // Modify cloned initiator
+        $cloned->getInitiator()->setType('script');
+
+        // Verify original is unchanged
+        $this->assertEquals('parser', $entry->getInitiator()->getType());
+    }
+
+    public function testCloneCacheIsDeep(): void
+    {
+        $cache = (new Cache())->setComment('original comment');
+        $entry = (new Entry())
+            ->setRequest(new Request())
+            ->setResponse(new Response())
+            ->setCache($cache)
+            ->setTimings(new Timings());
+
+        $cloned = clone $entry;
+
+        // Verify cache is cloned (different instance)
+        $this->assertNotSame($entry->getCache(), $cloned->getCache());
+
+        // Modify cloned cache
+        $cloned->getCache()->setComment('modified comment');
+
+        // Verify original is unchanged
+        $this->assertEquals('original comment', $entry->getCache()->getComment());
+    }
+
+    public function testCloneTimingsIsDeep(): void
+    {
+        $timings = (new Timings())
+            ->setBlocked(10.0)
+            ->setDns(20.0)
+            ->setSsl(-1)
+            ->setConnect(-1)
+            ->setSend(5.0)
+            ->setWait(100.0)
+            ->setReceive(15.0);
+        $entry = (new Entry())
+            ->setRequest(new Request())
+            ->setResponse(new Response())
+            ->setCache(new Cache())
+            ->setTimings($timings);
+
+        $cloned = clone $entry;
+
+        // Verify timings is cloned (different instance)
+        $this->assertNotSame($entry->getTimings(), $cloned->getTimings());
+
+        // Modify cloned timings
+        $cloned->getTimings()->setBlocked(99.0);
+
+        // Verify original is unchanged
+        $this->assertEquals(10.0, $entry->getTimings()->getBlocked());
+    }
 }

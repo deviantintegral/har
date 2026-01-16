@@ -86,4 +86,14 @@ final class PostData
 
         return 0;
     }
+
+    /**
+     * Deep clone all object properties when cloning PostData.
+     */
+    public function __clone(): void
+    {
+        if (isset($this->params)) {
+            $this->params = array_map(fn (Params $p) => clone $p, $this->params);
+        }
+    }
 }

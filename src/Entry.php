@@ -177,4 +177,30 @@ final class Entry
 
         return $this;
     }
+
+    /**
+     * Deep clone all object properties when cloning Entry.
+     */
+    public function __clone(): void
+    {
+        if (isset($this->request)) {
+            $this->request = clone $this->request;
+        }
+
+        if (isset($this->response)) {
+            $this->response = clone $this->response;
+        }
+
+        if (isset($this->cache)) {
+            $this->cache = clone $this->cache;
+        }
+
+        if (isset($this->timings)) {
+            $this->timings = clone $this->timings;
+        }
+
+        if (isset($this->_initiator)) {
+            $this->_initiator = clone $this->_initiator;
+        }
+    }
 }

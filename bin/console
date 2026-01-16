@@ -3,6 +3,7 @@
 
 declare(strict_types=1);
 
+use Deviantintegral\Har\Command\SanitizeCommand;
 use Deviantintegral\Har\Command\SplitCommand;
 
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -11,6 +12,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 $application = new Symfony\Component\Console\Application('HAR Tools', '@git-version@ (built: @build-time@)');
 
 $application->add(new SplitCommand());
+$application->add(new SanitizeCommand());
 
 // Run it
 $application->run();

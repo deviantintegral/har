@@ -165,4 +165,28 @@ final class Request implements MessageInterface
 
         return $this;
     }
+
+    /**
+     * Deep clone all object properties when cloning Request.
+     */
+    public function __clone(): void
+    {
+        // Clone headers
+        $this->headers = array_map(fn (Header $h) => clone $h, $this->headers);
+
+        // Clone cookies
+        if (isset($this->cookies)) {
+            $this->cookies = array_map(fn (Cookie $c) => clone $c, $this->cookies);
+        }
+
+        // Clone query string params
+        if (isset($this->queryString)) {
+            $this->queryString = array_map(fn (Params $p) => clone $p, $this->queryString);
+        }
+
+        // Clone postData
+        if (isset($this->postData)) {
+            $this->postData = clone $this->postData;
+        }
+    }
 }
