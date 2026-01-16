@@ -14,6 +14,6 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-      - uses: suzuki-shunsuke/github-action-renovate-config-validator@fda7db3799c8b28652153419da38c22fe8283667 # v2.0.0
+      - uses: suzuki-shunsuke/github-action-renovate-config-validator@ca480cb7ec89a9e1cd8c214ad33bda1617184027 # v2.0.0
         with:
           strict: false
