@@ -1,5 +1,38 @@
 # Changelog
 
+## [1.1.0](https://github.com/deviantintegral/har/compare/v1.0.1...v1.1.0) (2026-01-20)
+
+
+### Features
+
+* add HarRecorder PSR-18 client decorator for recording HTTP traffic ([#245](https://github.com/deviantintegral/har/issues/245)) ([c32600d](https://github.com/deviantintegral/har/commit/c32600dfc942eea6406350c1f64f86fbcb37555e))
+* **Log:** add entry filtering methods for test mocking ([#242](https://github.com/deviantintegral/har/issues/242)) ([1833b5b](https://github.com/deviantintegral/har/commit/1833b5b384eb7de29d04485c70f5a7dc0da49137))
+* **renovate:** add prCreation and internalChecksFilter options ([18d4b0c](https://github.com/deviantintegral/har/commit/18d4b0c1a9ca858b3194a284446a84bac8726c77))
+
+
+### Bug Fixes
+
+* configure renovate to track fix-renovate-version branch ([e8f3273](https://github.com/deviantintegral/har/commit/e8f32732825e093533ea7434d47c765dbc73a0b6))
+* disable strict mode in renovate config validator ([42dbd0b](https://github.com/deviantintegral/har/commit/42dbd0b0355ade7775f402f32c6e514d528066fe))
+* point to our fork to fix config validation ([b393f93](https://github.com/deviantintegral/har/commit/b393f93953f804fc9c45989ae7c3638c32463dd9))
+* remove followTag config as it doesn't work with branches ([#254](https://github.com/deviantintegral/har/issues/254)) ([e211e93](https://github.com/deviantintegral/har/commit/e211e937c4a13ceaab930a7f4d43f149c5497547))
+
+
+### Miscellaneous Chores
+
+* auto-merge all dependency updates after 3 day wait ([ab7271d](https://github.com/deviantintegral/har/commit/ab7271d5c4ecabdef802dae518c402afb9c5f03a))
+* **config:** migrate config renovate.json ([7763d5a](https://github.com/deviantintegral/har/commit/7763d5af5da300efbdbc207b5e5ffdebc2f8e6de))
+* **deps:** update actions/cache digest to 8b402f5 ([#257](https://github.com/deviantintegral/har/issues/257)) ([93389b0](https://github.com/deviantintegral/har/commit/93389b00b63ebbf4c5de49964ba1cb43a63da4e3))
+* **deps:** update dependency friendsofphp/php-cs-fixer to v3.92.5 ([#240](https://github.com/deviantintegral/har/issues/240)) ([34f6e67](https://github.com/deviantintegral/har/commit/34f6e67c17d7f09d0a5cb42a35a672d72fcc7908))
+* **deps:** update dependency infection/infection to v0.32.1 ([2905614](https://github.com/deviantintegral/har/commit/2905614c9c4dac9c6d7d8b444fe2db79225e1d6e))
+* **deps:** update dependency infection/infection to v0.32.2 ([2e311b9](https://github.com/deviantintegral/har/commit/2e311b95af3d8c2e9a24cb561989ee156a87b391))
+* **deps:** update dependency infection/infection to v0.32.3 ([34f78fa](https://github.com/deviantintegral/har/commit/34f78fab5d9ff80acd87412ca61d9c4516821e18))
+* **deps:** update ggilder/codecoverage digest to ae4850f ([#258](https://github.com/deviantintegral/har/issues/258)) ([ea19a7e](https://github.com/deviantintegral/har/commit/ea19a7e0047dd07847efda246746f20541288b2a))
+* **deps:** update suzuki-shunsuke/github-action-renovate-config-validator digest to c22827f ([146c9e2](https://github.com/deviantintegral/har/commit/146c9e255767ce52b106a4c4a059dcf46a74f190))
+* **deps:** update suzuki-shunsuke/github-action-renovate-config-validator digest to ca480cb ([#256](https://github.com/deviantintegral/har/issues/256)) ([9731e9d](https://github.com/deviantintegral/har/commit/9731e9d18088df44b246c6505ebe7666880e6c82))
+* switch renovate-config-validator to official v2.0.0 ([#255](https://github.com/deviantintegral/har/issues/255)) ([323bb6c](https://github.com/deviantintegral/har/commit/323bb6cbb54f84874aa3442e611789cd8350cbfa))
+* use local XSD for PHPUnit configuration ([bcb4bdd](https://github.com/deviantintegral/har/commit/bcb4bdde6a61d4dd27ed6f88455ea2f5a5c371ca))
+
 ## [1.0.1](https://github.com/deviantintegral/har/compare/v1.0.0...v1.0.1) (2026-01-05)
 
 
