@@ -103,8 +103,8 @@ if [ ! -f "infection.phar" ]; then
     echo "infection is not installed. Downloading infection..."
 
     # Download Infection PHAR and signature
-    wget https://github.com/infection/infection/releases/download/0.32.3/infection.phar
-    wget https://github.com/infection/infection/releases/download/0.32.3/infection.phar.asc
+    wget https://github.com/infection/infection/releases/download/0.32.4/infection.phar
+    wget https://github.com/infection/infection/releases/download/0.32.4/infection.phar.asc
 
     # Validate Infection PHAR with GPG
     echo "Validating infection signature..."
