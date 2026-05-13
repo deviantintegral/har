@@ -109,7 +109,7 @@ class HarTest extends HarTestBase
             }
         }
 
-        $a = array_filter($a, function ($key): bool {
+        $a = array_filter($a, static function ($key): bool {
             return !\is_string($key) || !str_starts_with($key, '_');
         }, \ARRAY_FILTER_USE_KEY);
     }

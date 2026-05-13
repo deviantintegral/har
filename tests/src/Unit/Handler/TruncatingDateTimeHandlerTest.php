@@ -46,7 +46,7 @@ class TruncatingDateTimeHandlerTest extends TestCase
         $this->assertContains('xml', $formats);
 
         // Verify method names are correctly formed for DateTimeInterface
-        $dateTimeInterfaceMethods = array_filter($methods, fn ($m) => 'DateTimeInterface' === $m['type']);
+        $dateTimeInterfaceMethods = array_filter($methods, static fn ($m) => 'DateTimeInterface' === $m['type']);
         $methodNames = array_column($dateTimeInterfaceMethods, 'method');
 
         // Method names should be deserializeDateTimeFromJson and deserializeDateTimeFromXml

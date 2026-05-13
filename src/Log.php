@@ -224,11 +224,11 @@ class Log
 
         // Deep clone arrays of objects
         if (isset($this->pages)) {
-            $this->pages = array_map(fn (Page $page) => clone $page, $this->pages);
+            $this->pages = array_map(static fn (Page $page) => clone $page, $this->pages);
         }
 
         if (isset($this->entries)) {
-            $this->entries = array_map(fn (Entry $entry) => clone $entry, $this->entries);
+            $this->entries = array_map(static fn (Entry $entry) => clone $entry, $this->entries);
         }
     }
 }

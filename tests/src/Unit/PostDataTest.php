@@ -232,7 +232,7 @@ class PostDataTest extends HarTestBase
 
         // Set up error handler to catch any warnings
         $warningTriggered = false;
-        $previousHandler = set_error_handler(function ($errno, $errstr) use (&$warningTriggered) {
+        $previousHandler = set_error_handler(static function ($errno, $errstr) use (&$warningTriggered) {
             if (str_contains($errstr, 'foreach') || str_contains($errstr, 'null')) {
                 $warningTriggered = true;
             }
