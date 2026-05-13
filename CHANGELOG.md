@@ -1,5 +1,41 @@
 # Changelog
 
+## [1.2.0](https://github.com/deviantintegral/har/compare/v1.1.0...v1.2.0) (2026-05-13)
+
+
+### Features
+
+* add redactBodyFields() method to HarSanitizer ([c070257](https://github.com/deviantintegral/har/commit/c070257371085813cfca272db3bb12b749cd8dc5))
+* add redactCookies() method to HarSanitizer ([b45d72e](https://github.com/deviantintegral/har/commit/b45d72edb178e58d4eb424505212c05ac4f4266a))
+* **cli:** add --body-field option to har:sanitize command ([b84ce2c](https://github.com/deviantintegral/har/commit/b84ce2c30f5ef36c4ae1896b9934894662adff67))
+* **cli:** add --case-sensitive option to har:sanitize command ([a1e86cb](https://github.com/deviantintegral/har/commit/a1e86cbd1d729a3cda1d5d2fa29ec587fd4f6912))
+* **cli:** add --query-param option to har:sanitize command ([dc0917b](https://github.com/deviantintegral/har/commit/dc0917ba587a85de9bbb83918f216c9b0567cf5b))
+* **cli:** add har:sanitize command with --header option ([a659320](https://github.com/deviantintegral/har/commit/a6593208427867d80dea08625fb604ac38214c02))
+* **Entry,Request,Response,PostData:** add __clone() methods for deep cloning ([ada97b7](https://github.com/deviantintegral/har/commit/ada97b74f96b22ae859f8bbb38bd2abde08ec72d))
+* **HarSanitizer:** add redactHeaders() method ([4ca6008](https://github.com/deviantintegral/har/commit/4ca6008d01cfc239ca629942fd324dc4290daf5e))
+* **HarSanitizer:** add redactQueryParams() method ([9247ab6](https://github.com/deviantintegral/har/commit/9247ab6c297fbd6c26ef73c8f94fdb71ca1a5167))
+
+
+### Miscellaneous Chores
+
+* **deps:** update actions/cache digest to 27d5ce7 ([#262](https://github.com/deviantintegral/har/issues/262)) ([7b5f760](https://github.com/deviantintegral/har/commit/7b5f76067f7fa6aea8fe5aa0f35a59f31ab1852b))
+* **deps:** update actions/checkout digest to de0fac2 ([#266](https://github.com/deviantintegral/har/issues/266)) ([24100b0](https://github.com/deviantintegral/har/commit/24100b0d1f6c1a4632e95e9cfff46e32a09735f1))
+* **deps:** update actions/upload-artifact action to v7 ([#273](https://github.com/deviantintegral/har/issues/273)) ([072aee1](https://github.com/deviantintegral/har/commit/072aee1437bc0bf2bcc51b8e6d1d16a8f34e0a2f))
+* **deps:** update dependency friendsofphp/php-cs-fixer to v3.95.1 ([#265](https://github.com/deviantintegral/har/issues/265)) ([79c5d01](https://github.com/deviantintegral/har/commit/79c5d0135b554930b38b07991b625a38d2e8b427))
+* **deps:** update dependency infection/infection to v0.32.7 ([#263](https://github.com/deviantintegral/har/issues/263)) ([c68aa81](https://github.com/deviantintegral/har/commit/c68aa819dc8a387362e2fc7d2eda2c53c057db93))
+* **deps:** update dependency phpunit/phpunit to v13 ([#274](https://github.com/deviantintegral/har/issues/274)) ([32e56bf](https://github.com/deviantintegral/har/commit/32e56bf251052fb4e4e3fb7005d5cb53db3fbd3a))
+* **deps:** update dependency rhysd/actionlint to v1.7.12 ([#264](https://github.com/deviantintegral/har/issues/264)) ([7267a75](https://github.com/deviantintegral/har/commit/7267a758cb2de809b5770bbd497148b9117f545d))
+* **deps:** update ggilder/codecoverage digest to 9f2933b ([#267](https://github.com/deviantintegral/har/issues/267)) ([89f1e40](https://github.com/deviantintegral/har/commit/89f1e40e24df353ee64666de38a5a88ab6a21846))
+* **deps:** update googleapis/release-please-action action to v5 ([#275](https://github.com/deviantintegral/har/issues/275)) ([07e5249](https://github.com/deviantintegral/har/commit/07e52496cd06197a64911be835e7fe355a6afc05))
+* **deps:** update googleapis/release-please-action digest to 5c625bf ([#268](https://github.com/deviantintegral/har/issues/268)) ([1fd0b0d](https://github.com/deviantintegral/har/commit/1fd0b0de2399b4ee6b6490eac042659b54885d85))
+* **deps:** update shivammathur/setup-php digest to accd612 ([#269](https://github.com/deviantintegral/har/issues/269)) ([4b5d7a0](https://github.com/deviantintegral/har/commit/4b5d7a05095809226e3b48952b7d558d2c4f7587))
+* **deps:** update softprops/action-gh-release action to v3 ([#276](https://github.com/deviantintegral/har/issues/276)) ([d9ec002](https://github.com/deviantintegral/har/commit/d9ec00282a8bd46556b90141feccf7240ba5ed34))
+* **deps:** update softprops/action-gh-release digest to 3bb1273 ([#270](https://github.com/deviantintegral/har/issues/270)) ([195567e](https://github.com/deviantintegral/har/commit/195567e953a920d22cc7ff38d57d9e6d1345e22b))
+* **deps:** update suzuki-shunsuke/github-action-renovate-config-validator action to v2.1.0 ([#271](https://github.com/deviantintegral/har/issues/271)) ([73705ef](https://github.com/deviantintegral/har/commit/73705ef23a15f859f42f602cfb0b353a2dcf0e92))
+* **deps:** update webiny/action-conventional-commits action to v1.4.2 ([#272](https://github.com/deviantintegral/har/issues/272)) ([d091e97](https://github.com/deviantintegral/har/commit/d091e97385577139e104a409b26bb0bda9797ac7))
+* **renovate:** fix formatting for renovate ([b15e8aa](https://github.com/deviantintegral/har/commit/b15e8aab8b6d14075baa5bdeaeab1b4cd8ce2a24))
+* **renovate:** remove conflicting pr-creation rule ([f596c6f](https://github.com/deviantintegral/har/commit/f596c6fb4df0569891fcbe5d5710c41962da6f98))
+
 ## [1.1.0](https://github.com/deviantintegral/har/compare/v1.0.1...v1.1.0) (2026-01-20)
 
 
