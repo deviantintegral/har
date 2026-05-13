@@ -25,7 +25,7 @@ final class Serializer
         $builder = SerializerBuilder::create()
           ->setPropertyNamingStrategy(new IdenticalPropertyNamingStrategy())
           ->configureHandlers(
-              function (HandlerRegistryInterface $registry) {
+              static function (HandlerRegistryInterface $registry) {
                   $registry->registerSubscribingHandler(
                       new DateFormatInterfaceHandler(Log::ISO_8601_MICROSECONDS)
                   );

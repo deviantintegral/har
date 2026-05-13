@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return (new PhpCsFixer\Config())
     ->setRules([
         '@PHP7x1Migration' => true,
@@ -10,6 +12,7 @@ return (new PhpCsFixer\Config())
         'native_constant_invocation' => ['strict' => false],
         'nullable_type_declaration_for_default_null_value' => true,
         'modernize_strpos' => true,
+        'declare_strict_types' => ['strategy' => 'enforce'],
     ])
     ->setRiskyAllowed(true)
     ->setFinder(
