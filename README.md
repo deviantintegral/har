@@ -26,10 +26,38 @@ Features include:
 * Adapters for PSR-7 Request and Response interfaces.
 * An interface and `\Deviantintegral\Har\HarRepository` class to load HARs from a filesystem or other backend.
 * [A CLI tool](https://github.com/deviantintegral/har/releases) to split a HAR file into single files per request / response pair.
+* Redacting sensitive values (headers, cookies, query parameters, and JSON body fields) before sharing a HAR.
 
 ## Example
 
 See [ReadmeTest.php](tests/src/Unit/ReadmeTest.php) for an example of how to use this library.
+
+## Redacting sensitive data
+
+HAR files captured from browsers or proxies often contain credentials, session
+cookies, or other secrets. Use `HarSanitizer` to replace those values with
+`[REDACTED]` (configurable via `setRedactedValue()`) before sharing the file.
+Field matching is case-insensitive by default.
+
+```php
+use Deviantintegral\Har\HarSanitizer;
+
+$sanitized = (new HarSanitizer())
+    ->redactHeaders(['Authorization', 'Cookie'])
+    ->redactCookies(['session'])
+    ->redactQueryParams(['api_key'])
+    ->redactBodyFields(['password', 'token'])
+    ->sanitize($har);
+```
+
+The CLI ships a `har:sanitize` command that exposes the same options:
+
+```
+bin/console har:sanitize input.har output.har \
+    --header=Authorization --header=Cookie \
+    --query-param=api_key \
+    --body-field=password
+```
 
 ## Optional values
 
