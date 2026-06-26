@@ -56,7 +56,7 @@ jobs:
 
       - name: Code Coverage Annotation
         if: ${{ !inputs.skip_coverage_annotation }}
-        uses: ggilder/codecoverage@514398418f7b48751a38255eb34fc74fe6680b1e # v1
+        uses: ggilder/codecoverage@f8afbff2fe4b038a8ac77d69a1890a687947f458 # v1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COVERAGE_FILE_PATH: build/logs/clover.xml
