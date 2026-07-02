@@ -1,5 +1,34 @@
 # Changelog
 
+## [1.2.1](https://github.com/deviantintegral/har/compare/v1.2.0...v1.2.1) (2026-07-02)
+
+
+### Miscellaneous Chores
+
+* **deps:** update actions/cache action to v6 ([#298](https://github.com/deviantintegral/har/issues/298)) ([fb7960e](https://github.com/deviantintegral/har/commit/fb7960e37247eaea21bf9fa885eb022c67c4956f))
+* **deps:** update actions/cache digest to 55cc834 ([#299](https://github.com/deviantintegral/har/issues/299)) ([7a9f507](https://github.com/deviantintegral/har/commit/7a9f507dd2182c1c1fe7c83fd6894d0646bf0e44))
+* **deps:** update actions/cache digest to caa2961 ([#297](https://github.com/deviantintegral/har/issues/297)) ([05c2031](https://github.com/deviantintegral/har/commit/05c20315a52a82dfbcf1ca8bb5e460318290cca3))
+* **deps:** update actions/checkout action to v7 ([#293](https://github.com/deviantintegral/har/issues/293)) ([6cce24c](https://github.com/deviantintegral/har/commit/6cce24c496074c104b33cb0828ce4ba7c6073d57))
+* **deps:** update actions/checkout digest to df4cb1c ([#286](https://github.com/deviantintegral/har/issues/286)) ([448d674](https://github.com/deviantintegral/har/commit/448d6745817f93e98a7f1bfd8f42afa83c4af769))
+* **deps:** update dependency friendsofphp/php-cs-fixer to v3.95.10 ([#295](https://github.com/deviantintegral/har/issues/295)) ([ac040d0](https://github.com/deviantintegral/har/commit/ac040d005731eb31e7e9d551d86be9d066796132))
+* **deps:** update dependency friendsofphp/php-cs-fixer to v3.95.11 ([#300](https://github.com/deviantintegral/har/issues/300)) ([9da2665](https://github.com/deviantintegral/har/commit/9da2665639a6fe342e2cb78ac98eddc26b6aa397))
+* **deps:** update dependency friendsofphp/php-cs-fixer to v3.95.2 ([#280](https://github.com/deviantintegral/har/issues/280)) ([0a786b8](https://github.com/deviantintegral/har/commit/0a786b83f23ac7812c96618f4c4866965fd87e15))
+* **deps:** update dependency friendsofphp/php-cs-fixer to v3.95.3 ([#285](https://github.com/deviantintegral/har/issues/285)) ([2b8cfb2](https://github.com/deviantintegral/har/commit/2b8cfb24dafb576f4e110ef63d56e8edfea754e8))
+* **deps:** update dependency friendsofphp/php-cs-fixer to v3.95.4 ([#287](https://github.com/deviantintegral/har/issues/287)) ([265b639](https://github.com/deviantintegral/har/commit/265b6399b461900e592bf45d28d08a9a5db59eb1))
+* **deps:** update dependency friendsofphp/php-cs-fixer to v3.95.5 ([#289](https://github.com/deviantintegral/har/issues/289)) ([caa3692](https://github.com/deviantintegral/har/commit/caa3692e06902886207452335b3154b4bae560ad))
+* **deps:** update dependency friendsofphp/php-cs-fixer to v3.95.7 ([#290](https://github.com/deviantintegral/har/issues/290)) ([d17ebf4](https://github.com/deviantintegral/har/commit/d17ebf46e10c8584045036067fa94ee782f0bc7d))
+* **deps:** update dependency friendsofphp/php-cs-fixer to v3.95.8 ([#291](https://github.com/deviantintegral/har/issues/291)) ([9c52a09](https://github.com/deviantintegral/har/commit/9c52a0990adcb16f7fd82d75ee2afd324010df79))
+* **deps:** update dependency infection/infection to v0.33.0 ([#281](https://github.com/deviantintegral/har/issues/281)) ([2d78d21](https://github.com/deviantintegral/har/commit/2d78d2198dee510bd69e6783d37b34801ade4680))
+* **deps:** update dependency infection/infection to v0.33.1 ([#282](https://github.com/deviantintegral/har/issues/282)) ([8dd2706](https://github.com/deviantintegral/har/commit/8dd27064108d22bbb8ccce2809a808fb72a6d835))
+* **deps:** update dependency infection/infection to v0.33.2 ([#283](https://github.com/deviantintegral/har/issues/283)) ([8548480](https://github.com/deviantintegral/har/commit/854848007f5eac8f09dfbcf1eb531757db36ce5f))
+* **deps:** update dependency infection/infection to v0.33.3 ([#294](https://github.com/deviantintegral/har/issues/294)) ([3784ea2](https://github.com/deviantintegral/har/commit/3784ea2453d8d50a1e085e59a0613610a8b6c568))
+* **deps:** update dependency infection/infection to v0.34.0 ([#301](https://github.com/deviantintegral/har/issues/301)) ([919f058](https://github.com/deviantintegral/har/commit/919f058fcb3e60951d0e68c58b32fb3c7fdd59c7))
+* **deps:** update ggilder/codecoverage digest to 5143984 ([#284](https://github.com/deviantintegral/har/issues/284)) ([4c7edc4](https://github.com/deviantintegral/har/commit/4c7edc4066dd32724321c3d4fb4b20eadd5b2ea5))
+* **deps:** update ggilder/codecoverage digest to f8afbff ([#296](https://github.com/deviantintegral/har/issues/296)) ([28303e6](https://github.com/deviantintegral/har/commit/28303e654bdfec8e208726c8da7d9a05ddece221))
+* **deps:** update shivammathur/setup-php digest to 7c071df ([#278](https://github.com/deviantintegral/har/issues/278)) ([ad723ca](https://github.com/deviantintegral/har/commit/ad723ca341381d23338b7a009621bf9c3ee904c1))
+* **deps:** update shivammathur/setup-php digest to f3e473d ([#288](https://github.com/deviantintegral/har/issues/288)) ([6cedb02](https://github.com/deviantintegral/har/commit/6cedb02d73769b8153e34bec3891f8eba937b4e7))
+* **deps:** update softprops/action-gh-release digest to 718ea10 ([#292](https://github.com/deviantintegral/har/issues/292)) ([3689c99](https://github.com/deviantintegral/har/commit/3689c99a88a5216a5085fccccf0bf32e87339916))
+
 ## [1.2.0](https://github.com/deviantintegral/har/compare/v1.1.0...v1.2.0) (2026-05-13)
 
 
