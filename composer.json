@@ -16,7 +16,7 @@
         "ext-json": "*",
         "jms/serializer": "^3.0",
         "doctrine/annotations": "^2.0",
-        "guzzlehttp/psr7": "^2.0",
+        "guzzlehttp/psr7": "^3.0",
         "psr/http-client": "^1.0",
         "deviantintegral/jms-serializer-uri-handler": "^1.1",
         "deviantintegral/null-date-time": "^1.0",
