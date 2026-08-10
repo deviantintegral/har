@@ -43,6 +43,16 @@
       ]
     },
     {
+      "groupName": "guzzle",
+      "matchManagers": [
+        "composer"
+      ],
+      "matchPackageNames": [
+        "guzzlehttp/guzzle",
+        "guzzlehttp/psr7"
+      ]
+    },
+    {
       "matchCurrentVersion": "8.0",
       "matchPackageNames": [
         "php"
