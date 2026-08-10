@@ -9,6 +9,8 @@ har.phar
 .box_dump/
 .box.cache/
 
+box.phar
+box.phar.asc
 infection.phar
 infection.phar.asc
 *.har

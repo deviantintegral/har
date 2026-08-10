@@ -26,7 +26,6 @@
         "friendsofphp/php-cs-fixer": "3.95.18",
         "phpunit/phpunit": "^11 || ^12 || ^13",
         "guzzlehttp/guzzle": "^8.0",
-        "humbug/box": "^4.6",
         "phpstan/phpstan": "^2.0"
     },
     "autoload": {
@@ -40,7 +39,10 @@
         }
     },
     "scripts": {
-        "build-phar": "box compile"
+        "build-phar": "@php -d phar.readonly=0 box.phar compile"
+    },
+    "scripts-descriptions": {
+        "build-phar": "Compiles har.phar. Box is deliberately not a Composer dependency (it replaces symfony/polyfill-* and would be pulled into the production dependency graph); download box.phar from https://github.com/box-project/box/releases into the project root first."
     },
     "extra": {
         "composer-version": "^2.8.12"

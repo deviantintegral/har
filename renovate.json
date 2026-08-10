@@ -21,6 +21,17 @@
     {
       "customType": "regex",
       "managerFilePatterns": [
+        "/^\\.github/actions/build-phar/action\\.yml$/"
+      ],
+      "matchStrings": [
+        "box-project/box/releases/download/(?<currentValue>.*?)/box\\.phar"
+      ],
+      "depNameTemplate": "box-project/box",
+      "datasourceTemplate": "github-releases"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
         "/^\\.github/workflows/actionlint\\.yml$/",
         "/^\\.claude/hooks/SessionStart\\.sh$/"
       ],

@@ -59,13 +59,8 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
 
-      - name: Build PHAR
-        run: php -d phar.readonly=0 vendor/bin/box compile
-
-      - name: Verify PHAR
-        run: |
-          chmod +x har.phar
-          ./har.phar list
+      - name: Build and verify PHAR
+        uses: ./.github/actions/build-phar
 
       - name: Upload PHAR to Release
         uses: softprops/action-gh-release@3d0d9888cb7fd7b750713d6e236d1fcb99157228 # v3
