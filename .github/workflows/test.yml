@@ -42,8 +42,14 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: ${{ runner.os }}-composer-
 
+      # composer.lock is resolved against the lowest supported PHP (config.platform),
+      # so an unmodified update would pin every matrix entry to 8.2-compatible
+      # versions and never exercise the upper half of our constraints -- symfony/console
+      # ^8 needs PHP 8.4. Drop the override so each PHP tests what it would really get.
       - name: Install dependencies
-        run: composer update -n --prefer-dist
+        run: |
+          composer config --unset platform.php
+          composer update -n --prefer-dist
 
       - name: Create build directory
         run: mkdir -p build/logs
@@ -199,11 +205,11 @@ jobs:
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install dependencies
-        run: composer update -n --prefer-dist
+        run: composer install -n --prefer-dist
 
       - name: Build and verify PHAR
         uses: ./.github/actions/build-phar
