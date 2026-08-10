@@ -1,0 +1,36 @@
+name: Build PHAR
+description: Downloads a signature-verified Box release, compiles har.phar and smoke tests it.
+
+runs:
+  using: composite
+  steps:
+    # Box is intentionally not a Composer dev dependency. It declares
+    # `replace: symfony/polyfill-php80/81/82`, so once any production dependency
+    # (guzzlehttp/psr7) requires one of those polyfills, Composer satisfies that
+    # requirement with Box itself. Box and humbug/php-scoper then get classified as
+    # production packages, `dump-autoload --no-dev` stops filtering php-scoper out,
+    # and the build dies scanning its empty `vendor-hotfix/` classmap directory.
+    - name: Download Box PHAR
+      shell: bash
+      run: |
+        wget -q https://github.com/box-project/box/releases/download/4.7.0/box.phar
+        wget -q https://github.com/box-project/box/releases/download/4.7.0/box.phar.asc
+
+    - name: Validate Box PHAR
+      shell: bash
+      run: |
+        gpg --keyserver hkps://keys.openpgp.org --recv-keys 41539BBD4020945DB378F98B2DF45277AEF09A2F
+        gpg --with-fingerprint --verify box.phar.asc box.phar
+        chmod +x box.phar
+
+    - name: Build PHAR
+      shell: bash
+      run: php -d phar.readonly=0 box.phar compile
+
+    - name: Verify PHAR
+      shell: bash
+      run: |
+        chmod +x har.phar
+        ./har.phar list
+        ./har.phar har:split --help
+        ./har.phar har:sanitize --help
