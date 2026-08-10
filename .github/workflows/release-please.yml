@@ -22,8 +22,11 @@ jobs:
         id: release
         with:
           token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
-          # This should match the configuration of your conventional commits
-          release-type: php
+          # Configuration, including the release type, lives in
+          # release-please-config.json. Do not pass release-type here: the
+          # action ignores the config file entirely when that input is set.
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
 
   build-phar:
     name: Build and Upload PHAR
