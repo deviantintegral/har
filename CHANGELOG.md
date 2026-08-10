@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.2](https://github.com/deviantintegral/har/compare/v1.2.1...v1.2.2) (2026-08-10)
+
+
+### Bug Fixes
+
+* build the PHAR without Box as a Composer dependency ([6fdc8b8](https://github.com/deviantintegral/har/commit/6fdc8b83403ff2a74445c373d956e2b7fdd18b7d))
+
 ## [1.2.1](https://github.com/deviantintegral/har/compare/v1.2.0...v1.2.1) (2026-08-10)
 
 
