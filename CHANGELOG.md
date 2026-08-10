@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/deviantintegral/har/compare/v1.2.0...v1.2.1) (2026-08-10)
+
+
+### Bug Fixes
+
+* **deps:** update guzzle ([#317](https://github.com/deviantintegral/har/issues/317)) ([9fe2f57](https://github.com/deviantintegral/har/commit/9fe2f5702bc991121fe1eb79daa74939189d60ca))
+
 ## [1.2.0](https://github.com/deviantintegral/har/compare/v1.1.0...v1.2.0) (2026-05-13)
 
 
