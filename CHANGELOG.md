@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/deviantintegral/har/compare/v1.2.2...v1.3.0) (2026-08-11)
+
+
+### Features
+
+* **deps:** drop doctrine/annotations ([4cc1613](https://github.com/deviantintegral/har/commit/4cc1613eba9bb9d42a03742381f7821162cd75c5))
+
 ## [1.2.2](https://github.com/deviantintegral/har/compare/v1.2.1...v1.2.2) (2026-08-10)
 
 
